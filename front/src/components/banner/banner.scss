@@ -1,0 +1,47 @@
+#banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: white;
+    padding: .5rem;
+    height: 250px;
+    border-radius: 5px;
+
+
+    .title{
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap; 
+        margin: 0 auto; 
+        letter-spacing: .15em; 
+        animation: 
+          typing 3.5s steps(40, end);
+          
+        .title-text{
+            font-size: 50px;
+            margin-bottom: 0px;
+
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(#176B87, #64ccc5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    .btn{
+        padding: 1rem 1rem;
+        background-color: #176B87;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        font-family: 'Roboto', sans-serif;    }
+
+}

@@ -1,0 +1,62 @@
+:root {
+  // font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+hr{
+  color: #04364a;
+  width: 100%;
+}
+
+input{
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+
+  font-family: 'Roboto', sans-serif;
+  color: #176B87;
+
+  &::placeholder{
+      opacity: 30%;
+  }
+
+  &:hover{
+      // transform: scale(1.05);
+  }
+
+  &:focus{
+    outline: none;
+  }
+}
+
+a{
+  text-decoration: none;
+}
+
+button{
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  // background-color: #64CCC5;
+  background: #64CCC5;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #64CCC5, #84d8d2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #64CCC5, #aad6d3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
