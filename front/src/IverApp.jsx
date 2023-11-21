@@ -11,14 +11,15 @@ export const IverApp = () => {
                 <Route path='/' element={ <HomePage/> }/>
                 <Route path='/login' element={ <LoginPage/> }/>
                 <Route path='/:id' element={ <ItemPage/> }/>
-                <Route path='/publish' element={<PublishItemPage/>}/>
-                {/* <Route 
+                {/* <Route path='/publish' element={<PublishItemPage/>}/> */}
+                <Route 
                     path='/publish' 
                     element={ 
-                    <ProtectedRoute>
-                        <PublishItemPage/>
-                        </ProtectedRoute> }
-                    /> */}
+                        <ProtectedRoute>
+                            <PublishItemPage/>
+                        </ProtectedRoute> 
+                    }
+                    />
             </Routes>
             {/* <Footer/> */}
         </UserProvider>

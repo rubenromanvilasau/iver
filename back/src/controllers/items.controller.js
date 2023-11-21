@@ -5,7 +5,10 @@ const getAllItems = async( req, res ) => {
     try {
         const items = await itemsService.getAllItems();
         
-        if( items.length === 0 ) res.status(404).send([]); 
+        if( items.length === 0 ) { 
+            res.status(404).send([]); 
+            return;
+        }
 
         res.status(200).send( items );
     } catch ( err ) {
@@ -19,7 +22,10 @@ const getItem = async( req, res ) => {
     try {
         const item = await itemsService.getItem( id );
         
-        if( item.length === 0 ) res.status(404).send([]); 
+        if( item.length === 0 ) {
+            res.status(404).send([]); 
+            return;
+        }
 
         res.status(200).send( item );
     } catch ( err ) {
@@ -43,7 +49,10 @@ const getItemsStatuses = async( req, res ) => {
     try {
         const itemStatuses = await itemsService.getItemsStatuses();
         
-        if( itemStatuses.length === 0 ) res.status(404).send([]); 
+        if( itemStatuses.length === 0 ) {
+            res.status(404).send([]); 
+            return;
+        }; 
 
         res.status(200).send( itemStatuses );
     } catch ( err ) {
@@ -56,7 +65,10 @@ const getItemsCategories = async( req, res ) => {
     try {
         const itemCategories = await itemsService.getItemsCategories();
         
-        if( itemCategories.length === 0 ) res.status(404).send([]); 
+        if( itemCategories.length === 0 ) {
+            res.status(404).send([]); 
+            return;
+        }
 
         res.status(200).send( itemCategories );
     } catch ( err ) {
@@ -70,7 +82,10 @@ const getItemOffers = async( req, res ) => {
     try {
         const itemOffers = await itemsService.getItemOffers( id );
         
-        if( itemOffers.length === 0 ) res.status(404).send([]); 
+        if( itemOffers.length === 0 ) {
+            res.status(404).send([]); 
+            return;
+        }
 
         res.status(200).send( itemOffers );
     } catch ( err ) {

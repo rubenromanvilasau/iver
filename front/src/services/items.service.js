@@ -20,9 +20,7 @@ export const createItem = ( item ) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-        .then( response => response.json() )
-        .then( data => data );
+    });
 }
 
 export const getItemsStatuses = () => {
@@ -44,7 +42,5 @@ export const createItemOffer = ( id, itemOffer ) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-        .then( response => response.json() )
-        .then( data => data[0] );
+    });
 }

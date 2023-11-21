@@ -4,5 +4,5 @@ back/node_modules
 front/node_modules
 
 #.ENV FILES
-back/src/.env
+back/.env
 front/.env

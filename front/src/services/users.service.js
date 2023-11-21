@@ -9,6 +9,7 @@ export const login = ( email, password ) => {
 };
 
 export const register = ( data ) => {
+    console.log('data', data)
     return fetch( apiUrl + '/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -35,7 +35,8 @@ create table if not exists items (
 	status_id int not null,
 	shipping_way_id int not null,
 	category_id int not null,
-	published_date timestamp not null default now(),
+	created_at timestamp not null default now(),
+	deleted_at timestamp default null,
 	foreign key (seller_id)
 		references users(rut),
 	foreign key (status_id)

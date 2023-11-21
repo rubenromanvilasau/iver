@@ -1,0 +1,48 @@
+.success-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+
+    .top{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #8bc24a;
+        width: 100%;
+        border-radius: 10px 10px 0px 0;
+        padding: 1rem;
+
+        h1, p{
+            margin: 0;
+        }
+
+        img{
+            width: 150px;
+        }
+    }
+
+    .bottom{
+        background-color: #fff;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0px 0px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        p{
+            margin: 0;
+            color: #04364a;
+            font-weight: 500;
+        }
+
+        button{
+            padding: 1rem;
+            background-color: #04364a;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+    }
+}

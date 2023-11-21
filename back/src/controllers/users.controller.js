@@ -18,6 +18,10 @@ const register = async( req, res ) => {
         res.status(201).send( user );
     } catch ( err ) {
         console.log('[CONTROLLERS-USERS] register ERROR', err);
+        if( err.code === '23505' ) {
+            res.status(409).send({ message: 'User already exists' });
+            return;
+        }
         res.status(500).send( err );
     }
 }
@@ -55,7 +59,10 @@ const getAllUsers = async( req, res ) => {
     try {
         const users = await userService.getAllUsers();
         
-        if( users.length === 0 ) res.status(404).send([]); 
+        if( users.length === 0 ) {
+            res.status(404).send([]); 
+            return;
+        }
 
         res.status(200).send( users );
     } catch ( err ) {

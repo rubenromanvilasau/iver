@@ -5,3 +5,4 @@ export * from './item-card/ItemCard';
 export * from './loading/Loading';
 export * from './fullscreen-loading/FullscreenLoading';
 export * from './ProtectedRoute';
+export * from './success-card/SuccessCard';

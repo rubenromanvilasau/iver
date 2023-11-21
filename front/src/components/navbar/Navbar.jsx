@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import './navbar.scss';
-import PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
@@ -38,7 +37,4 @@ export const Navbar = () => {
             }
         </nav>
     )
-}
-
-Navbar.propTypes = {
 };

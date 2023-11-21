@@ -16,7 +16,7 @@ export const HomePage = () => {
                 {
                     isLoading 
                         ? <Loading/> 
-                        : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
+                        : items.length > 0 && items.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
         </div>

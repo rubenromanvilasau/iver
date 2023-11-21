@@ -9,9 +9,11 @@ class UsersService {
                 if( err ) reject( err );
                 const query = `insert into users (rut, name, last_name, username, password, email, phone) values ('${ rut }', '${ name }', '${ last_name }', '${ username }', '${ hash }', '${ email }', '${ phone }')`;
                 db.query(query, ( err, response ) => {
-                    console.log( err )
-                    if( err ) reject( err );
-                    resolve( response.rows );
+                    if( err ) { 
+                        reject( err );
+                    }else {
+                        resolve( response.rows );
+                    }
                 });
             });
         });
@@ -19,29 +21,40 @@ class UsersService {
     
     getAllUsers(){
         const query = 'select * from users';
-        return new Promise( ( resolve,reject ) => {
+        return new Promise( ( resolve, reject ) => {
             db.query(query, ( err, response ) => {
-                if( err ) reject( err );
-                resolve( response.rows );
+                if( err ) {
+                    reject( err );
+                }else {
+                    resolve( response.rows );
+                }
             });
         })
     }
 
     getByEmail( email ){
         const query = `select * from users where email='${ email }'`;
-        return new Promise( ( resolve,reject ) => {
+        return new Promise( ( resolve, reject ) => {
             db.query(query, ( err, response ) => {
-                if( err ) reject( err );
-                resolve( response.rows );
+                if( err ){ 
+                    reject( err );
+                }else {
+                    resolve( response.rows );
+                }
             });
         });
     }
     
     getUser( rut ){
         const query = `select * from users where rut='${ rut }'`;
-        db.query(query, ( err, response ) => {
-            if( err ) throw err;
-            return response.rows;
+        return new Promise( ( resolve, reject ) => {
+            db.query(query, ( err, response ) => {
+                if( err ) {
+                    reject( err );
+                }else {
+                    resolve( response.rows );
+                }
+            });
         });
     }
 }
