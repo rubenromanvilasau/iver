@@ -1,46 +1,41 @@
 
-const apiUrl = 'http://localhost:4000/api';
+import axios from 'axios'; const apiUrl = 'http://localhost:4000/api';
 
-export const getAllItems = () => {
-    return fetch( apiUrl +'/items' )
-        .then( response => response.json() )
-        .then( data => data );
+export default class ItemService {
+
+    getAllItems = () => {
+        return axios.get( apiUrl +'/items' )
+            .then( response => response.data )
+            .catch( err => { console.error( err ) } );
+    }
+    
+    getItem = ( id ) => {
+        return axios.get( apiUrl + `/items/${ id }` )
+            .then( response => response.data )
+            .catch( err => { console.error( err ) } );
+    }
+    
+    createItem = ( item ) => {
+        return axios.post( apiUrl + '/items/create', item )
+           .catch( err => { console.error( err ) } );
+    }
+    
+    getItemsStatuses = () => {
+        return axios.get( apiUrl + '/items/statuses' )
+            .then( response => response.data )
+            .catch( err => { console.error( err ) } );
+    }
+    
+    getItemsCategories = () => {
+        return axios.get( apiUrl + '/items/categories' )
+            .then( response => response.data )
+            .catch( err => { console.error( err ) } );
+    }
+    
+    createOffer = ( id, itemOffer ) => {
+        return axios.post( apiUrl + `/items/offer/${ id }`, itemOffer )
+           .catch( err => { console.error( err ) } );
+    }
+
 }
 
-export const getItem = ( id ) => {
-    return fetch( apiUrl + `/items/${ id }` )
-        .then( response => response.json() )
-        .then( data => data[0] );
-}
-
-export const createItem = ( item ) => {
-    return fetch( apiUrl + '/items/create', {
-        method: 'POST',
-        body: JSON.stringify( item ),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-}
-
-export const getItemsStatuses = () => {
-    return fetch( apiUrl + '/items/statuses' )
-        .then( response => response.json() )
-        .then( data => data );
-}
-
-export const getItemsCategories = () => {
-    return fetch( apiUrl + '/items/categories' )
-        .then( response => response.json() )
-        .then( data => data);
-}
-
-export const createItemOffer = ( id, itemOffer ) => {
-    return fetch( apiUrl + `/items/offer/${ id }`, {
-        method: 'POST',
-        body: JSON.stringify( itemOffer ),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-}

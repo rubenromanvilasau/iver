@@ -10,6 +10,7 @@
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        box-shadow: 10px 10px 30px 0px rgba(0, 0, 0, 0.25);
 
         gap: 1rem;
         background-color: #04364a;
@@ -22,7 +23,7 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            width: 60%;
+            width: 62%;
 
             button{
                 width: 50%;

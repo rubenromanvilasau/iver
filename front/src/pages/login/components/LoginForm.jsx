@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react';
-import '../../login-page.scss';
+import '../login-page.scss';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../../../context/UserContext';
+import { UserContext } from '../../../context/UserContext';
 
 
 export const LoginForm = () => {

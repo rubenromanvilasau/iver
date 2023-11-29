@@ -7,6 +7,14 @@ nav{
     justify-content: space-between;
     padding: .8rem;
     box-sizing: border-box;
+    
+    a{
+        text-decoration: none;
+        color: white;
+        &:visited{
+            color: white;
+        }
+    }
 
     .start{
         display: flex;
@@ -26,35 +34,19 @@ nav{
         }
     }
 
-    .input-wrapper {
-        position: relative;
-        width: 20%;
-
-        input{
-            padding-left: 35px;
-            width: 100%;
-        }
-
-        .input-icon {
-            color: gray;
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-          }
+    .buttons{
+        display: flex;
+        flex-direction: row;
     }
 
-    input{
-        filter: drop-shadow(0 0 0.5rem #176B87);
-    }
-
-    #account{
+    .row{
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
+    }
+
+    .nav-btn{
 
         padding: .5rem;
         border-radius: 5px;
@@ -62,13 +54,6 @@ nav{
         cursor: pointer;
         transition: .5s;
         color: white;
-        
-        a{
-            color: white;
-            &:visited{
-                color: white;
-            }
-        }
 
         &:hover{
             background-color: #0c5470;
@@ -82,4 +67,47 @@ nav{
             color: white;
         }
     }
+    
+    ul {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        transition: all 0.5s ease;
+        margin-top: 1rem;
+        margin-right: .5rem;
+        right: 0;
+        display: none;
+        border-radius: 5px;
+    }
+  
+    ul.show {
+        visibility: visible;
+        opacity: 1;
+        display: block;
+    }
+
+    ul li:first-child{
+        border-radius: 5px 5px 0px 0;
+    }
+
+    ul li:last-child{
+        border-radius: 0px 0px 5px 5px;
+    }
+    
+    ul li {
+        clear: both;
+        width: 100%;
+        background-color: #0c5470;
+        color: white;
+        padding: .2rem 1rem;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        transition-duration: 0.5s;
+
+        &:hover{
+            opacity: .7;
+        }
+    }
+
 }

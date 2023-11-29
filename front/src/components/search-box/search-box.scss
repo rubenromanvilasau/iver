@@ -1,0 +1,24 @@
+.input-wrapper {
+    position: relative;
+    width: 20%;
+
+    input{
+        padding-left: 35px;
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .input-icon {
+        color: gray;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+}
+
+input{
+    filter: drop-shadow(0 0 0.5rem #176B87);
+}

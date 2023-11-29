@@ -12,11 +12,10 @@ export const UserProvider = ({ children }) => {
     const handleLogin = ( email, password ) => {
         login( email, password )
             .then( async(response) => {
-                if( response.ok ) {
-                    const res = await response.json();
-                    console.log('LOGIN SUCCESSFUL', res);
-                    localStorage.setItem('token', res.token);
-                    setUser( res );
+                if( response.status === 200 ) {
+                    console.log('LOGIN SUCCESSFUL', response.data);
+                    localStorage.setItem('token', response.data.token);
+                    setUser( response.data );
                     
                     const origin = location.state?.from?.pathname || '/';
                     navigate( origin );

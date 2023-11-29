@@ -1,6 +1,7 @@
-import { useRef } from 'react';
-import '../../login-page.scss';
-import { register } from '../../../../services/users.service';
+import { useContext, useRef } from 'react';
+import '../login-page.scss';
+import { register } from '../../../services/users.service';
+import { UserContext } from '../../../context/UserContext';
 // import { useNavigate } from 'react-router-dom';
 
 
@@ -13,6 +14,10 @@ export const SignUpForm = () => {
     const nameRef = useRef( null );
     const lastNameRef = useRef( null );
     const usernameRef = useRef( null );
+
+    // const [registerSuccess, setRegisterSuccess] = useState( null );
+
+    const { handleLogin } = useContext( UserContext );
 
     // const navigate = useNavigate();
 
@@ -35,6 +40,7 @@ export const SignUpForm = () => {
             return;
         }else {
             //TODO HANDLE REGISTER SUCCESS
+            handleLogin( email, password );
             // navigate('/login');
         }
     }

@@ -1,10 +1,13 @@
 import './publish-item-page.scss';
 // import { mockCategories } from '../../mock-data/categories';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { createItem, getItemsCategories } from '../../services/items.service';
 import { UserContext } from '../../context/UserContext';
 import { Loading, SuccessCard } from '../../components';
 import { ErrorCard } from '../../components/error-card/ErrorCard';
+import ItemService from "../../services/items.service";
+const itemService = new ItemService();
+import { showErrorToast, showInfoToast } from '../../utils/toasts';
+import { ToastContainer } from 'react-toastify';
 
 export const PublishItemPage = () => {
 
@@ -16,6 +19,7 @@ export const PublishItemPage = () => {
     const categoryRef = useRef( null );
     const [isLoading, setIsLoading] = useState( true );
     const [categories, setCategories] = useState([]);
+    const [statuses, setStatuses] = useState([]);
     const [publishSuccess, setPublishSuccess] = useState( null )
 
     const handlePublishItem = async() => {
@@ -24,6 +28,12 @@ export const PublishItemPage = () => {
         const description = descriptionRef.current.value;
         const category = categoryRef.current.value;
         console.log('category', category)
+
+        if( !name || !price || !description || !category ) {
+            console.log(showErrorToast)
+            showErrorToast( 'All fields are required' );
+            return;
+        }
 
         const item = {
             name,
@@ -36,7 +46,7 @@ export const PublishItemPage = () => {
         };
 
         setIsLoading( true );
-        const response = await createItem( item )
+        const response = await itemService.createItem( item )
                             .catch( err => {
                                 console.log( err );
                                 setIsLoading( false );
@@ -46,20 +56,27 @@ export const PublishItemPage = () => {
         if( response.status === 201 ) {
             setIsLoading( false );
             setPublishSuccess( 'success' );
-            console.log('Item created');
-            console.log( item );
         }
 
     }
 
     const fetchCategories = () => {
-        getItemsCategories()
+        itemService.getItemsCategories()
             .then( categories => {
                 setCategories( categories );
                 setIsLoading( false );
             })
             .catch( err => console.log( err ));
     }
+
+    const fetchStatuses = () => {
+        itemService.getItemsStatuses()
+            .then( statuses => {
+                console.log( statuses );
+                setStatuses( statuses );
+            })
+            .catch( err => console.log( err ));
+    };
 
     const onChangeCategory = (e ) => {
         console.log( e, categoryRef.current.value );
@@ -152,6 +169,7 @@ export const PublishItemPage = () => {
                         <div/>
                 </div>
             }
+            <ToastContainer/>
        </div>
     )
 }

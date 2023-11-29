@@ -9,6 +9,10 @@ Iver uses a number of open source projects to work properly:
 - [ReactJS] - HTML enhanced for web apps!
 - [node.js] - evented I/O for the backend
 - [Express] - fast node.js network app framework [@tjholowaychuk]
+- [React-Toastify] - toast notifications
+- [Socket.IO] [Socket.IO-Client] - Bidirectional and low-latency communication for every platform
+- [Flowbite] -  an open-source UI component library built on top of Tailwind CSS with React components and based on the Flowbite Design System
+- [React-Icons] - popular icons library
 
 ## Github repository
 [git-repo-url] 
@@ -91,5 +95,11 @@ MIT
    [node.js]: <http://nodejs.org>
    [express]: <http://expressjs.com>
    [ReactJS]: <https://react.dev/>
+   [React-Tostify]: <https://fkhadra.github.io/react-toastify/introduction/>
+   [Socket.IO]: <https://socket.io/>
+   [Socket.IO-Client]: <https://socket.io/>
+   [Flowbite]: <https://www.flowbite-react.com/>
+   [React-Icons]: <https://react-icons.github.io/react-icons/>
+
 
 

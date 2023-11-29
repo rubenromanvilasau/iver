@@ -35,6 +35,7 @@ create table if not exists items (
 	status_id int not null,
 	shipping_way_id int not null,
 	category_id int not null,
+	ends_at timestamp not null,
 	created_at timestamp not null default now(),
 	deleted_at timestamp default null,
 	foreign key (seller_id)
@@ -60,7 +61,7 @@ create table if not exists items_offers (
 	offer_id serial primary key,
 	item_id int not null,
 	user_id varchar not null,
-	offer_amount int not null,
+	amount integer not null,
 	offer_date timestamp not null default now(),
 	foreign key (item_id)
 		references items(item_id),

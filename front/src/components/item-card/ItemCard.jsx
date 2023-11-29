@@ -3,7 +3,7 @@ import './item-cards.scss';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-export const ItemCard = ({ item_id, name, imgSrc = '/img/funko.jpg', price }) => {
+export const ItemCard = ({ item_id, name, images, price, offers }) => {
 
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(5);
@@ -33,22 +33,19 @@ export const ItemCard = ({ item_id, name, imgSrc = '/img/funko.jpg', price }) =>
   }, [hours, minutes, seconds]);
 
     return (
-        <Link to={ `/${item_id}` }>
-            <div id="card">
+        <Link to={ `/item/${item_id}` }>
+            <div id="card" className='p-6'>
                 <span className='item-name'>{ name }</span>
                 <section id='body'>
-                        <img src={ imgSrc } alt="item image"/>
-                    <div className="details">
+                        <img src={ images[0] ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
+                    <div className="details my-2">
                         <div >
                             <span>Min price: </span>
-                            <span className='property'> { price.toLocaleString('es-cl', {
-                              currency: 'CLP',
-                              style: 'currency'
-                            }) }</span>
+                            <span className='property'> { price.toLocaleString('es-cl', {currency: 'CLP', style: 'currency'}) }</span>
                         </div>
                         <div>
                             <span>Current offer: </span>
-                            <span className='property'> ${ 1850 }</span>
+                            <span className='property'> { offers.length > 0 ? offers[0].amount.toLocaleString('es-cl', {currency: 'CLP', style: 'currency'}) : 0 }</span>
                         </div>                                     
                         <div>
                             <span>Time left:</span>
@@ -56,7 +53,9 @@ export const ItemCard = ({ item_id, name, imgSrc = '/img/funko.jpg', price }) =>
                         </div>
                     </div>
                 </section>
-                <button>Make an offer</button>
+                <button>
+                  Make an offer
+                </button>
             </div>
         </Link>        
     )
@@ -64,7 +63,9 @@ export const ItemCard = ({ item_id, name, imgSrc = '/img/funko.jpg', price }) =>
 
 ItemCard.propTypes = {
     name: PropTypes.string,
-    imgSrc: PropTypes.string,
+    images: PropTypes.array,
     price: PropTypes.number,
     item_id: PropTypes.number,
+    offers: PropTypes.array,
+    user: PropTypes.object,
 };

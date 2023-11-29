@@ -1,9 +1,7 @@
 
 #card{
     font-family: 'Roboto', sans-serif;
-    width: 230px;
     background-color: #176B87;
-    padding: 1rem;
     
     border-radius: 5px;
     filter: drop-shadow(0 0 0.4rem #176B87);
@@ -34,9 +32,9 @@
         }
     
         img{
-            max-width: 80%;
             height: 150px;
             border-radius: 5px;
+            width: 100%;
         }
     
     }

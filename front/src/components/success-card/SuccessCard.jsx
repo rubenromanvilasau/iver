@@ -12,7 +12,7 @@ export const SuccessCard = ({ title, message, link, buttonText }) => {
 
     return (
         <div className='success-container'>
-            <div className="top">
+            <div className="top-card">
                 <img src="icons/check.svg" alt="check icon" />
                 <h1>{ title }</h1>
 
@@ -29,7 +29,7 @@ export const SuccessCard = ({ title, message, link, buttonText }) => {
     )
 };
 
-SuccessCard.PropTypes = {
+SuccessCard.propTypes = {
     title: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,

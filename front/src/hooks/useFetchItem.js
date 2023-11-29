@@ -2,30 +2,31 @@ import { useEffect, useState } from "react";
 import ItemService from "../services/items.service";
 const itemService = new ItemService();
 
-export const useFetchItems = () => {
+export const useFetchItem = ( id ) => {
     
-    const [items, setItems] = useState([]);
+    const [item, setItem] = useState([]);
     const [isLoading, setIsLoading] = useState( true );
     const [error, setError] = useState( null );
 
-    const fetchItems = () => {
-        itemService.getAllItems()
+    const fetchItem = () => {
+        itemService.getItem( id )
             .then( data => {
-                setItems( data );
+                setItem( data[0] );
                 setIsLoading( false );
             })
             .catch( err => {
+                console.log('error', err );
                 setError( err );
                 setIsLoading( false );
             });
     }
 
     useEffect(() => {
-        fetchItems();
+        fetchItem();
     }, []);
 
     return {
-        items,
+        item,
         isLoading,
         error
     };
