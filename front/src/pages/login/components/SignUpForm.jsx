@@ -47,21 +47,23 @@ export const SignUpForm = () => {
 
     return (
         <>
-            <section className='flex flex-col gap-4 w-3/5'>
-                <input 
-                    type="text" 
-                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
-                    placeholder='Name'
-                    ref={ nameRef }
-                    required
-                />
-                <input 
-                    type="text" 
-                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
-                    placeholder='Last name'
-                    ref={ lastNameRef }
-                    required
-                />
+            <section className='flex flex-col gap-4'>
+                <div className='flex flex-row gap-4'>
+                    <input 
+                        type="text" 
+                        className='w-full h-12 rounded-md box-border pl-1 text-sm'
+                        placeholder='Name'
+                        ref={ nameRef }
+                        required
+                    />
+                    <input 
+                        type="text" 
+                        className='w-full h-12 rounded-md box-border pl-1 text-sm'
+                        placeholder='Last name'
+                        ref={ lastNameRef }
+                        required
+                    />
+                </div>
                 <input 
                     type="text"
                     className='w-full h-12 rounded-md box-border pl-1 text-sm' 
@@ -79,15 +81,15 @@ export const SignUpForm = () => {
                 <input 
                     type="text"
                     className='w-full h-12 rounded-md box-border pl-1 text-sm' 
-                    placeholder='Username'
-                    ref={ usernameRef }
+                    placeholder='Email'
+                    ref={ emailRef }
                     required
                 />
                 <input 
                     type="text"
                     className='w-full h-12 rounded-md box-border pl-1 text-sm' 
-                    placeholder='Email'
-                    ref={ emailRef }
+                    placeholder='Username'
+                    ref={ usernameRef }
                     required
                 />
                 <div className="input-wrapper">

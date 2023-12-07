@@ -27,24 +27,24 @@ export const LoginForm = () => {
 
     return (
         <>
-            <section className='flex flex-col gap-4 w-3/5'>
+            <section className='flex flex-col gap-4'>
                 <input 
                     type="email" 
                     className='w-full h-12 rounded-md box-border pl-1 text-sm'
                     placeholder='Email'
                     ref={ emailRef }
                 />  
-                <div className="input-wrapper">
+                <div className="relative">
                     <input 
                         type={ isPasswordVisible ? 'text' : 'password'} 
-                        className="w-full h-12 rounded-md box-border pl-1 text-sm" 
+                        className="w-full h-12 rounded-md box-border pl-1 text-sm text-black" 
                         placeholder="Password" 
                         data-lpignore="true"
                         ref={ passwordRef }
                     />
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
-                        className="input-icon password" 
+                        className="fill-black absolute w-5 h-5 right-3 left-auto top-1/2 transform -translate-y-1/2 cursor-pointer" 
                         viewBox="0 0 20 20" 
                         fill="currentColor"
                         onClick={ toggleShowPassword }

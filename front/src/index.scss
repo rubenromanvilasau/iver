@@ -27,38 +27,6 @@ hr{
   width: 100%;
 }
 
-input{
-  border: none;
-  border-radius: 5px;
-  height: 30px;
-
-  font-family: 'Roboto', sans-serif;
-  color: #176B87;
-
-  &::placeholder{
-      opacity: 30%;
-  }
-
-  &:hover{
-      // transform: scale(1.05);
-  }
-
-  &:focus{
-    outline: none;
-  }
-}
-
-a{
-  text-decoration: none;
-}
-
-button{
-  font-family: 'Roboto', sans-serif;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 html, body {
   height: 100%;
   margin: 0;

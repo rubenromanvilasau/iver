@@ -1,9 +1,10 @@
+import { convertToCurrency } from '../../utils';
 import './my-orders-page.scss';
 import { Button, Table } from 'flowbite-react';
 
 export const MyOrdersPage = () => {
     return (
-        <div className="orders-container">
+        <div className="flex flex-col p-8 box-border">
             <h1 className='text-4xl font-bold'>My Orders</h1>
             <div className="overflow-x-auto my-4">
                 <Table striped>
@@ -41,7 +42,7 @@ export const MyOrdersPage = () => {
                             1
                         </Table.Cell>
                         <Table.Cell>
-                            {(1).toLocaleString('es-cl', {currency: 'CLP', style: 'currency'})}
+                            {convertToCurrency( 1 )}
                         </Table.Cell>
                         <Table.Cell>
                             <Button>

@@ -8,6 +8,7 @@ import { showErrorToast, showInfoToast } from '../../utils/toasts';
 import { ToastContainer } from 'react-toastify';
 import { UserContext } from '../../context/UserContext';
 import { NewOfferForm, CurrentOffers, OfferDetails, ItemDetails, ItemHeader } from './components/';
+import { convertToCurrency } from '../../utils';
 
 export const ItemPage = () => {
     const { id } = useParams();
@@ -44,7 +45,7 @@ export const ItemPage = () => {
             setLastOffer( offer );
             // const itemUpdated = { ...item };
             // itemUpdated.offers.unshift( offer );
-            showInfoToast(`New offer: ${offer.amount.toLocaleString('es-cl', {currency: 'CLP', style: 'currency'})}`);
+            showInfoToast(`New offer: ${convertToCurrency( offer.amount )}`);
         });
         
         return () => {
@@ -73,11 +74,10 @@ export const ItemPage = () => {
 
     const onClosemodal = () => {
         setOpenModal( false );
-        console.log('modal closed');
     }
 
     return (
-        <div className='item-container gap-2'>
+        <div className='container flex justify-center mx-auto gap-2 text-black mt-4 flex-wrap'>
             {   isLoading
                 ? <Loading/> 
                 : <>

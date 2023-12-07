@@ -1,6 +1,7 @@
-import { Banner, ItemCard, Loading } from "../../components";
 import './home-page.scss';
+import { Banner, ItemCard, Loading, SortDropdown } from "../../components";
 import { useFetchItems } from "../../hooks";
+
 
 export const HomePage = () => {
 
@@ -8,11 +9,14 @@ export const HomePage = () => {
     console.log( 'items', items)
 
     return (
-        <div className="container gap-4 p-4">
-            <div className="flex content-center w-full">
+        <div className='container mx-auto gap-4 p-4'>
+            <div className='flex content-center w-full'>
                 <Banner/>
             </div>
-            <section className="mt-2 flex flex-row content-center flex-wrap gap-4 w-11/12">
+            <div className='w-full flex justify-end mt-4'>
+                <SortDropdown/>
+            </div>
+            <section className='mt-2 flex flex-row content-center flex-wrap gap-4 w-11/12'>
                 {
                     isLoading 
                         ? <Loading/> 

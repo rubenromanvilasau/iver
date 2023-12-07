@@ -28,6 +28,7 @@ export const UserProvider = ({ children }) => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUser({});
+        navigate('/');
     }
 
     return (

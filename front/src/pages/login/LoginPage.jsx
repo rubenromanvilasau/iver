@@ -12,9 +12,9 @@ export const LoginPage = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container mx-auto">
             <div className="flex flex-col justify-around items-center shadow-md gap-4 rounded-md w-auto px-4 py-16">
-                <section className="flex flex-row justify-center w-3/5">
+                <section className="flex flex-row justify-center">
                     <button
                         onClick={ () => { onChangeSignIn( true ) } }
                         className={ `w-1/2 px-8 py-4 box-border transition rounded-md text-base ${ isLoginSelected && 'selected'}`}
@@ -23,7 +23,7 @@ export const LoginPage = () => {
                     </button>
                     <button 
                         onClick={ () => { onChangeSignIn( false ) } }
-                        className={ `w-1/2  px-8 box-border transition rounded-md text-base ${ !isLoginSelected && 'selected'}`}
+                        className={ `w-1/2 px-8 box-border transition rounded-md text-base ${ !isLoginSelected && 'selected'}`}
                         style={{ marginLeft: '-6px'}}
                     >
                         Sign up

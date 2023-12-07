@@ -44,7 +44,7 @@ export const PublishItemPage = () => {
     }
 
     return (
-       <div className='container'>
+       <div className='container mx-auto flex justify-center mt-4'>
             {
             isLoading 
                 ? <Loading/>

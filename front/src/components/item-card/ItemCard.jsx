@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import './item-cards.scss';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { Button } from 'flowbite-react';
+import { convertToCurrency } from '../../utils/convert-to-price';
 
 export const ItemCard = ({ item_id, name, images, price, offers }) => {
 
@@ -34,28 +36,28 @@ export const ItemCard = ({ item_id, name, images, price, offers }) => {
 
     return (
         <Link to={ `/item/${item_id}` }>
-            <div id="card" className='p-6'>
-                <span className='item-name'>{ name }</span>
-                <section id='body'>
-                        <img src={ images[0] ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
-                    <div className="details my-2">
+            <div className='rounded-md cursor-pointer text-center transition duration-500 bg-white shadow-md p-6 hover:scale-105'>
+                <span className='text-black text-xl'>{ name }</span>
+                <section className='mt-1'>
+                        <img className='h-36 rounded-md w-full' src={ images[0] ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
+                    <div className="text-left my-2">
                         <div >
-                            <span>Min price: </span>
-                            <span className='property'> { price.toLocaleString('es-cl', {currency: 'CLP', style: 'currency'}) }</span>
+                            <span className='text-black'>Min price: </span>
+                            <span className='font-light text-black'> { convertToCurrency( price ) }</span>
                         </div>
                         <div>
-                            <span>Current offer: </span>
-                            <span className='property'> { offers.length > 0 ? offers[0].amount.toLocaleString('es-cl', {currency: 'CLP', style: 'currency'}) : 0 }</span>
+                            <span className='text-black'>Current offer: </span>
+                            <span className='font-light text-black'> { offers.length > 0 ? convertToCurrency( offers[0].amount ) : 0 }</span>
                         </div>                                     
                         <div>
-                            <span>Time left:</span>
-                            <span className='property'> {`${hours}h:${minutes}m:${seconds}s`}</span>
+                            <span className='text-black'>Time left:</span>
+                            <span className='font-light text-black'> {`${hours}h:${minutes}m:${seconds}s`}</span>
                         </div>
                     </div>
                 </section>
-                <button>
+                <Button>
                   Make an offer
-                </button>
+                </Button>
             </div>
         </Link>        
     )

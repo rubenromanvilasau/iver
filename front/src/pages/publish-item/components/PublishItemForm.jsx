@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import ItemService from '../../../services/items.service';
 import { DropZone } from '../../../components';
-import { Button, Datepicker, Dropdown } from 'flowbite-react';
+import { Button, Datepicker, Dropdown, Tooltip } from 'flowbite-react';
 import { showErrorToast } from '../../../utils/toasts';
+import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 const itemService = new ItemService();
 
@@ -11,20 +12,15 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const nameRef = useRef( null );
     const priceRef = useRef( null );
     const descriptionRef = useRef( null );
-    const categoryRef = useRef( null );
     const [categories, setCategories] = useState([]);
     const [statuses, setStatuses] = useState([]);
-
-    const onChangeCategory = (e ) => {
-        console.log( e, categoryRef.current.value );
-    }
+    const [category, setCategory] = useState( null );
+    const [status, setStatus] = useState( null );
 
     const onClickPublish = async() => {
         const name = nameRef.current.value;
         const price = priceRef.current.value;
         const description = descriptionRef.current.value;
-        const category = categoryRef.current.value;
-        console.log('category', category)
 
         if( !name || !price || !description || !category ) {
             console.log(showErrorToast)
@@ -36,8 +32,8 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             name,
             price,
             description,
-            categoryId: 1,
-            statusId: 1,
+            categoryId: category.category_id,
+            statusId: status.status_id,
             shippingWay: 1,
         };
 
@@ -48,11 +44,9 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     useEffect(() => {
         setIsLoading( true );
         itemService.getItemsCategories().then( (res ) => {
-            console.log('categories', res);
             setCategories( res );
             itemService.getItemsStatuses().then( (res) => {
                 setStatuses( res );
-                console.log('statuses', res);
                 setIsLoading( false );
             })
         });
@@ -63,10 +57,10 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
 
     return (
-        <div className="bg-white w-1/2 flex flex-col items-center gap-4 p-12 rounded-md shadow-md">
+        <div className="bg-white flex flex-col gap-4 p-8 rounded-md shadow-md">
             <h1 className='text-black'>Publish your item</h1>
             <hr/>
-            <div className="flex flex-col w-4/12 h-16">
+            <div className="flex flex-col h-16">
                 <label className='text-black' htmlFor="name">Name</label>
                 <input
                     className='w-full h-12 rounded-md box-border pl-1 text-sm border-2 border-gray-300' 
@@ -76,7 +70,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                     placeholder='Item name'
                 />
             </div>
-            <div className="flex flex-col w-4/12 h-16">
+            <div className="flex flex-col h-16">
                 <label className='text-black' htmlFor="price">Price</label>
                 <input
                     className='w-full h-12 rounded-md box-border pl-1 text-sm border-2 border-gray-300' 
@@ -86,10 +80,14 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                     placeholder='Price'
                 />
             </div>
-            <Datepicker
-                minDate={ new Date() }
-            />
-            <div className="flex flex-col w-4/12 h-24 ">
+            <div className="flex flex-col h-16">
+                <label className='text-black' htmlFor="price">Expiration date</label>
+                <Datepicker
+                    minDate={ new Date() }
+                    name='date'
+                />
+            </div>
+            <div className="flex flex-col h-24 ">
                 <label className='text-black' htmlFor="name">Description</label>
                 <textarea 
                     ref={ descriptionRef }
@@ -99,30 +97,53 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                     placeholder='Description'
                 />
             </div>
-            <div className="flex flex-col w-4/12 h-16">
+            <div className="flex flex-col h-16">
                 <label className='text-black' htmlFor="category">Category</label>
                 <Dropdown label='Category'>
                     { categories.map( category => (
                         <Dropdown.Item
                             key={ category.category_id }
                             value={ category.category_id }
-                            onClick={ onChangeCategory }
+                            onClick={ () => setCategory( category ) }
                         >
                             { category.name }
                         </Dropdown.Item>
                     ))}
                 </Dropdown>
             </div>
-            <div className="flex flex-col w-4/12 h-16">
-                <label className='text-black' htmlFor="category">Item status</label>
+            <div className="flex flex-col h-16">
+                <div className='flex flex-row items-center gap-1'>
+                    <label className='text-black' htmlFor="category">Item status</label>
+                    <Tooltip content='Indicate the status of your item, is it new?, you bought it and used it just once?'>
+                        <BsFillQuestionCircleFill className='text-gray-500 cursor-pointer' size={ 20 }/>
+                    </Tooltip>
+                </div>
                 <Dropdown label='Status'>
                     { statuses.map( status => (
                         <Dropdown.Item
                             key={ status.status_id }
                             value={ status.status_id }
-                            onClick={ onChangeCategory }
+                            onClick={ () => setStatus( status ) }
                         >
                             { status.name }
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown>
+            </div>
+            <div className="flex flex-col h-16">
+                <div className='flex flex-row items-center gap-1'>
+                    <label className='text-black' htmlFor="category">Shipping way</label>
+                    <Tooltip content="How are you going to deliver your item to it's buyer?">
+                        <BsFillQuestionCircleFill className='text-gray-500 cursor-pointer' size={ 20 }/>
+                    </Tooltip>
+                </div>                <Dropdown label='Category'>
+                    { categories.map( category => (
+                        <Dropdown.Item
+                            key={ category.category_id }
+                            value={ category.category_id }
+                            onClick={ () => setCategory( category ) }
+                        >
+                            { category.name }
                         </Dropdown.Item>
                     ))}
                 </Dropdown>

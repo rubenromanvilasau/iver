@@ -12,6 +12,10 @@ export const ProtectedRoute = ({ children }) => {
         return <Navigate to='/login' replace state={{ from: location }}/>
     }
 
+    // if( localStorage.getItem('token') === null ) {
+    //     return <Navigate to='/login' replace state={{ from: location }}/>
+    // }
+
     return children;
 };
 

@@ -1,5 +1,7 @@
 import { Card } from "flowbite-react";
 import PropTypes from 'prop-types';
+import { convertToCurrency } from "../../../utils";
+
 
 export const CurrentOffers = ({ item }) => {
     return (
@@ -9,7 +11,7 @@ export const CurrentOffers = ({ item }) => {
                 ? item.offers.map( offer => (
                     <div className="flex flex-col border-2 rounded-md p-2" key={ offer.id }>
                         <span className="text-xs font-bold">{ item.seller.name }</span>
-                        <span>{ offer.amount.toLocaleString('es-cl', {currency: 'CLP', style: 'currency'}) }</span>
+                        <span>{ convertToCurrency( offer.amount ) }</span>
                     </div>
                 ))
                 : <span className="text-center">No offers yet</span>
