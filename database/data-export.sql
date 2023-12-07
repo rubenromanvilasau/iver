@@ -2,7 +2,7 @@ INSERT INTO public.users (rut,"name",last_name,username,"password",email,phone,"
 	 ('20594941-0','Rubén','Román','ruben','$2b$10$nPWuHBKIM9k9rZnMhqVQM.yD9bjqYhsjDQE9zrcJdZxmfUG9/NHIO','r.roman.v8@gmail.com','+56989209062',NULL,'2023-11-20 17:17:10.889376',NULL),
 	 ('20594941-1','Ruben','undefined','rubencito','$2b$10$tCz8nn.qS9Vu/.h0jjMazuuEcWmKilRaykubRIKIxBS29IfLReS96','rubenromanvilasau@outlook.com','undefined',NULL,'2023-11-20 19:06:44.901462',NULL);
 
-INSERT INTO public.statuses ("name") VALUES
+INSERT INTO public.items_statuses ("name") VALUES
     ('New'),
     ('Used ike new'),
     ('Used');

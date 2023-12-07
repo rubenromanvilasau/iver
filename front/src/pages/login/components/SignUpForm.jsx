@@ -2,8 +2,8 @@ import { useContext, useRef } from 'react';
 import '../login-page.scss';
 import { register } from '../../../services/users.service';
 import { UserContext } from '../../../context/UserContext';
+import { Button } from 'flowbite-react';
 // import { useNavigate } from 'react-router-dom';
-
 
 export const SignUpForm = () => {
 
@@ -47,39 +47,45 @@ export const SignUpForm = () => {
 
     return (
         <>
-            <section className='inputs'>
-            <input 
+            <section className='flex flex-col gap-4 w-3/5'>
+                <input 
                     type="text" 
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
                     placeholder='Name'
                     ref={ nameRef }
                     required
                 />
                 <input 
                     type="text" 
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
                     placeholder='Last name'
                     ref={ lastNameRef }
                     required
                 />
                 <input 
-                    type="text" 
+                    type="text"
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm' 
                     placeholder='RUT'
                     ref={ rutRef }
                     required
                 />
                 <input 
                     type="tel" 
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
                     placeholder='Phone number'
                     ref={ cellphoneRef }
                     required
                 />
                 <input 
-                    type="text" 
+                    type="text"
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm' 
                     placeholder='Username'
                     ref={ usernameRef }
                     required
                 />
                 <input 
-                    type="text" 
+                    type="text"
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm' 
                     placeholder='Email'
                     ref={ emailRef }
                     required
@@ -87,7 +93,7 @@ export const SignUpForm = () => {
                 <div className="input-wrapper">
                     <input 
                         type="password" 
-                        className="input" 
+                        className='w-full h-12 rounded-md box-border pl-1 text-sm'
                         placeholder="Password" 
                         data-lpignore="true"
                         ref={ passwordRef }
@@ -104,12 +110,11 @@ export const SignUpForm = () => {
                     </svg>
                 </div>
             </section>
-            <button 
-                className='btn-login'
+            <Button 
                 onClick={ handleRegisterClick }
             >
                 Register
-            </button>
+            </Button>
         </>
     )
 };

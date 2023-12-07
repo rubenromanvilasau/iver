@@ -1,11 +1,12 @@
-.input-wrapper {
+.search-box-wrapper {
     position: relative;
     width: 20%;
 
-    input{
+    #search{
         padding-left: 35px;
         width: 100%;
         border-radius: 5px;
+        filter: drop-shadow(0 0 0.5rem #176B87);
     }
 
     .input-icon {
@@ -17,8 +18,4 @@
         top: 50%;
         transform: translateY(-50%);
       }
-}
-
-input{
-    filter: drop-shadow(0 0 0.5rem #176B87);
 }

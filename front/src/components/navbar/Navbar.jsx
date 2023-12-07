@@ -3,6 +3,7 @@ import './navbar.scss';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { SearchBox } from '../index';
+import { Avatar, Dropdown } from 'flowbite-react';
 
 export const Navbar = () => {
 
@@ -31,22 +32,22 @@ export const Navbar = () => {
                     <div className='nav-btn'>
                         <img src="/icons/notification.svg" alt="notification icon" />
                     </div>
-                    <div>
-                        <div className='nav-btn' onClick={ toggleMenu }>
-                            <img  src="/icons/account.svg" alt="" />
-                        </div>
-                        <ul className={profileMenuVisible ? 'show' : ''} onMouseLeave={hideMenu}>
-                            <li className="sub-item">
-                                <p>                                
-                                    <Link to={'/my-orders'}>
-                                        My Orders
-                                    </Link>
-                                </p>
-                            </li>
-                            <li onClick={ handleLogout } className="sub-item">
-                                <p>Logout</p>
-                            </li>
-                        </ul>
+                    <div className='nav-btn'>
+                    <Dropdown
+                        label={<Avatar alt="User settings" placeholderInitials='RR' rounded />}
+                        arrowIcon={false}
+                        inline
+                    >
+                        <Dropdown.Header>
+                        <span className="block text-sm text-gray">Bonnie Green</span>
+                        <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+                        </Dropdown.Header>
+                        <Dropdown.Item>
+                            <Link to={'my-orders'} className='text-black'>My orders</Link>
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item>Sign out</Dropdown.Item>
+                    </Dropdown>                        {/* <img src="/icons/notification.svg" alt="notification icon" /> */}
                     </div>
                   </div>
                 : <Link to={'/login'}>

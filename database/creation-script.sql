@@ -8,6 +8,7 @@ create table if not exists users (
 	phone varchar(15) not null,
 	token varchar null,
 	created_on timestamp not null default now(),
+	deleted_at timestamp default null,
 	last_login timestamp
 );
 
@@ -16,7 +17,12 @@ create table if not exists categories (
 	name varchar not null
 );
 
-create table if not exists statuses (
+create table if not exists item_statuses (
+	status_id serial primary key,
+	name varchar not null
+);
+
+create table if not exists order_statuses (
 	status_id serial primary key,
 	name varchar not null
 );
@@ -63,6 +69,7 @@ create table if not exists items_offers (
 	user_id varchar not null,
 	amount integer not null,
 	offer_date timestamp not null default now(),
+	deleted_at timestamp default null,
 	foreign key (item_id)
 		references items(item_id),
 	foreign key (user_id)
@@ -76,4 +83,19 @@ create table if not exists items_images (
 	uploaded_date timestamp not null default now(),
 	foreign key (item_id)
 		references items(item_id)
+);
+
+create table if not exists orders (
+	order_id serial primary key,
+	item_id int not null,
+	buyer_id varchar not null,
+	amount_payed int not null,
+	status_id int not null,
+	order_date timestamp not null default now(),
+	foreign key (status_id)
+		references order_statuses(status_id),
+	foreign key (item_id)
+		references items(item_id),
+	foreign key (buyer_id)
+		references users(rut)
 );

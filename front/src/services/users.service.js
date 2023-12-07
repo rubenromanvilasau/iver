@@ -7,5 +7,5 @@ export const login = ( email, password ) => {
 
 export const register = ( data ) => {
     console.log('data', data)
-    return axios.get( apiUrl + '/users/register', data );
+    return axios.post( apiUrl + '/users/register', data );
 };

@@ -2,7 +2,7 @@ import { useContext, useRef, useState } from 'react';
 import '../login-page.scss';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
-
+import { Button } from 'flowbite-react';
 
 export const LoginForm = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState( false );
@@ -27,16 +27,17 @@ export const LoginForm = () => {
 
     return (
         <>
-            <section className='inputs'>
+            <section className='flex flex-col gap-4 w-3/5'>
                 <input 
                     type="email" 
+                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
                     placeholder='Email'
                     ref={ emailRef }
                 />  
                 <div className="input-wrapper">
                     <input 
                         type={ isPasswordVisible ? 'text' : 'password'} 
-                        className="input" 
+                        className="w-full h-12 rounded-md box-border pl-1 text-sm" 
                         placeholder="Password" 
                         data-lpignore="true"
                         ref={ passwordRef }
@@ -54,12 +55,11 @@ export const LoginForm = () => {
                 </div>
                 <Link>Forgot password?</Link>
             </section>
-            <button 
-                className='btn-login'
+            <Button 
                 onClick={ handleLoginClick }
             >
                 Login
-            </button>
+            </Button>
         </>
     )
 };

@@ -8,15 +8,15 @@ export const HomePage = () => {
     console.log( 'items', items)
 
     return (
-        <div className="container">
-            <div className="banner-container">
+        <div className="container gap-4 p-4">
+            <div className="flex content-center w-full">
                 <Banner/>
             </div>
-            <section id="items">
+            <section className="mt-2 flex flex-row content-center flex-wrap gap-4 w-11/12">
                 {
                     isLoading 
                         ? <Loading/> 
-                        : items.length > 0 && items.map( item => <ItemCard key={ item.item_id } {...item}/> )
+                        : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
         </div>

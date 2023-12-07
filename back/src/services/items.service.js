@@ -9,7 +9,7 @@ class ItemsService {
         const query = `SELECT *, sw.name AS shipping_way, s.name AS status, c."name" AS category
             FROM items
             INNER JOIN shipping_ways sw ON items.shipping_way_id = sw.shipping_way_id
-            INNER JOIN statuses s ON items.status_id = s.status_id
+            INNER JOIN items_statuses s ON items.status_id = s.status_id
             INNER JOIN categories c ON items.category_id = c.category_id`;
         return new Promise( ( resolve,reject ) => {
             db.query(query, async( err, response ) => {
@@ -56,7 +56,7 @@ class ItemsService {
         const query = `SELECT *, sw.name AS shipping_way, s.name AS status, c."name" AS category
             FROM items 
             INNER JOIN shipping_ways sw ON items.shipping_way_id = sw.shipping_way_id
-            INNER JOIN statuses s ON items.status_id = s.status_id
+            INNER JOIN items_statuses s ON items.status_id = s.status_id
             INNER JOIN categories c ON items.category_id = c.category_id
             where items.item_id = ${ id }`;
         return new Promise( ( resolve,reject ) => {
@@ -129,7 +129,7 @@ class ItemsService {
     }
 
     getItemsStatuses() {
-        const query = 'SELECT * FROM statuses';
+        const query = 'SELECT * FROM items_statuses';
         return new Promise( ( resolve,reject ) => {
             db.query(query, ( err, response ) => {
                 if( err ) {

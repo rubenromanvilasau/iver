@@ -4,12 +4,6 @@ const itemsService = new ItemsService();
 const getAllItems = async( req, res ) => {
     try {
         const items = await itemsService.getAllItems();
-        
-        if( items.length === 0 ) { 
-            res.status(404).send([]); 
-            return;
-        }
-
         res.status(200).send( items );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getAllItems ERROR', err);
@@ -21,12 +15,6 @@ const getItem = async( req, res ) => {
     const { id } = req.params;
     try {
         const item = await itemsService.getItem( id );
-        
-        if( item.length === 0 ) {
-            res.status(404).send([]); 
-            return;
-        }
-
         res.status(200).send( item );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getItem ERROR', err);
@@ -48,12 +36,6 @@ const createItem = async( req, res ) => {
 const getItemsStatuses = async( req, res ) => {
     try {
         const itemStatuses = await itemsService.getItemsStatuses();
-        
-        if( itemStatuses.length === 0 ) {
-            res.status(404).send([]); 
-            return;
-        }; 
-
         res.status(200).send( itemStatuses );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getItemStatuses ERROR', err);
@@ -64,12 +46,6 @@ const getItemsStatuses = async( req, res ) => {
 const getItemsCategories = async( req, res ) => {
     try {
         const itemCategories = await itemsService.getItemsCategories();
-        
-        if( itemCategories.length === 0 ) {
-            res.status(404).send([]); 
-            return;
-        }
-
         res.status(200).send( itemCategories );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getItemCategories ERROR', err);
@@ -81,12 +57,6 @@ const getItemOffers = async( req, res ) => {
     const { id } = req.params;
     try {
         const itemOffers = await itemsService.getItemOffers( id );
-        
-        if( itemOffers.length === 0 ) {
-            res.status(404).send([]); 
-            return;
-        }
-
         res.status(200).send( itemOffers );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getItemOffers ERROR', err);

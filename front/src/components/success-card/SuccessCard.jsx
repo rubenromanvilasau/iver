@@ -11,15 +11,16 @@ export const SuccessCard = ({ title, message, link, buttonText }) => {
     }
 
     return (
-        <div className='success-container'>
-            <div className="top-card">
-                <img src="icons/check.svg" alt="check icon" />
-                <h1>{ title }</h1>
+        <div className="flex flex-col items-center rounded-md shadow-md">
+            <div className="flex flex-col items-center bg-green-500 w-full rounded-t-lg p-4">
+                <img className="w-36" src="icons/check.svg" alt="check icon" />
+                <h1 className="text-white">{ title }</h1>
 
             </div>
-            <div className="bottom">
-                <p>{ message }</p>
+            <div className="bg-white w-full p-4 rounded-b-lg flex flex-col content-center items-center">
+                <p className="text-black">{ message }</p>
                 <button
+                    className='mt-4'
                     onClick={ onClickButton }
                 >
                     { buttonText }

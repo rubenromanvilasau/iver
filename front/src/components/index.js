@@ -8,3 +8,5 @@ export * from './ProtectedRoute';
 export * from './success-card/SuccessCard';
 export * from './notifications/Notifications';
 export * from './search-box/SearchBox';
+export * from './carousel/Carousel';
+export * from './drop-zone/DropZone';

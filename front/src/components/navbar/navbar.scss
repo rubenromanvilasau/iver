@@ -10,9 +10,8 @@ nav{
     
     a{
         text-decoration: none;
-        color: white;
         &:visited{
-            color: white;
+            color: gray;
         }
     }
 
@@ -48,6 +47,8 @@ nav{
 
     .nav-btn{
 
+        display: flex;
+        align-items: center;
         padding: .5rem;
         border-radius: 5px;
 
@@ -68,46 +69,46 @@ nav{
         }
     }
     
-    ul {
-        visibility: hidden;
-        opacity: 0;
-        position: absolute;
-        transition: all 0.5s ease;
-        margin-top: 1rem;
-        margin-right: .5rem;
-        right: 0;
-        display: none;
-        border-radius: 5px;
-    }
+    // ul {
+    //     visibility: hidden;
+    //     opacity: 0;
+    //     position: absolute;
+    //     transition: all 0.5s ease;
+    //     margin-top: 1rem;
+    //     margin-right: .5rem;
+    //     right: 0;
+    //     display: none;
+    //     border-radius: 5px;
+    // }
   
-    ul.show {
-        visibility: visible;
-        opacity: 1;
-        display: block;
-    }
+    // ul.show {
+    //     visibility: visible;
+    //     opacity: 1;
+    //     display: block;
+    // }
 
-    ul li:first-child{
-        border-radius: 5px 5px 0px 0;
-    }
+    // ul li:first-child{
+    //     border-radius: 5px 5px 0px 0;
+    // }
 
-    ul li:last-child{
-        border-radius: 0px 0px 5px 5px;
-    }
+    // ul li:last-child{
+    //     border-radius: 0px 0px 5px 5px;
+    // }
     
-    ul li {
-        clear: both;
-        width: 100%;
-        background-color: #0c5470;
-        color: white;
-        padding: .2rem 1rem;
-        box-sizing: border-box;
-        cursor: pointer;
-        display: block;
-        transition-duration: 0.5s;
+    // ul li {
+    //     clear: both;
+    //     width: 100%;
+    //     background-color: #0c5470;
+    //     color: white;
+    //     padding: .2rem 1rem;
+    //     box-sizing: border-box;
+    //     cursor: pointer;
+    //     display: block;
+    //     transition-duration: 0.5s;
 
-        &:hover{
-            opacity: .7;
-        }
-    }
+    //     &:hover{
+    //         opacity: .7;
+    //     }
+    // }
 
 }

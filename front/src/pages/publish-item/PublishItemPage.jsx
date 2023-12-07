@@ -1,39 +1,22 @@
 import './publish-item-page.scss';
 // import { mockCategories } from '../../mock-data/categories';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Loading, SuccessCard } from '../../components';
 import { ErrorCard } from '../../components/error-card/ErrorCard';
 import ItemService from "../../services/items.service";
 const itemService = new ItemService();
-import { showErrorToast, showInfoToast } from '../../utils/toasts';
 import { ToastContainer } from 'react-toastify';
+import { PublishItemForm } from './components/PublishItemForm';
 
 export const PublishItemPage = () => {
 
     const { user } = useContext( UserContext );
 
-    const nameRef = useRef( null );
-    const priceRef = useRef( null );
-    const descriptionRef = useRef( null );
-    const categoryRef = useRef( null );
-    const [isLoading, setIsLoading] = useState( true );
-    const [categories, setCategories] = useState([]);
-    const [statuses, setStatuses] = useState([]);
+    const [isLoading, setIsLoading] = useState( false );
     const [publishSuccess, setPublishSuccess] = useState( null )
 
-    const handlePublishItem = async() => {
-        const name = nameRef.current.value;
-        const price = priceRef.current.value;
-        const description = descriptionRef.current.value;
-        const category = categoryRef.current.value;
-        console.log('category', category)
-
-        if( !name || !price || !description || !category ) {
-            console.log(showErrorToast)
-            showErrorToast( 'All fields are required' );
-            return;
-        }
+    const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWay } ) => {
 
         const item = {
             name,
@@ -60,37 +43,8 @@ export const PublishItemPage = () => {
 
     }
 
-    const fetchCategories = () => {
-        itemService.getItemsCategories()
-            .then( categories => {
-                setCategories( categories );
-                setIsLoading( false );
-            })
-            .catch( err => console.log( err ));
-    }
-
-    const fetchStatuses = () => {
-        itemService.getItemsStatuses()
-            .then( statuses => {
-                console.log( statuses );
-                setStatuses( statuses );
-            })
-            .catch( err => console.log( err ));
-    };
-
-    const onChangeCategory = (e ) => {
-        console.log( e, categoryRef.current.value );
-    }
-
-    useEffect(() => {
-        fetchCategories();
-        return () => {
-            setCategories([]);
-        }
-    }, [])
-    
     return (
-       <div className='publish-item-container'>
+       <div className='container'>
             {
             isLoading 
                 ? <Loading/>
@@ -108,66 +62,7 @@ export const PublishItemPage = () => {
                                 link='/'
                                 buttonText='Go to home'
                             />
-                        : <div className="publish-card">
-                            <h1>Publish your item</h1>
-                            <hr/>
-                            <div className="input">
-                                <label htmlFor="name">Name</label>
-                                <input 
-                                    ref={ nameRef} 
-                                    name='name' 
-                                    type="text" 
-                                    placeholder='Item name'
-                                />
-                            </div>
-                            <div className="input">
-                                <label htmlFor="price">Price</label>
-                                <input 
-                                    ref={ priceRef } 
-                                    name='price' 
-                                    type="number" 
-                                    placeholder='Price'
-                                />
-                            </div>
-                            <div className="input description">
-                                <label htmlFor="name">Description</label>
-                                <textarea 
-                                    ref={ descriptionRef }
-                                    name='description' 
-                                    type="text" 
-                                    placeholder='Description'
-                                />
-                            </div>
-                            <div className="input">
-                                <label htmlFor="category">Category</label>
-                                <select 
-                                    name="category" 
-                                    id="category"
-                                    ref={ categoryRef }
-                                    onChange={ onChangeCategory }
-                                >
-                                    {
-                                        categories.map( category => (
-                                            <option 
-                                                key={ category.category_id } 
-                                                value={ category }
-                                            >{ category.name }</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                            <div className="upload-img">
-                                <img src="/icons/image.svg" alt="image icon" />
-                                <span>upload</span>
-                            </div>
-                            <button
-                                className='btn-publish'
-                                onClick={ handlePublishItem }
-                            >
-                                Publish
-                            </button>
-                        <div/>
-                </div>
+                        : <PublishItemForm handlePublishItem={handlePublishItem} setIsLoading={setIsLoading}/>
             }
             <ToastContainer/>
        </div>
