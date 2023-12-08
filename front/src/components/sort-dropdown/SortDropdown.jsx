@@ -40,8 +40,8 @@ export const SortDropdown = () => {
             >
                 <Tooltip content={ isAscendant ? 'Ascendant' : 'Descendant' }>
                     { isAscendant 
-                            ? <FaArrowUp/> 
-                            : <FaArrowDown/>
+                        ? <FaArrowUp className="text-text-secondary"/> 
+                        : <FaArrowDown className="text-text-secondary"/>
                     }
                 </Tooltip>
             </div>

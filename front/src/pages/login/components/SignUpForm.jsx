@@ -1,9 +1,10 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import '../login-page.scss';
 import { register } from '../../../services/users.service';
 import { UserContext } from '../../../context/UserContext';
-import { Button } from 'flowbite-react';
+import { Button, TextInput } from 'flowbite-react';
 // import { useNavigate } from 'react-router-dom';
+import { HiMail, HiLockClosed, HiUser, HiPhone } from 'react-icons/hi';
 
 export const SignUpForm = () => {
 
@@ -14,6 +15,7 @@ export const SignUpForm = () => {
     const nameRef = useRef( null );
     const lastNameRef = useRef( null );
     const usernameRef = useRef( null );
+    const [isPasswordVisible, setIsPasswordVisible] = useState( false );
 
     // const [registerSuccess, setRegisterSuccess] = useState( null );
 
@@ -49,14 +51,14 @@ export const SignUpForm = () => {
         <>
             <section className='flex flex-col gap-4'>
                 <div className='flex flex-row gap-4'>
-                    <input 
+                    <TextInput 
                         type="text" 
                         className='w-full h-12 rounded-md box-border pl-1 text-sm'
                         placeholder='Name'
                         ref={ nameRef }
                         required
                     />
-                    <input 
+                    <TextInput 
                         type="text" 
                         className='w-full h-12 rounded-md box-border pl-1 text-sm'
                         placeholder='Last name'
@@ -64,55 +66,43 @@ export const SignUpForm = () => {
                         required
                     />
                 </div>
-                <input 
-                    type="text"
-                    className='w-full h-12 rounded-md box-border pl-1 text-sm' 
-                    placeholder='RUT'
+                <TextInput 
                     ref={ rutRef }
+                    type="text"
+                    placeholder='RUT'
                     required
                 />
-                <input 
-                    type="tel" 
-                    className='w-full h-12 rounded-md box-border pl-1 text-sm'
-                    placeholder='Phone number'
+                <TextInput 
                     ref={ cellphoneRef }
+                    type="tel" 
+                    icon={HiPhone} 
+                    placeholder='Phone number'
                     required
                 />
-                <input 
-                    type="text"
-                    className='w-full h-12 rounded-md box-border pl-1 text-sm' 
-                    placeholder='Email'
+                <TextInput 
                     ref={ emailRef }
-                    required
-                />
-                <input 
                     type="text"
-                    className='w-full h-12 rounded-md box-border pl-1 text-sm' 
-                    placeholder='Username'
-                    ref={ usernameRef }
+                    icon={HiMail} 
+                    placeholder='Email'
                     required
                 />
-                <div className="input-wrapper">
-                    <input 
-                        type="password" 
-                        className='w-full h-12 rounded-md box-border pl-1 text-sm'
-                        placeholder="Password" 
-                        data-lpignore="true"
-                        ref={ passwordRef }
-                        required
-                    />
-                    <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        className="input-icon password" 
-                        viewBox="0 0 20 20" 
-                        fill="currentColor"
-                    >
-                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                    </svg>
-                </div>
+                <TextInput 
+                    ref={ usernameRef }
+                    type="text"
+                    icon={HiUser}
+                    placeholder='Username'
+                    required
+                />
+                <TextInput 
+                    ref={passwordRef} 
+                    type={ isPasswordVisible ? 'text' : 'password'} 
+                    icon={HiLockClosed} 
+                    placeholder="Your secret secret password" 
+                    required 
+                />
             </section>
             <Button 
+                className='w-full bg-primary mt-4'
                 onClick={ handleRegisterClick }
             >
                 Register

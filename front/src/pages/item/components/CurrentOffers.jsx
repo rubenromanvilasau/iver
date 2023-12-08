@@ -5,7 +5,7 @@ import { convertToCurrency } from "../../../utils";
 
 export const CurrentOffers = ({ item }) => {
     return (
-        <Card className="snap-y max-h-96 overflow-y-scroll">
+        <Card className="snap-y overflow-y-scroll">
             <h2 className="text-center text-lg font-bold" style={{ color: '#04364A'}}>Current offers</h2>
             { item.offers.length > 0 
                 ? item.offers.map( offer => (

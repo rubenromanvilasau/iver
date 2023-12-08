@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  // font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -17,11 +16,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-
-.container{
-  // min-height: 100vh;
-}
-
 hr{
   color: #04364a;
   width: 100%;
@@ -31,9 +25,13 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  // background-color: #64CCC5;
-  background: #64CCC5;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #64CCC5, #84d8d2);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #64CCC5, #aad6d3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-color: #ebebeb;
+  // background: #64CCC5;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to right, #64CCC5, #84d8d2);  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to right, #64CCC5, #aad6d3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+}
+
+input:focus{
+  outline: 0;
 }

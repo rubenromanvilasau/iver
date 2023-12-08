@@ -2,7 +2,7 @@ import { Button } from "flowbite-react";
 import { convertToCurrency } from "../../../utils";
 
 
-export const OfferDetails = ({ item, openPutOfferModal, lastOffer }) => {
+export const OfferDetails = ({ item, onClickOffer, lastOffer }) => {
     return (
         <section>
         <div className='flex flex-row items-center gap-1'>
@@ -22,7 +22,7 @@ export const OfferDetails = ({ item, openPutOfferModal, lastOffer }) => {
         </div>
         <Button
             className='mt-4 text-white'
-            onClick={ openPutOfferModal }
+            onClick={ onClickOffer }
         >
             Offer
         </Button>

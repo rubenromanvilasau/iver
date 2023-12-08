@@ -5,24 +5,24 @@ import { Button, Table } from 'flowbite-react';
 export const MyOrdersPage = () => {
     return (
         <div className="flex flex-col p-8 box-border">
-            <h1 className='text-4xl font-bold'>My Orders</h1>
+            <h1 className='text-4xl font-bold text-text-primary'>My Orders</h1>
             <div className="overflow-x-auto my-4">
                 <Table striped>
                 <Table.Head>
                     <Table.HeadCell>
-                        <span className='text-base font-bold'>Order</span>
+                        <span className='text-base font-bold text-text-secondary'>Order</span>
                     </Table.HeadCell>
                     <Table.HeadCell>
-                        <span className='text-base font-bold'>Item</span>
+                        <span className='text-base font-bold text-text-secondary'>Item</span>
                     </Table.HeadCell>
                     <Table.HeadCell>
-                        <span className='text-base font-bold'>Date</span>
+                        <span className='text-base font-bold text-text-secondary'>Date</span>
                     </Table.HeadCell>
                     <Table.HeadCell>
-                        <span className='text-base font-bold'>Status</span>
+                        <span className='text-base font-bold text-text-secondary'>Status</span>
                     </Table.HeadCell>
                     <Table.HeadCell>
-                        <span className='text-base font-bold'>Total</span>
+                        <span className='text-base font-bold text-text-secondary'>Total</span>
                     </Table.HeadCell>
                     <Table.HeadCell>
                     </Table.HeadCell>

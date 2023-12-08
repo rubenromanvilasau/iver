@@ -9,6 +9,7 @@ export const SearchBox = () => {
     const [words, setWords] = useState( '' );
 
     const onClickSearch = () => {
+        if( !words ) return;
         navigate(`/search/${ words }`);
     }
 
@@ -17,10 +18,10 @@ export const SearchBox = () => {
     }
 
     return (
-        <div className='relative w-1/5'>
+        <div className='relative w-1/5 shadow-md '>
             <input 
                 onChange={ onChangeSearch }
-                className='pl-4 w-full rounded-md shadow-md text-black' 
+                className='pl-4 w-full rounded-md shadow-md text-black border-none' 
                 type="search" 
                 placeholder="I'm looking for..."
             />

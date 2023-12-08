@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Button } from 'flowbite-react';
 import { convertToCurrency } from '../../utils/convert-to-price';
+import { HiArrowRight } from 'react-icons/hi';
 
 export const ItemCard = ({ item_id, name, images, price, offers }) => {
 
@@ -57,6 +58,7 @@ export const ItemCard = ({ item_id, name, images, price, offers }) => {
                 </section>
                 <Button>
                   Make an offer
+                  <HiArrowRight className='ml-1'/>
                 </Button>
             </div>
         </Link>        

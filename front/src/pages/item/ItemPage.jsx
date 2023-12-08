@@ -72,6 +72,14 @@ export const ItemPage = () => {
         setOpenModal( true );
     }
 
+    const onClickOffer = () => {
+        if( !user.token ) {
+            showErrorToast('You must be logged in to make an offer');
+            return;
+        }
+        setOpenModal( true );
+    }
+
     const onClosemodal = () => {
         setOpenModal( false );
     }
@@ -81,15 +89,15 @@ export const ItemPage = () => {
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-row gap-4 bg-white w-3/5 box-border p-4 rounded-md shadow-md">
+                    <div className="flex flex-row bg-white w-3/5 box-border p-4 rounded-md shadow-md">
                         <div className="flex flex-col w-1/2 overflow-y-hidden">
                             <img className='max-h-sm min-h-sm rounded-md' src={ currentImage.image_url } alt={`${item.name}-image`} />
                             <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/>
                         </div>
-                        <section className="w-3/6 flex flex-col justify-between">
+                        <section className="w-3/6 flex flex-col justify-between gap-12">
                             <ItemHeader item={item} viewersAmount={viewersAmount}/>
                             <ItemDetails item={item}/>
-                            <OfferDetails item={item} lastOffer={lastOffer} openPutOfferModal={openPutOfferModal}/>
+                            <OfferDetails item={item} lastOffer={lastOffer} onClickOffer={onClickOffer}/>
                         </section>
                         <NewOfferForm 
                             openModal={openModal} 

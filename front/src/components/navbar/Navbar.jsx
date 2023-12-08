@@ -10,7 +10,7 @@ export const Navbar = () => {
     const{ user, handleLogout } = useContext( UserContext );
 
     return (
-        <nav className='bg-black w-full flex items-center justify-between p-3 box-border'>
+        <nav className='bg-primary w-full flex items-center justify-between p-3 box-border'>
             <div className='flex flex-row items-center'>
                 <Link to={'/'}>
                     <img className='w-12 h-12 hover:rotate-180 transition duration-1000 ' src="/img/astronaut.png" alt="" />
@@ -21,6 +21,7 @@ export const Navbar = () => {
                 user.token
                 ?<div className='flex flex-row'> 
                     <Notifications/>
+                    <div className="relative top-2 -left-4 rounded-full bg-red-800 w-5 h-5 flex items-center justify-center text-xs font-semibold">1</div>
                     <div className='items-center p-2 rounded-md cursor-pointer transition duration-500'>
                         <Dropdown
                             label={<Avatar alt="User settings" placeholderInitials='RR' rounded />}
