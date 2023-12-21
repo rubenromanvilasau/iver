@@ -56,7 +56,7 @@ const getItemsCategories = async( req, res ) => {
 const getItemOffers = async( req, res ) => {
     const { id } = req.params;
     try {
-        const itemOffers = await itemsService.getItemOffers( id );
+        const itemOffers = await itemsService.getItemOffers( parseInt( id ) );
         res.status(200).send( itemOffers );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getItemOffers ERROR', err);

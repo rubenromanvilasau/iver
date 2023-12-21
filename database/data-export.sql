@@ -4,7 +4,7 @@ INSERT INTO public.users (rut,"name",last_name,username,"password",email,phone,"
 
 INSERT INTO public.items_statuses ("name") VALUES
     ('New'),
-    ('Used ike new'),
+    ('Used like new'),
     ('Used');
 
 INSERT INTO public.shipping_ways ("name") VALUES
@@ -12,11 +12,11 @@ INSERT INTO public.shipping_ways ("name") VALUES
 	 ('Pickup'),
 	 ('Starken');
 
-INSERT INTO public.items (seller_id,"name",description,price,status_id,shipping_way_id,category_id,published_date) VALUES
-	 ('20594941-0','Toy','asd',15000,1,1,1,'2023-11-20 19:17:57.178834'),
-	 ('20594941-0','PS1 ','Ps1 en buen estado, desbloqueada',45000,1,1,1,'2023-11-20 19:18:53.868214');
-
 INSERT INTO public.categories ("name") VALUES
 	 ('Tech'),
 	 ('Toys'),
 	 ('Clothing');
+
+INSERT INTO public.items (seller_id,"name",description,price,status_id,shipping_way_id,category_id,published_date) VALUES
+	 ('20594941-0','Toy','asd',15000,1,1,1,'2023-11-20 19:17:57.178834'),
+	 ('20594941-0','PS1 ','Ps1 en buen estado, desbloqueada',45000,1,1,1,'2023-11-20 19:18:53.868214');

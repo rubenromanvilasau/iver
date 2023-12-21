@@ -22,7 +22,7 @@ const test = async( req, res ) => {
 router.get('/', getAllItems);
 router.get('/statuses', getItemsStatuses);
 router.get('/categories', getItemsCategories);
-router.get('/offers/:id', getItemOffers);
+router.get('/:id/offers', getItemOffers);
 router.get('/:id', getItem);
 router.post('/offer/:id', createItemOffer);
 router.post('/', test);

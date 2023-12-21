@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  category_id Int    @id @default(autoincrement())
+  name        String @db.VarChar
+}
+
+model items {
+  item_id         Int            @id @default(autoincrement())
+  seller_id       String         @db.VarChar
+  name            String         @db.VarChar(50)
+  description     String         @db.VarChar
+  price           Int
+  status_id       Int
+  shipping_way_id Int
+  category_id     Int
+  ends_at         DateTime       @db.Timestamp(6)
+  created_at      DateTime       @default(now()) @db.Timestamp(6)
+  deleted_at      DateTime?      @db.Timestamp(6)
+  users           users          @relation(fields: [seller_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  shipping_ways   shipping_ways  @relation(fields: [shipping_way_id], references: [shipping_way_id], onDelete: NoAction, onUpdate: NoAction)
+  items_statuses  items_statuses @relation(fields: [status_id], references: [status_id], onDelete: NoAction, onUpdate: NoAction)
+  items_images    items_images[]
+  items_offers    items_offers[]
+  orders          orders?
+}
+
+model items_images {
+  item_image_id Int      @id @default(autoincrement())
+  item_id       Int
+  image_url     String   @db.VarChar
+  uploaded_date DateTime @default(now()) @db.Timestamp(6)
+  items         items    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model items_offers {
+  offer_id   Int       @id @default(autoincrement())
+  item_id    Int
+  user_id    String    @db.VarChar
+  amount     Int
+  offer_date DateTime  @default(now()) @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
+  items      items     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model items_statuses {
+  status_id Int     @id @default(autoincrement())
+  name      String  @db.VarChar
+  items     items[]
+}
+
+model order_statuses {
+  status_id Int    @id @default(autoincrement())
+  name      String @db.VarChar
+}
+
+model orders {
+  item_id      Int      @id
+  buyer_id     String   @db.VarChar
+  amount_payed Int
+  order_date   DateTime @default(now()) @db.Timestamp(6)
+  users        users    @relation(fields: [buyer_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  items        items    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model shipping_ways {
+  shipping_way_id Int     @id @default(autoincrement())
+  name            String  @db.VarChar
+  items           items[]
+}
+
+model users {
+  rut          String         @id @db.VarChar
+  name         String         @db.VarChar(50)
+  last_name    String         @db.VarChar(50)
+  username     String         @db.VarChar(20)
+  password     String         @db.VarChar
+  email        String         @unique @db.VarChar(250)
+  phone        String         @db.VarChar(15)
+  token        String?        @db.VarChar
+  created_on   DateTime       @default(now()) @db.Timestamp(6)
+  deleted_at   DateTime?      @db.Timestamp(6)
+  last_login   DateTime?      @db.Timestamp(6)
+  items        items[]
+  items_offers items_offers[]
+  orders       orders[]
+}

@@ -2,7 +2,7 @@ const db = require('../../config/db');
 const UsersService = require('./users.service');
 const usersService = new UsersService();
 const { socketIo, io, emitToAll } = require('../../websocket');
-
+const { prisma } = require('../db.js'); 
 class ItemsService {
 
     getAllItems(){
@@ -100,7 +100,7 @@ class ItemsService {
     }
 
     createItem( item ) {
-        const query = `INSERT INTO items (seller_id, name, description, price, status_id, shipping_way_id, category_id) VALUES ('${ item.sellerId }', '${ item.name }', '${ item.description }', '${ item.price }', '${ item.statusId }', '${ item.shippingWay}', '${ item.categoryId }')`;
+        const query = `INSERT INTO items (seller_id, name, description, price, status_id, shipping_way_id, category_id, end_date) VALUES ('${ item.sellerId }', '${ item.name }', '${ item.description }', '${ item.price }', '${ item.statusId }', '${ item.shippingWay}', '${ item.categoryId }', ${new Date()})`;
         return new Promise( ( resolve,reject ) => {
             db.query(query, ( err, response ) => {
                 
@@ -129,48 +129,26 @@ class ItemsService {
     }
 
     getItemsStatuses() {
-        const query = 'SELECT * FROM items_statuses';
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, ( err, response ) => {
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] getItemStatuses ERROR', err);
-                    reject( err );
-                }else{
-                    resolve( response.rows );
-                }
-            });
-        });
+        return prisma.items_statuses.findMany();
     }
 
     getItemsCategories() {
-        const query = 'SELECT * FROM categories';
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, ( err, response ) => {
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] getItemCategories ERROR', err);
-                    reject( err );
-                }else{
-                    resolve( response.rows );
-                }
-            });
-        });
+        return prisma.categories.findMany();
     }
 
     getItemOffers( id ) {
-        const query = `SELECT * FROM items_offers WHERE item_id=${ id } ORDER BY offer_date DESC`;
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, ( err, response ) => {
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] getItemOffers ERROR', err);
-                    reject( err );
-                }else{
-                    resolve( response.rows );
-                }
-            });
+        return prisma.items_offers.findFirst({
+            where: {
+                item_id: id,
+            },
+            orderBy: {
+                offer_date: 'desc'
+            }
         });
     }
 
     createItemOffer( id, offer ) {
+        return prisma.items_offers.create({});
         const query = `INSERT INTO items_offers (item_id, user_id, amount) VALUES (${ id }, '${ offer.userId }', ${ offer.amount })`;
         return new Promise( ( resolve,reject ) => {
             db.query(query, ( err, response ) => {

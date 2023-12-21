@@ -31,9 +31,10 @@ export const PublishItemPage = () => {
         setIsLoading( true );
         const response = await itemService.createItem( item )
                             .catch( err => {
-                                console.log( err );
+                                console.log( 'ERROR',err );
                                 setIsLoading( false );
                                 setPublishSuccess( 'error' );
+                                return;
                             });
         
         if( response.status === 201 ) {

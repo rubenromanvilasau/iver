@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.7.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
@@ -21,5 +22,8 @@
     "nodemon": "^3.0.1",
     "pg": "^8.11.3",
     "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "prisma": "^5.7.1"
   }
 }

@@ -17,7 +17,7 @@ create table if not exists categories (
 	name varchar not null
 );
 
-create table if not exists item_statuses (
+create table if not exists items_statuses (
 	status_id serial primary key,
 	name varchar not null
 );
@@ -47,7 +47,7 @@ create table if not exists items (
 	foreign key (seller_id)
 		references users(rut),
 	foreign key (status_id)
-		references statuses(status_id),	
+		references items_statuses(status_id),	
 	foreign key (shipping_way_id)
 		references shipping_ways(shipping_way_id)
 );
