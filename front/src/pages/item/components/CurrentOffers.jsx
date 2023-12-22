@@ -9,7 +9,7 @@ export const CurrentOffers = ({ item }) => {
             <h2 className="text-center text-lg font-bold" style={{ color: '#04364A'}}>Current offers</h2>
             { item.offers.length > 0 
                 ? item.offers.map( offer => (
-                    <div className="flex flex-col border-2 rounded-md p-2" key={ offer.id }>
+                    <div className="flex flex-col border-2 rounded-md p-2" key={ offer.offer_id }>
                         <span className="text-xs font-bold">{ item.seller.name }</span>
                         <span>{ convertToCurrency( offer.amount ) }</span>
                     </div>

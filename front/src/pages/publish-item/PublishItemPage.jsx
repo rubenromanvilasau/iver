@@ -25,8 +25,10 @@ export const PublishItemPage = () => {
             categoryId: 1,
             sellerId: user.rut,
             statusId: 1,
-            shippingWay: 1,
+            shippingWayId: 1,
         };
+        
+        console.log('item',item)
 
         setIsLoading( true );
         const response = await itemService.createItem( item )

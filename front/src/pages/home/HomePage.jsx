@@ -8,6 +8,10 @@ export const HomePage = () => {
     const { items, isLoading, error } = useFetchItems();
     console.log( 'items', items)
 
+    if( isLoading ) {
+        return <Loading/>
+    }
+
     return (
         <div className='container mx-auto gap-4 p-4'>
             <div className='flex content-center w-full'>
@@ -23,6 +27,7 @@ export const HomePage = () => {
                         : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
+
         </div>
     )
 }

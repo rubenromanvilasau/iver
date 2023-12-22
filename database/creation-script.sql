@@ -44,6 +44,8 @@ create table if not exists items (
 	ends_at timestamp not null,
 	created_at timestamp not null default now(),
 	deleted_at timestamp default null,
+	foreign key (category_id)
+		references categories(category_id),
 	foreign key (seller_id)
 		references users(rut),
 	foreign key (status_id)

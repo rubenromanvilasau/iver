@@ -56,12 +56,14 @@ export const ItemPage = () => {
     }, []);
 
     useEffect( () => {
-        if( item && item.images ) {
+
+        if( !isLoading && item ) {
             console.log('item', item);
-            setLastOffer( item.offers.length > 0 ? item.offers[0] : { amount: 0} );
-            setCurrentImage( item.images.length > 0 ? item.images[0] : {} );
+            setLastOffer( item.offers?.length > 0 ? item.offers[0] : { amount: 0} );
+            setCurrentImage( item.images?.length > 0 ? item.images[0] : {} );
         }
-    }, [item]);
+        console.log('loading', isLoading)
+    }, [item,]);
 
 
     const openPutOfferModal = () => {
@@ -82,6 +84,10 @@ export const ItemPage = () => {
 
     const onClosemodal = () => {
         setOpenModal( false );
+    }
+
+    if(isLoading) {
+        return <Loading/>
     }
 
     return (

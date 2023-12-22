@@ -40,7 +40,7 @@ export const ItemCard = ({ item_id, name, images, price, offers }) => {
             <div className='rounded-md cursor-pointer text-center transition duration-500 bg-white shadow-md p-6 hover:scale-105'>
                 <span className='text-black text-xl'>{ name }</span>
                 <section className='mt-1'>
-                        <img className='h-36 rounded-md w-full' src={ images[0] ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
+                        <img className='h-36 rounded-md w-full' src={ images.length > 0 ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
                     <div className="text-left my-2">
                         <div >
                             <span className='text-black'>Min price: </span>

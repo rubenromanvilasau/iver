@@ -14,7 +14,7 @@ const getAllItems = async( req, res ) => {
 const getItem = async( req, res ) => {
     const { id } = req.params;
     try {
-        const item = await itemsService.getItem( id );
+        const item = await itemsService.getItem( parseInt( id ) );
         res.status(200).send( item );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] getItem ERROR', err);
@@ -68,7 +68,7 @@ const createItemOffer = async( req, res ) => {
     const { id } = req.params;
     const offer = req.body;
     try {
-        const newItemOffer = await itemsService.createItemOffer( id, offer );
+        const newItemOffer = await itemsService.createItemOffer( parseInt( id ), offer );
         res.status(201).send( newItemOffer );
     } catch ( err ) {
         console.log('[CONTROLLERS-ITEMS] createItemOffer ERROR', err);

@@ -31,11 +31,11 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
         const item = {
             name,
-            price,
+            price: Number( price ),
             description,
             categoryId: category.category_id,
             statusId: status.status_id,
-            shippingWay: 1,
+            shippingWayId: 1,
         };
 
         handlePublishItem( item );

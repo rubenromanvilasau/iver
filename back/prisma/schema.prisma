@@ -7,12 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model categories {
+model Category {
   category_id Int    @id @default(autoincrement())
   name        String @db.VarChar
+  items       Item[]
+  @@map("categories")
 }
 
-model items {
+model Item {
   item_id         Int            @id @default(autoincrement())
   seller_id       String         @db.VarChar
   name            String         @db.VarChar(50)
@@ -24,60 +26,68 @@ model items {
   ends_at         DateTime       @db.Timestamp(6)
   created_at      DateTime       @default(now()) @db.Timestamp(6)
   deleted_at      DateTime?      @db.Timestamp(6)
-  users           users          @relation(fields: [seller_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
-  shipping_ways   shipping_ways  @relation(fields: [shipping_way_id], references: [shipping_way_id], onDelete: NoAction, onUpdate: NoAction)
-  items_statuses  items_statuses @relation(fields: [status_id], references: [status_id], onDelete: NoAction, onUpdate: NoAction)
-  items_images    items_images[]
-  items_offers    items_offers[]
-  orders          orders?
+  seller          User           @relation(fields: [seller_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  shippingWay     ShippingWay    @relation(fields: [shipping_way_id], references: [shipping_way_id], onDelete: NoAction, onUpdate: NoAction)
+  category        Category       @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+  status          ItemStatuses   @relation(fields: [status_id], references: [status_id], onDelete: NoAction, onUpdate: NoAction)
+  images          ItemImages[]
+  offers          ItemOffers[]
+  orders          Order?
+  @@map("items")
 }
 
-model items_images {
+model ItemImages {
   item_image_id Int      @id @default(autoincrement())
   item_id       Int
   image_url     String   @db.VarChar
   uploaded_date DateTime @default(now()) @db.Timestamp(6)
-  items         items    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  items         Item    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("items_images")
 }
 
-model items_offers {
+model ItemOffers {
   offer_id   Int       @id @default(autoincrement())
   item_id    Int
   user_id    String    @db.VarChar
   amount     Int
   offer_date DateTime  @default(now()) @db.Timestamp(6)
   deleted_at DateTime? @db.Timestamp(6)
-  items      items     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
-  users      users     @relation(fields: [user_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  item       Item     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  seller     User     @relation(fields: [user_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  @@map("items_offers")
 }
 
-model items_statuses {
+model ItemStatuses {
   status_id Int     @id @default(autoincrement())
   name      String  @db.VarChar
-  items     items[]
+  items     Item[]
+  @@map("items_statuses")
 }
 
-model order_statuses {
+model OrderStatuses {
   status_id Int    @id @default(autoincrement())
   name      String @db.VarChar
+  @@map("order_statuses")
 }
 
-model orders {
+model Order {
   item_id      Int      @id
   buyer_id     String   @db.VarChar
   amount_payed Int
   order_date   DateTime @default(now()) @db.Timestamp(6)
-  users        users    @relation(fields: [buyer_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
-  items        items    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  users        User    @relation(fields: [buyer_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  items        Item    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("orders")
 }
 
-model shipping_ways {
+model ShippingWay {
   shipping_way_id Int     @id @default(autoincrement())
   name            String  @db.VarChar
-  items           items[]
+  items           Item[]
+  @@map("shipping_ways")
 }
 
-model users {
+model User {
   rut          String         @id @db.VarChar
   name         String         @db.VarChar(50)
   last_name    String         @db.VarChar(50)
@@ -89,7 +99,8 @@ model users {
   created_on   DateTime       @default(now()) @db.Timestamp(6)
   deleted_at   DateTime?      @db.Timestamp(6)
   last_login   DateTime?      @db.Timestamp(6)
-  items        items[]
-  items_offers items_offers[]
-  orders       orders[]
+  items        Item[]
+  items_offers ItemOffers[]
+  orders       Order[]
+  @@map("users")
 }

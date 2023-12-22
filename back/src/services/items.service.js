@@ -6,138 +6,87 @@ const { prisma } = require('../db.js');
 class ItemsService {
 
     getAllItems(){
-        const query = `SELECT *, sw.name AS shipping_way, s.name AS status, c."name" AS category
-            FROM items
-            INNER JOIN shipping_ways sw ON items.shipping_way_id = sw.shipping_way_id
-            INNER JOIN items_statuses s ON items.status_id = s.status_id
-            INNER JOIN categories c ON items.category_id = c.category_id`;
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, async( err, response ) => {
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] getAllItems ERROR', err);
-                    reject( err );
-                }else{
-                    const proms = [];
-                    for( let item of response.rows ) {
 
-                        const userProm = new Promise( async( resolve, reject ) => {
-                            const user = await usersService.getUser( item.seller_id )
-                                            .catch( err => reject( err ) );
-                            item.seller = user[0];
-                            resolve( item );
-                        });
-
-                        const itemOffersProm = new Promise( async( resolve, reject ) => {
-                            const offers = await this.getItemOffers( item.item_id )
-                                                .catch( err => reject( err ) );
-                            item.offers = offers;
-                            resolve( item );
-                        });
-
-                        const itemImagesProm = new Promise( async( resolve, reject ) => {
-                            const images = await this.getItemImages( item.item_id )
-                                                .catch( err => reject( err ) );
-                            item.images = images;
-                            resolve( item );
-                        
-                        });
-
-                        proms.push( itemOffersProm, itemImagesProm, userProm );
-                    }
-                    await Promise.all( proms );
-                    resolve( response.rows );
-                }
-
-            });
-        })
+        return prisma.Item.findMany({
+            include: {
+                seller: true,
+                shippingWay: true,
+                category: true,
+                status: true,
+                images: true,
+                offers: true,
+                orders: true,
+            }
+        });
     }
-    
-    getItem( id ){
-        const query = `SELECT *, sw.name AS shipping_way, s.name AS status, c."name" AS category
-            FROM items 
-            INNER JOIN shipping_ways sw ON items.shipping_way_id = sw.shipping_way_id
-            INNER JOIN items_statuses s ON items.status_id = s.status_id
-            INNER JOIN categories c ON items.category_id = c.category_id
-            where items.item_id = ${ id }`;
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, async( err, response ) => {
-                if( err ) {
-                    reject( err );
-                }else{
 
-                    if( response.rows.length === 0 ) {
-                        resolve( [] );
-                        return;
-                    }
-
-                    const userProm = new Promise( async( resolve, reject ) => {
-                        const user = await usersService.getUser( response.rows[0].seller_id )
-                                        .catch( err => reject( err ) );
-                        response.rows[0].seller = user[0];
-                        resolve( response.rows[0] );
-                    });
-
-                    const itemOffersProm = new Promise( async( resolve, reject ) => {
-                        const offers = await this.getItemOffers( response.rows[0].item_id )
-                                            .catch( err => reject( err ) );
-                        response.rows[0].offers = offers;
-                        resolve( response.rows[0] );
-                    });
-
-                    const itemImagesProm = new Promise( async( resolve, reject ) => {
-                        const images = await this.getItemImages( response.rows[0].item_id )
-                                            .catch( err => reject( err ) );
-                        response.rows[0].images = images;
-                        resolve( response.rows[0] );
-                    
-                    });
-
-                    await Promise.all( [ userProm, itemOffersProm, itemImagesProm ] );
-                    resolve( response.rows );
-                }
-            });
+    getItem( id ) {
+        return prisma.Item.findFirst({
+            where: {
+                item_id: id,
+            },
+            include: {
+                seller: true,
+                shippingWay: true,
+                category: true,
+                status: true,
+                images: true,
+                offers: true,
+                orders: true,
+            }
         });
     }
 
     createItem( item ) {
-        const query = `INSERT INTO items (seller_id, name, description, price, status_id, shipping_way_id, category_id, end_date) VALUES ('${ item.sellerId }', '${ item.name }', '${ item.description }', '${ item.price }', '${ item.statusId }', '${ item.shippingWay}', '${ item.categoryId }', ${new Date()})`;
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, ( err, response ) => {
-                
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] createItem ERROR', err);
-                    reject( err );
-                }else{
-                    resolve( response.rows );
-                }
-            });
-        });
+        return prisma.Item.create({
+            data: {
+                name:        item.name,
+                price:       item.price,
+                description: item.description,
+
+                seller: {
+                    connect: {
+                        rut: item.sellerId
+                    }
+                },
+                shippingWay: {
+                    connect: {
+                        shipping_way_id: item.shippingWayId
+                    }
+                },
+                status: {
+                    connect: {
+                        status_id: item.statusId,
+                    }
+                },
+                category: {
+                    connect: {
+                        category_id: item.categoryId
+                    }
+                },
+                ends_at: new Date(),
+            }
+        })
     }
 
     getItemImages( itemId ) {
-        const query = `SELECT * FROM items_images WHERE item_id='${ itemId }'`;
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, ( err, response ) => {
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] getItemsImages ERROR', err);
-                    reject( err );
-                }else{
-                    resolve( response.rows );
-                }
-            });
+        return prisma.ItemImages.findFirst({
+            where: {
+                item_id: itemId
+            }
         });
     }
 
     getItemsStatuses() {
-        return prisma.items_statuses.findMany();
+        return prisma.ItemStatuses.findMany();
     }
 
     getItemsCategories() {
-        return prisma.categories.findMany();
+        return prisma.Category.findMany();
     }
 
     getItemOffers( id ) {
-        return prisma.items_offers.findFirst({
+        return prisma.ItemOffers.findFirst({
             where: {
                 item_id: id,
             },
@@ -147,19 +96,22 @@ class ItemsService {
         });
     }
 
+    //TODO HANDLE SOCKET
     createItemOffer( id, offer ) {
-        return prisma.items_offers.create({});
-        const query = `INSERT INTO items_offers (item_id, user_id, amount) VALUES (${ id }, '${ offer.userId }', ${ offer.amount })`;
-        return new Promise( ( resolve,reject ) => {
-            db.query(query, ( err, response ) => {
-                if( err ) {
-                    console.log('[SERVICES-ITEMS] createItemOffer ERROR', err);
-                    reject( err );
-                }else{
-                    emitToAll('newOffer', offer);
-                    resolve( response.rows );
+        return prisma.ItemOffers.create({
+            data: {
+                amount: offer.amount,
+                seller: {
+                    connect: {
+                        rut: offer.userId
+                    }
+                },
+                item: {
+                    connect: {
+                        item_id: id,
+                    }
                 }
-            });
+            }
         });
     }
 }
