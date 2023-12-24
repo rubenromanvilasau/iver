@@ -11,3 +11,4 @@ export * from './search-box/SearchBox';
 export * from './carousel/Carousel';
 export * from './drop-zone/DropZone';
 export * from './sort-dropdown/SortDropdown';
+export * from './categories-card/CategoriesCard';

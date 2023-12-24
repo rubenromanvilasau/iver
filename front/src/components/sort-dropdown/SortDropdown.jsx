@@ -14,6 +14,10 @@ const sortOptions = [
     {
         label: 'Date',
         value: 'date'
+    },
+    {
+        label: 'Time left',
+        value: 'time-left'
     }
 ];
 
