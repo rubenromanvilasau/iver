@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { StatusService, CategoryService, ShippingWayService} from '../../../services/';
-import { DropZone } from '../../../components';
+import { DropZone, Timepicker } from '../../../components';
 import { Button, Checkbox, Datepicker, Dropdown, Label, TextInput, Textarea, Tooltip } from 'flowbite-react';
 import { showErrorToast } from '../../../utils/toasts';
 import { BsFillQuestionCircleFill } from "react-icons/bs";
+import PropTypes from 'prop-types';
 
 const statusService = new StatusService();
 const categoryService = new CategoryService();
@@ -14,32 +15,41 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const nameRef = useRef( null );
     const priceRef = useRef( null );
     const descriptionRef = useRef( null );
+    const timeRef = useRef( null );
     const [categories, setCategories] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [shippingWays, setShippingWays] = useState([]);
-    const [category, setCategory] = useState( null );
-    const [status, setStatus] = useState( null );
-    const [shippingWay, setShippingWay] = useState( null );
+    const [selectedCategory, setSelectedCategory] = useState( null );
+    const [selectedStatus, setSelectedStatus] = useState( null );
+    const [selectedShippingWay, setSelectedShippingWay] = useState( null );
+    const [selectedEndDate, setSelectedEndDate] = useState( null );
     const [isFormValid, setIsFormValid] = useState( false );
 
     const onClickPublish = async() => {
         const name = nameRef.current.value;
         const price = priceRef.current.value;
         const description = descriptionRef.current.value;
+        const time = timeRef.current.value;
 
-        if( !name || !price || !description || !category ) {
-            console.log(showErrorToast)
+        if( !name || !price || !description || !selectedCategory || !selectedStatus || !selectedShippingWay ) {
             showErrorToast( 'All fields are required' );
             return;
         }
+
+        console.log('timeRef', timeRef.current.value, typeof timeRef.current.value);
+
+
+        const [ hour, minutes ] = time.split(':');
+        selectedEndDate.setHours( parseInt( hour ), parseInt( minutes ), 0, 0 );
 
         const item = {
             name,
             price: Number( price ),
             description,
-            categoryId: category.category_id,
-            statusId: status.status_id,
-            shippingWayId: shippingWay.shipping_way_id,
+            categoryId: selectedCategory.category_id,
+            statusId: selectedStatus.status_id,
+            shippingWayId: selectedShippingWay.shipping_way_id,
+            endsAt: selectedEndDate,
         };
 
         handlePublishItem( item );
@@ -47,22 +57,10 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     }
 
     useEffect(() => {
-        if( nameRef.current.value && Number( priceRef.current.value ) && descriptionRef.current.value && category ) {
+        if( nameRef.current.value && Number( priceRef.current.value ) && descriptionRef.current.value && selectedCategory ) {
             setIsFormValid( true );
         }
-    },[nameRef, priceRef, descriptionRef, category, status])
-
-    const fetchCategories = async() => {
-        const categories = await categoryService.getAll();
-        setCategories( categories );
-    }
-
-    const fetchStatuses = async() => {
-        const statuses = await statusService.getAll();
-        setStatuses( statuses );
-    }
-
-
+    },[nameRef, priceRef, descriptionRef, selectedCategory, selectedStatus])
 
     useEffect(() => {
 
@@ -142,12 +140,19 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                             <Tooltip content="Limit date-time for users to offer">
                                 <BsFillQuestionCircleFill className='text-gray-500 cursor-pointer' size={ 20 }/>
                             </Tooltip>
-                        </div>      
-                        <Datepicker
-                            className='min-w-16'
-                            minDate={ new Date() }
-                            name='date'
-                        />
+                        </div>   
+                        <div className='flex row items-center gap-2'>
+                            <Datepicker
+                                className='min-w-16'
+                                minDate={ new Date() }
+                                name='date'
+                                autoHide={ false }
+                                onSelectedDateChanged={ (newDate) => { setSelectedEndDate( newDate ) }}
+                            />
+                            <Timepicker
+                                timeRef={ timeRef }
+                            />
+                        </div>   
                     </div>
                     <div className="max-w-md">
                         <div className="mb-2 block">
@@ -158,7 +163,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                                 <Dropdown.Item
                                     key={ category.category_id }
                                     value={ category.category_id }
-                                    onClick={ () => setCategory( category ) }
+                                    onClick={ () => setSelectedCategory( category ) }
                                 >
                                     { category.name }
                                 </Dropdown.Item>
@@ -178,7 +183,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                             <Dropdown.Item
                                 key={ status.status_id }
                                 value={ status.status_id }
-                                onClick={ () => setStatus( status ) }
+                                onClick={ () => setSelectedStatus( status ) }
                             >
                                 { status.name }
                             </Dropdown.Item>
@@ -196,7 +201,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                                 <Dropdown.Item
                                     key={ shippingWay.shipping_way_id }
                                     value={ shippingWay.shipping_way_id }
-                                    onClick={ () => setShippingWay( shippingWay ) }
+                                    onClick={ () => setSelectedShippingWay( shippingWay ) }
                                 >
                                     { shippingWay.name }
                                 </Dropdown.Item>
@@ -224,5 +229,10 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             </div>
         </div>
     )
+};
+
+PublishItemForm.propTypes = {
+    handlePublishItem: PropTypes.func.isRequired,
+    setIsLoading: PropTypes.func.isRequired,
 };
 

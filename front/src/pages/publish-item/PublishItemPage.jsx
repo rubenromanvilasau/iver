@@ -16,16 +16,20 @@ export const PublishItemPage = () => {
     const [isLoading, setIsLoading] = useState( false );
     const [publishSuccess, setPublishSuccess] = useState( null )
 
-    const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWay } ) => {
+    const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWayId, endsAt } ) => {
+
+        console.log('item', categoryId, statusId, shippingWayId );
 
         const item = {
             name,
             price,
             description,
-            categoryId: 1,
-            sellerId: user.rut,
-            statusId: 1,
-            shippingWayId: 1,
+            categoryId,
+            // sellerId: user.rut,
+            sellerId: '20594941-0',
+            statusId,
+            shippingWayId,
+            endsAt,
         };
         
         console.log('item',item)

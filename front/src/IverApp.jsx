@@ -22,9 +22,9 @@ export const IverApp = () => {
                 <Route 
                     path='/publish' 
                     element={ 
-                        <ProtectedRoute>
+                        // <ProtectedRoute>
                             <PublishItemPage/>
-                        </ProtectedRoute> 
+                        // </ProtectedRoute> 
                     }
                 />
             </Routes>

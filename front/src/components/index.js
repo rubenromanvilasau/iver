@@ -13,3 +13,4 @@ export * from './drop-zone/DropZone';
 export * from './sort-dropdown/SortDropdown';
 export * from './categories-card/CategoriesCard';
 export * from './paginator/Paginator';
+export * from './timepicker/Timepicker';
