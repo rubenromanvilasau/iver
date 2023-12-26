@@ -1,13 +1,45 @@
-const db = require('../../config/db');
-const UsersService = require('./users.service');
-const usersService = new UsersService();
-const { socketIo, io, emitToAll } = require('../../websocket');
+const { socketIo, io, emitToAll } = require('../../websocket.js');
 const { prisma } = require('../db.js'); 
 class ItemsService {
 
-    getAllItems(){
+    getAll( filters, page = 1, pageSize = 10 ) {
+
+        const { category, status, keyword } = filters;
+
+        const where = {};
+
+        if( category ) {
+            where.category = {
+                category_id: category
+            };
+        }
+
+        if( status ) {
+            where.status = {
+                status_id: status
+            };
+        }
+
+        if( keyword ) {
+            where.OR = [
+                {  
+                    description: {
+                        contains: keyword,
+                        // mode: 'insensitive'
+                    },
+                },
+                {
+                    name: {
+                        contains: keyword,
+                        // mode: 'insensitive'
+                    
+                    }
+                }
+            ];
+        }
 
         return prisma.Item.findMany({
+            where,
             include: {
                 seller: true,
                 shippingWay: true,
@@ -16,11 +48,13 @@ class ItemsService {
                 images: true,
                 offers: true,
                 orders: true,
-            }
+            },
+            skip: ( page - 1 ) * pageSize,
+            take: pageSize,
         });
     }
 
-    getItem( id ) {
+    getById( id ) {
         return prisma.Item.findFirst({
             where: {
                 item_id: id,
@@ -37,7 +71,7 @@ class ItemsService {
         });
     }
 
-    createItem( item ) {
+    create( item ) {
         return prisma.Item.create({
             data: {
                 name:        item.name,
@@ -77,14 +111,6 @@ class ItemsService {
         });
     }
 
-    getItemsStatuses() {
-        return prisma.ItemStatuses.findMany();
-    }
-
-    getItemsCategories() {
-        return prisma.Category.findMany();
-    }
-
     getItemOffers( id ) {
         return prisma.ItemOffers.findFirst({
             where: {
@@ -97,7 +123,7 @@ class ItemsService {
     }
 
     //TODO HANDLE SOCKET
-    createItemOffer( id, offer ) {
+    createOffer( id, offer ) {
         return prisma.ItemOffers.create({
             data: {
                 amount: offer.amount,

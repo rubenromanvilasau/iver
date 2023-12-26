@@ -1,39 +1,31 @@
 
-import axios from 'axios'; const apiUrl = 'http://localhost:4000/api';
+import axios from 'axios'; 
 
 export default class ItemService {
 
+    constructor() {
+        this.url = `http://localhost:4000/api/items/`;
+    }
+
     getAllItems = () => {
-        return axios.get( apiUrl +'/items' )
+        return axios.get( this.url )
             .then( response => response.data )
             .catch( err => { throw err } );
     }
     
     getItem = ( id ) => {
-        return axios.get( apiUrl + `/items/${ id }` )
+        return axios.get( this.url + id  )
             .then( response => response.data )
             .catch( err => { throw err } );
     }
     
     createItem = ( item ) => {
-        return axios.post( apiUrl + '/items/create', item )
+        return axios.post( this.url + 'create', item )
             .catch( err => { throw err } );
     }
-    
-    getItemsStatuses = () => {
-        return axios.get( apiUrl + '/items/statuses' )
-            .then( response => response.data )
-            .catch( err => { throw err } );
-    }
-    
-    getItemsCategories = () => {
-        return axios.get( apiUrl + '/items/categories' )
-            .then( response => response.data )
-            .catch( err => { throw err } );
-    }
-    
+
     createOffer = ( id, itemOffer ) => {
-        return axios.post( apiUrl + `/items/offer/${ id }`, itemOffer )
+        return axios.post( this.url + `offer/${ id }`, itemOffer )
             .catch( err => { throw err } );
     }
 

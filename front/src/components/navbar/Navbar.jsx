@@ -48,7 +48,7 @@ export const Navbar = () => {
                     </div>
                   </div>
                 : <Link to={'/login'}>
-                    <div className='flex flex-row items-center p-2 rounded-md cursor-pointer transition duration-500 gap-2'>
+                    <div className='flex flex-row items-center p-2 rounded-md cursor-pointer transition duration-500 gap-2 text-white'>
                         <img className='w-8' src="/icons/account.svg" alt="" />
                         Sign in
                     </div>

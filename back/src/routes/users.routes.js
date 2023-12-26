@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllUsers, register, login } = require('../controllers/users.controller');
+const UserController = require('../controllers/user.controller');
+const userController = new UserController();
 
 const test = ( req, res ) => {
     res.send('testing');
 }
 
-router.get('/', test);
-router.get('/all', getAllUsers);
-router.post('/register', register);
-router.post('/login', login);
+router.get('/', userController.getAll);
+router.get('/:id', userController.getById);
+router.post('/register', userController.register);
+router.post('/login', userController.login);
 router.delete('/', test);
 router.put('/', test);
 router.patch('/', test);

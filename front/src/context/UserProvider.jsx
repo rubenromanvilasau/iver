@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { UserContext } from "./UserContext";
-import { login } from "../services/users.service";
+import { UserService } from "../services/";
 import { useLocation, useNavigate } from "react-router-dom";
+
+const userService = new UserService();
 
 export const UserProvider = ({ children }) => {
     const navigate = useNavigate();
@@ -10,7 +12,7 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState({});
 
     const handleLogin = ( email, password ) => {
-        login( email, password )
+        userService.login( email, password )
             .then( async(response) => {
                 if( response.status === 200 ) {
                     console.log('LOGIN SUCCESSFUL', response.data);

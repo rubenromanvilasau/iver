@@ -10,6 +10,7 @@ export const IverApp = () => {
             <Navbar/>
             <Routes>
                 <Route path='/' element={ <HomePage/> }/>
+                <Route path='/search/:query' element={ <SearchResultsPage/> }/>
                 <Route path='/login' element={ <LoginPage/> }/>
                 <Route path='/item/:id' element={ <ItemPage/> }/>
                 <Route path='/my-orders' 
@@ -26,7 +27,6 @@ export const IverApp = () => {
                         </ProtectedRoute> 
                     }
                 />
-                <Route path='/search/:query' element={ <SearchResultsPage/> }/>
             </Routes>
             {/* <Footer/> */}
         </UserProvider>

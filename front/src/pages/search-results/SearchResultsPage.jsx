@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { CategoriesCard } from "../../components/index";
+import { ItemService } from "../../services";
+const itemService = new ItemService();
 
 export const SearchResultsPage = () => {
     let { query } = useParams();
@@ -8,15 +10,15 @@ export const SearchResultsPage = () => {
     let [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        console.log('searchParams', searchParams);
-    
+        console.log('searchParams', searchParams.get('keywords'	));
+        // console.log('query', query);
       return () => {
       }
     }, [searchParams])
     
     return (
         <div className="container mx-auto mt-4">
-            <h1 className="text-2xl text-text-primary">Results for: <span className="text-text-secondary text-xl">{ query }</span></h1>
+            <h1 className="text-2xl text-text-primary">Results for: <span className="text-text-secondary text-xl">{ searchParams.get('keywords'	) }</span></h1>
             <div className="flex flex-row gap-4 w-full mt-4">
                 <CategoriesCard/>
                 <ul>

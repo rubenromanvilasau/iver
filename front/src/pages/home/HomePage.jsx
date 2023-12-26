@@ -1,12 +1,22 @@
 import './home-page.scss';
-import { Banner, ItemCard, Loading, SortDropdown } from "../../components";
+import { Banner, ItemCard, Loading, Paginator, SortDropdown } from "../../components";
 import { useFetchItems } from "../../hooks";
-
+import { useEffect, useState } from 'react';
 
 export const HomePage = () => {
 
     const { items, isLoading, error } = useFetchItems();
-    console.log( 'items', items)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(10);
+    console.log( 'items', items);
+
+    const onPageChange = ( pageNumber ) => setCurrentPage( pageNumber );
+
+    useEffect(() => {
+    
+    
+    }, [currentPage])
+    
 
     if( isLoading ) {
         return <Loading/>
@@ -27,7 +37,13 @@ export const HomePage = () => {
                         : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
-
+            <div className='mt-4'>
+                <Paginator
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={onPageChange}
+                />
+            </div>
         </div>
     )
 }

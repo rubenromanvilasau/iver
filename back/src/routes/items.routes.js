@@ -2,15 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../config/db');
 
-const { 
-    getAllItems, 
-    getItem, 
-    createItem, 
-    getItemsStatuses,
-    getItemsCategories,
-    createItemOffer,
-    getItemOffers
-} = require('../controllers/items.controller');
+const ItemController = require('../controllers/item.controller');
+const itemController = new ItemController();
 
 const test = async( req, res ) => {
     db.query('select * from users', ( err, response ) => {
@@ -19,14 +12,11 @@ const test = async( req, res ) => {
     });
 }
 
-router.get('/', getAllItems);
-router.get('/statuses', getItemsStatuses);
-router.get('/categories', getItemsCategories);
-router.get('/:id/offers', getItemOffers);
-router.get('/:id', getItem);
-router.post('/offer/:id', createItemOffer);
-router.post('/', test);
-router.post('/create', createItem);
+router.get('/', itemController.getAll);
+router.get('/:id/offers', itemController.getOffers);
+router.get('/:id', itemController.getById);
+router.post('/offer/:id', itemController.createOffer);
+router.post('/create', itemController.create);
 router.delete('/', test);
 router.put('/', test);
 router.patch('/', test);

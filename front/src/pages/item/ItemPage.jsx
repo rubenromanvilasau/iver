@@ -52,6 +52,7 @@ export const ItemPage = () => {
             socket.off('connect');
             socket.off('viewersAmount');
             socket.off('newOffer');
+            socket.disconnect();
         }
     }, []);
 
@@ -62,7 +63,6 @@ export const ItemPage = () => {
             setLastOffer( item.offers?.length > 0 ? item.offers[0] : { amount: 0} );
             setCurrentImage( item.images?.length > 0 ? item.images[0] : {} );
         }
-        console.log('loading', isLoading)
     }, [item,]);
 
 
@@ -95,10 +95,10 @@ export const ItemPage = () => {
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-row bg-white w-3/5 box-border p-4 rounded-md shadow-md">
+                    <div className="flex flex-row gap-4 bg-white w-3/5 box-border p-4 rounded-md shadow-md">
                         <div className="flex flex-col w-1/2 overflow-y-hidden">
-                            <img className='max-h-sm min-h-sm rounded-md' src={ currentImage.image_url } alt={`${item.name}-image`} />
-                            <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/>
+                            <img className='max-h-sm min-h-sm rounded-md' src={ currentImage.image_url || '/img/no-image.png' } alt={`${item.name}-image`} />
+                            {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }
                         </div>
                         <section className="w-3/6 flex flex-col justify-between gap-12">
                             <ItemHeader item={item} viewersAmount={viewersAmount}/>
@@ -111,7 +111,7 @@ export const ItemPage = () => {
                             itemId={item.item_id}
                         />
                     </div>
-                    <CurrentOffers item={item}/>
+                    { user.rut === item.seller.rut && <CurrentOffers item={item}/> }
                 </>
             }
             <ToastContainer/>

@@ -1,10 +1,12 @@
 import { useContext, useRef, useState } from 'react';
 import '../login-page.scss';
-import { register } from '../../../services/users.service';
+import { UserService } from '../../../services/index';  
 import { UserContext } from '../../../context/UserContext';
 import { Button, TextInput } from 'flowbite-react';
 // import { useNavigate } from 'react-router-dom';
 import { HiMail, HiLockClosed, HiUser, HiPhone } from 'react-icons/hi';
+
+const userService = new UserService();
 
 export const SignUpForm = () => {
 
@@ -27,15 +29,15 @@ export const SignUpForm = () => {
         const password = passwordRef.current.value;
         const email = emailRef.current.value;
         const rut = rutRef.current.value;
-        const cellphone = cellphoneRef.current.value;
+        const phone = cellphoneRef.current.value;
         const name = nameRef.current.value;
-        const lastName = lastNameRef.current.value;
+        const last_name = lastNameRef.current.value;
         const username = usernameRef.current.value;
         
         //TODO SHOW ERRORS
-        if( !email || !password || !rut || !cellphone || !name || !lastName || !username ) return;
+        if( !email || !password || !rut || !phone || !name || !last_name || !username ) return;
         
-        const response = await register( { email, password, rut, cellphone, name, lastName, username } );
+        const response = await userService.register( { email, password, rut, phone, name, last_name, username } );
         if( response.status === 409 ) {
             console.log('response', response);
             // TODO SHOW ERROR

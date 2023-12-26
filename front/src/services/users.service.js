@@ -1,11 +1,16 @@
 import axios from 'axios';
-const apiUrl = 'http://localhost:4000/api';
+export default class UserService {
 
-export const login = ( email, password ) => {
-    return axios.post( apiUrl + '/users/login', { email, password } );
-};
-
-export const register = ( data ) => {
-    console.log('data', data)
-    return axios.post( apiUrl + '/users/register', data );
-};
+    constructor() {
+        this.url = `http://localhost:4000/api/users`;
+    }
+    
+    login( email, password ) {
+        return axios.post( this.url + '/login', { email, password } );
+    }
+    
+    register( data ) {
+        console.log('data', data)
+        return axios.post( this.url + '/register', data );
+    }
+}

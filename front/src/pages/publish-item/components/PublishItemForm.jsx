@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import ItemService from '../../../services/items.service';
+import { StatusService, CategoryService, ShippingWayService} from '../../../services/';
 import { DropZone } from '../../../components';
 import { Button, Checkbox, Datepicker, Dropdown, Label, TextInput, Textarea, Tooltip } from 'flowbite-react';
 import { showErrorToast } from '../../../utils/toasts';
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 
-const itemService = new ItemService();
+const statusService = new StatusService();
+const categoryService = new CategoryService();
+const shippingWayService = new ShippingWayService();
 
 export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
@@ -14,8 +16,10 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const descriptionRef = useRef( null );
     const [categories, setCategories] = useState([]);
     const [statuses, setStatuses] = useState([]);
+    const [shippingWays, setShippingWays] = useState([]);
     const [category, setCategory] = useState( null );
     const [status, setStatus] = useState( null );
+    const [shippingWay, setShippingWay] = useState( null );
     const [isFormValid, setIsFormValid] = useState( false );
 
     const onClickPublish = async() => {
@@ -35,7 +39,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             description,
             categoryId: category.category_id,
             statusId: status.status_id,
-            shippingWayId: 1,
+            shippingWayId: shippingWay.shipping_way_id,
         };
 
         handlePublishItem( item );
@@ -48,17 +52,46 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
         }
     },[nameRef, priceRef, descriptionRef, category, status])
 
+    const fetchCategories = async() => {
+        const categories = await categoryService.getAll();
+        setCategories( categories );
+    }
+
+    const fetchStatuses = async() => {
+        const statuses = await statusService.getAll();
+        setStatuses( statuses );
+    }
+
+
+
     useEffect(() => {
-        setIsLoading( true );
-        itemService.getItemsCategories().then( (res ) => {
-            setCategories( res );
-            itemService.getItemsStatuses().then( (res) => {
-                setStatuses( res );
+
+        const fetchParameters = async() => {
+            try {
+                const categories = await categoryService.getAll();
+                setCategories( categories );
+                
+                const statuses = await statusService.getAll();
+                setStatuses( statuses );
+    
+                const shippingWays = await shippingWayService.getAll();
+                setShippingWays( shippingWays );
+                
                 setIsLoading( false );
-            })
-        });
+            }catch( err ) {
+                console.log( '[useEffect] fetchParameters ERROR', err );
+
+                //TODO REDIRECCIONAR A PÁGINA DE ERROR
+                setIsLoading( false );
+            }
+        }
+
+        fetchParameters();
+
         return () => {
             setCategories([]);
+            setCategories([]);
+            setShippingWays([]);
         }
     }, [])
 
@@ -158,14 +191,14 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                                 <BsFillQuestionCircleFill className='text-gray-500 cursor-pointer' size={ 20 }/>
                             </Tooltip>
                         </div>                
-                        <Dropdown label='Category'>
-                            { categories.map( category => (
+                        <Dropdown label='Shipping way'>
+                            { shippingWays.map( shippingWay => (
                                 <Dropdown.Item
-                                    key={ category.category_id }
-                                    value={ category.category_id }
-                                    onClick={ () => setCategory( category ) }
+                                    key={ shippingWay.shipping_way_id }
+                                    value={ shippingWay.shipping_way_id }
+                                    onClick={ () => setShippingWay( shippingWay ) }
                                 >
-                                    { category.name }
+                                    { shippingWay.name }
                                 </Dropdown.Item>
                             ))}
                         </Dropdown>
@@ -175,7 +208,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         <Label htmlFor="accept" className="flex">
                             I agree with the&nbsp;
                             <a href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
-                            terms and conditions
+                                terms and conditions
                             </a>
                         </Label>
                     </div>
