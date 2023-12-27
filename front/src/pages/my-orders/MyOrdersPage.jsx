@@ -1,5 +1,4 @@
 import { convertToCurrency } from '../../utils';
-import './my-orders-page.scss';
 import { Button, Table } from 'flowbite-react';
 
 export const MyOrdersPage = () => {

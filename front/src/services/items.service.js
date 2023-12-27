@@ -7,8 +7,9 @@ export default class ItemService {
         this.url = `http://localhost:4000/api/items/`;
     }
 
-    getAllItems = () => {
-        return axios.get( this.url )
+    getAllItems = ( filter ) => {
+        console.log('url', this.url + ( filter ? filter : '' ))
+        return axios.get( this.url + ( filter ? filter : '' ) )
             .then( response => response.data )
             .catch( err => { throw err } );
     }

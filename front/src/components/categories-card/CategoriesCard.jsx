@@ -5,7 +5,7 @@ export const CategoriesCard = () => {
     
 
     return (
-        <div className="bg-white rounded-md p-4">
+        <div className="bg-white rounded-md p-4 h-fit">
             <ul>
                 <li 
                     className="text-text-primary"

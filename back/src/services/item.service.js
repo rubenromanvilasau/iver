@@ -4,7 +4,7 @@ class ItemsService {
 
     getAll( filters, page = 1, pageSize = 10 ) {
 
-        const { category, status, keyword } = filters;
+        const { category, status, keyword, orderBy, direction } = filters;
 
         const where = {};
 
@@ -25,18 +25,20 @@ class ItemsService {
                 {  
                     description: {
                         contains: keyword,
-                        // mode: 'insensitive'
+                        mode: 'insensitive'
                     },
                 },
                 {
                     name: {
                         contains: keyword,
-                        // mode: 'insensitive'
+                        mode: 'insensitive'
                     
                     }
                 }
             ];
         }
+
+        const orderConfig = orderBy && direction ? { [orderBy]: direction } : {};
 
         return prisma.Item.findMany({
             where,
@@ -49,6 +51,7 @@ class ItemsService {
                 offers: true,
                 orders: true,
             },
+            orderBy: orderConfig,
             skip: ( page - 1 ) * pageSize,
             take: pageSize,
         });
@@ -98,7 +101,7 @@ class ItemsService {
                         category_id: item.categoryId
                     }
                 },
-                ends_at: new Date(),
+                ends_at: item.endsAt,
             }
         })
     }

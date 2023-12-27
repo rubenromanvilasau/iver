@@ -1,21 +1,4 @@
 
-.input-wrapper {
-    position: relative;
-
-    .input-icon {
-        color: #191919;
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        right: 12px;
-        left: unset;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
-
-}
-
 .off{
     background: #00acb5;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #00acb5, #84d8d2);  /* Chrome 10-25, Safari 5.1-6 */

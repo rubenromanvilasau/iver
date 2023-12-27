@@ -1,30 +1,10 @@
 import { Dropdown, Tooltip } from "flowbite-react";
-import { useState } from "react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import PropTypes from 'prop-types';
 
-const sortOptions = [
-    {
-        label: 'Price',
-        value: 'price'
-    },
-    {
-        label: 'Name',
-        value: 'name'
-    },
-    {
-        label: 'Date',
-        value: 'date'
-    },
-    {
-        label: 'Time left',
-        value: 'time-left'
-    }
-];
 
-export const SortDropdown = () => {
 
-    const [currentSort, setCurrentSort] = useState( null );
-    const [isAscendant, setIsAscendant] = useState( false );
+export const SortDropdown = ({ sortOptions, currentSort, isAscendant, onChangeSort, onChangeDirection }) => {
 
     return (
         <>
@@ -32,7 +12,7 @@ export const SortDropdown = () => {
                 { sortOptions.map( option => (
                     <Dropdown.Item 
                         key={option.value}
-                        onClick={ () => setCurrentSort( option ) }
+                        onClick={ () => onChangeSort( option ) }
                     >
                         { option.label }
                     </Dropdown.Item>
@@ -40,7 +20,7 @@ export const SortDropdown = () => {
             </Dropdown>
             <div 
                 className='flex items-center justify-center ml-1 cursor-pointer'
-                onClick={ () => setIsAscendant( !isAscendant ) }
+                onClick={ () => onChangeDirection( !isAscendant ) }
             >
                 <Tooltip content={ isAscendant ? 'Ascendant' : 'Descendant' }>
                     { isAscendant 
@@ -51,4 +31,12 @@ export const SortDropdown = () => {
             </div>
         </>
     )
+};
+
+SortDropdown.propTypes = {
+    sortOptions: PropTypes.array.isRequired,
+    currentSort: PropTypes.object,
+    isAscendant: PropTypes.bool.isRequired,
+    onChangeSort: PropTypes.func.isRequired,
+    onChangeDirection: PropTypes.func.isRequired
 };

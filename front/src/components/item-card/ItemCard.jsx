@@ -1,39 +1,10 @@
 import { Link } from 'react-router-dom';
 import './item-cards.scss';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { Button } from 'flowbite-react';
 import { convertToCurrency } from '../../utils/convert-to-price';
-import { HiArrowRight } from 'react-icons/hi';
+import { CountdownTimer } from '../countdown-timer/CountdownTimer';
 
-export const ItemCard = ({ item_id, name, images, price, offers }) => {
-
-  const [hours, setHours] = useState(1);
-  const [minutes, setMinutes] = useState(5);
-  const [seconds, setSeconds] = useState(54);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-      } else {
-        if (minutes > 0) {
-          setMinutes(minutes - 1);
-          setSeconds(59);
-        } else {
-          if (hours > 0) {
-            setHours(hours - 1);
-            setMinutes(59);
-            setSeconds(59);
-          } else {
-            clearInterval(interval);
-          }
-        }
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [hours, minutes, seconds]);
+export const ItemCard = ({ item_id, name, images, price, offers, ends_at }) => {
 
     return (
         <Link to={ `/item/${item_id}` }>
@@ -52,24 +23,20 @@ export const ItemCard = ({ item_id, name, images, price, offers }) => {
                         </div>                                     
                         <div>
                             <span className='text-black'>Time left:</span>
-                            <span className='font-light text-black'> {`${hours}h:${minutes}m:${seconds}s`}</span>
+                            <CountdownTimer endDate={ ends_at }/>
                         </div>
                     </div>
                 </section>
-                <Button>
-                  Make an offer
-                  <HiArrowRight className='ml-1'/>
-                </Button>
             </div>
         </Link>        
     )
 };
 
 ItemCard.propTypes = {
-    name: PropTypes.string,
-    images: PropTypes.array,
-    price: PropTypes.number,
-    item_id: PropTypes.number,
-    offers: PropTypes.array,
-    user: PropTypes.object,
+    name: PropTypes.string.isRequired,
+    images: PropTypes.array.isRequired,
+    price: PropTypes.number.isRequired,
+    item_id: PropTypes.number.isRequired,
+    offers: PropTypes.array.isRequired,
+    ends_at: PropTypes.string.isRequired,
 };

@@ -3,19 +3,43 @@ import { Banner, ItemCard, Loading, Paginator, SortDropdown } from "../../compon
 import { useFetchItems } from "../../hooks";
 import { useEffect, useState } from 'react';
 
+const sortOptions = [
+    {
+        label: 'Price',
+        value: 'price'
+    },
+    {
+        label: 'Name',
+        value: 'name'
+    },
+    {
+        label: 'Date',
+        value: 'ends_at'
+    },
+];
+
 export const HomePage = () => {
 
-    const { items, isLoading, error } = useFetchItems();
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(10);
-    console.log( 'items', items);
+    const [filter, setFilter] = useState( '' );
+    const { items, isLoading } = useFetchItems({ pageNumber: currentPage, filter, });
+    const [currentSortOption, setCurrentSortOption] = useState( null );
+    const [isAscendant, setIsAscendant] = useState( false );
 
+
+    const onChangeDirection = ( isAscendant ) => { setIsAscendant( isAscendant ) };
+    const onChangeSort = ( sortOption ) => { setCurrentSortOption( sortOption ) };
     const onPageChange = ( pageNumber ) => setCurrentPage( pageNumber );
 
     useEffect(() => {
-    
-    
-    }, [currentPage])
+        if( !currentSortOption ) return;
+
+        const newFilter = `?page=${currentPage}&orderBy=${currentSortOption.value}&direction=${isAscendant ? 'asc' : 'desc'}`;
+
+        setFilter( newFilter );
+    }, [isAscendant, currentSortOption])
+
+
     
 
     if( isLoading ) {
@@ -28,19 +52,24 @@ export const HomePage = () => {
                 <Banner/>
             </div>
             <div className='w-full flex justify-end mt-4'>
-                <SortDropdown/>
+                <SortDropdown
+                    sortOptions={ sortOptions }
+                    currentSort={ currentSortOption }
+                    isAscendant={ isAscendant }
+                    onChangeSort={ onChangeSort }
+                    onChangeDirection={ onChangeDirection }
+                />
             </div>
             <section className='mt-2 flex flex-row content-center flex-wrap gap-4 w-11/12'>
-                {
-                    isLoading 
-                        ? <Loading/> 
-                        : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
+                { isLoading 
+                    ? <Loading/> 
+                    : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
             <div className='mt-4'>
                 <Paginator
                     currentPage={currentPage}
-                    totalPages={totalPages}
+                    totalPages={10}
                     onPageChange={onPageChange}
                 />
             </div>

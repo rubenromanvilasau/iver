@@ -17,7 +17,7 @@ export const LoginPage = () => {
                 <section className="flex flex-row justify-center">
                     <button
                         onClick={ () => { onChangeSignIn( true ) } }
-                        className={ `w-1/2 px-8 py-4 box-border transition rounded-md text-base off ${ isLoginSelected ? 'bg-primary' : 'off'}`}
+                        className={ `w-1/2 px-8 py-4 box-border transition rounded-md text-base ${ isLoginSelected ? 'bg-primary' : 'off'}`}
                     >
                         Login
                     </button>

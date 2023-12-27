@@ -14,3 +14,4 @@ export * from './sort-dropdown/SortDropdown';
 export * from './categories-card/CategoriesCard';
 export * from './paginator/Paginator';
 export * from './timepicker/Timepicker';
+export * from './countdown-timer/CountdownTimer';

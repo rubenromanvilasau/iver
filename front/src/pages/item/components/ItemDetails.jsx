@@ -1,10 +1,13 @@
+import { FaUser } from "react-icons/fa";
+import PropTypes from 'prop-types';
 
 export const ItemDetails = ({ item }) => {
     return (
         <div className="">
             <p className='my-2 text-text-secondary mb-4'>{ item.description }</p>
             <div className='flex flex-row items-center gap-1 my-2'>
-                <img className='w-6' src="/icons/status.svg" alt="price icon" />
+                {/* <img className='w-6' src="/icons/status.svg" alt="price icon" /> */}
+                <FaUser className='text-2xl'/>
                 <span className='font-semibold'>Sold by: </span>
                 <span>{ item.seller.name }</span>
             </div>
@@ -20,4 +23,8 @@ export const ItemDetails = ({ item }) => {
             </div>
         </div>
     )
+};
+
+ItemDetails.propTypes = {
+    item: PropTypes.object.isRequired,
 };

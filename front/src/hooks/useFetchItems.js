@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import ItemService from "../services/items.service";
 const itemService = new ItemService();
 
-export const useFetchItems = () => {
+//TODO HANDLE FILTERS
+export const useFetchItems = ({ pageNumber = 1, filter = '' }) => {
     
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState( true );
     const [error, setError] = useState( null );
 
-    const fetchItems = () => {
-        itemService.getAllItems()
+    const fetchItems = ( filter ) => {
+        setIsLoading( true );
+        itemService.getAllItems( filter )
             .then( data => {
+                console.log('data', data)
                 setItems( data );
                 setIsLoading( false );
             })
@@ -20,8 +23,20 @@ export const useFetchItems = () => {
             });
     }
 
+    useEffect( () => {
+        console.log('filter changed', filter);
+        if( filter ) {
+            fetchItems( filter );
+        }
+    }, [filter]);
+
     useEffect(() => {
-        fetchItems();
+        const pageFilter = `?page=${pageNumber}`;
+        fetchItems( pageFilter );
+    }, [pageNumber]);
+
+    useEffect(() => {
+        fetchItems( filter );
     }, []);
 
     return {

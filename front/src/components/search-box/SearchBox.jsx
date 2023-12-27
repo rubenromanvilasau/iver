@@ -1,20 +1,17 @@
 import { useState } from 'react';
 import './search-box.scss';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export const SearchBox = () => {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
 
     const [words, setWords] = useState( '' );
 
     const onClickSearch = () => {
         if( !words ) return;
-        
-        const encodedWords = encodeURIComponent( words );
-        
-        navigate(`/search/keywords:${words}`);
+                
+        navigate(`/search/${ words }`);
     }
 
     const onChangeSearch = ( e ) => {

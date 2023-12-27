@@ -18,8 +18,6 @@ export const PublishItemPage = () => {
 
     const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWayId, endsAt } ) => {
 
-        console.log('item', categoryId, statusId, shippingWayId );
-
         const item = {
             name,
             price,
@@ -38,8 +36,8 @@ export const PublishItemPage = () => {
         const response = await itemService.createItem( item )
                             .catch( err => {
                                 console.log( 'ERROR',err );
-                                setIsLoading( false );
                                 setPublishSuccess( 'error' );
+                                setIsLoading( false );
                                 return;
                             });
         

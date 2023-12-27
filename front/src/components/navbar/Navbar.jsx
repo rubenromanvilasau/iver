@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import './navbar.scss';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Notifications, SearchBox } from '../index';
 import { Avatar, Dropdown } from 'flowbite-react';
@@ -28,10 +27,12 @@ export const Navbar = () => {
                             arrowIcon={false}
                             inline
                         >
-                            <Dropdown.Header>
-                            <span className="block text-sm text-gray">{ user.name }</span>
-                            <span className="block truncate text-sm font-medium">{ user.email }</span>
-                            </Dropdown.Header>
+                            <Link to={'my-profile'} className='text-black'>
+                                <Dropdown.Header>
+                                    <span className="block text-sm text-gray">{ user.name }</span>
+                                    <span className="block truncate text-sm font-medium">{ user.email }</span>
+                                </Dropdown.Header>
+                            </Link>
                             <Link to={'my-orders'} className='text-black'>
                                 <Dropdown.Item>
                                     My orders

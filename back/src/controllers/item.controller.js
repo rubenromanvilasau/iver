@@ -5,15 +5,13 @@ class ItemController {
 
     async getAll( req, res ) {
         try {
+            const { category, status, keyword, page, pageSize, orderBy, direction } = req.query;
 
-            const { category, status, keyword, page, pageSize } = req.query;
-
-            const filters = { category, status, keyword };
+            const filters = { category, status, keyword, orderBy, direction };
 
             console.log('filters', filters);
 
             const items = await itemsService.getAll(filters, page, pageSize);
-            console.log('items', items);
             res.status(200).send( items );
         } catch ( err ) {
             console.log('[CONTROLLERS-ITEMS] getAllItems ERROR', err);
