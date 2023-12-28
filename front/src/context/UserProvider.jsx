@@ -12,19 +12,25 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState({});
 
     const handleLogin = ( email, password ) => {
-        userService.login( email, password )
-            .then( async(response) => {
-                if( response.status === 200 ) {
-                    console.log('LOGIN SUCCESSFUL', response.data);
-                    localStorage.setItem('token', response.data.token);
-                    setUser( response.data );
-                    
-                    const origin = location.state?.from?.pathname || '/';
-                    navigate( origin );
-                }else{
-                    console.log('LOGIN FAILED', response);
-                }
-            });
+        return new Promise( ( resolve ,reject ) => {
+            userService.login( email, password )
+                .then( async(response) => {
+                    if( response.status === 200 ) {
+                        console.log('LOGIN SUCCESSFUL', response.data);
+                        localStorage.setItem('token', response.data.token);
+                        setUser( response.data );
+                        
+                        const origin = location.state?.from?.pathname || '/';
+                        navigate( origin );
+                        resolve( response.data );
+                    }else{
+                        console.log('LOGIN FAILED', response);
+                    }
+                })
+                .catch( err => { 
+                    reject( err.response );
+                } );
+        });
     }
 
     const handleLogout = () => {

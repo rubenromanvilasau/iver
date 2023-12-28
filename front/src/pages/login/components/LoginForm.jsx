@@ -11,15 +11,41 @@ export const LoginForm = () => {
     const { handleLogin } = useContext( UserContext );
     const passwordRef = useRef( null );
     const emailRef = useRef( null );
+    const [emailError, setEmailError] = useState({ status: false, message: ''});
+    const [passwordError, setPasswordError] = useState({ status: false, message: ''});
 
 
-    const handleLoginClick = () => {
+    const handleLoginClick = async() => {
         const password = passwordRef.current.value;
         const email = emailRef.current.value;
         
-        if( !email || !password ) return;
+        if( !email  ) {
+            setEmailError({ status: true, message: 'Please fill your email'});
+            return;
+        }
+
+        if( !password ) {
+            setPasswordError({ status: true, message: 'Please fill your password'});
+            return;
+        }
         
-        handleLogin( email, password );
+        handleLogin( email, password )
+            .catch( err => {
+                console.log('error LOGIN', err.message);
+                if( err.status === 404 ) {
+                    setEmailError({ status: true, message: 'There is no account with that email' });
+                }else {
+                    setPasswordError({ status: true, message: 'Incorrect password. Please try again' });
+                }
+            });
+    }
+
+    const onChangePassword = () => {
+        setPasswordError({ status: false, message: ''});
+    }
+
+    const onChangeEmail = () => {
+        setEmailError({ status: false, message: ''});
     }
 
     const toggleShowPassword = () => {
@@ -35,8 +61,10 @@ export const LoginForm = () => {
                         type="email" 
                         icon={HiMail} 
                         placeholder="name@iver.com" 
+                        onChange={ onChangeEmail }
                         required 
                     />
+                    { emailError.status && <span className='text-red-600 text-xs'>{ emailError.message }</span> }
                 </div>
                 <div className="max-w-md">
                     <TextInput 
@@ -44,11 +72,13 @@ export const LoginForm = () => {
                         type={ isPasswordVisible ? 'text' : 'password'} 
                         icon={HiLockClosed} 
                         placeholder="Your secret secret password" 
-                        required 
+                        onChange={ onChangePassword }
+                        required
                     />
+                    { passwordError.status && <span className='text-red-600 text-xs'>{ passwordError.message }</span> }
                 </div>
                
-                <Link className='text-text-secondary underline underline-offset-2'>Forgot password?</Link>
+                <Link className={`text-text-secondary underline underline-offset-2 ${ passwordError.status && 'animate-bounce' }`}>Forgot password?</Link>
             </section>
             <Button 
                 className='w-full bg-primary'
