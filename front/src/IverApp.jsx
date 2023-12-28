@@ -15,9 +15,9 @@ export const IverApp = () => {
                 <Route path='/item/:id' element={ <ItemPage/> }/>
                 <Route path='/my-profile'
                     element={
-                        <ProtectedRoute>
+                        // <ProtectedRoute>
                             <MyProfilePage/>
-                        </ProtectedRoute>
+                        // </ProtectedRoute>
                     }
                 />
                 <Route path='/my-orders' 
