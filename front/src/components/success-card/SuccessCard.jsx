@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import './success-card.scss';
 import PropTypes from 'prop-types';
+import { Button } from 'flowbite-react';
 
 export const SuccessCard = ({ title, message, link, buttonText }) => {
 
@@ -19,12 +19,12 @@ export const SuccessCard = ({ title, message, link, buttonText }) => {
             </div>
             <div className="bg-white w-full p-4 rounded-b-lg flex flex-col content-center items-center">
                 <p className="text-black">{ message }</p>
-                <button
+                <Button
                     className='mt-4'
                     onClick={ onClickButton }
                 >
                     { buttonText }
-                </button>
+                </Button>
             </div>
         </div>
     )

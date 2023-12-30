@@ -22,7 +22,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const [selectedCategory, setSelectedCategory] = useState( null );
     const [selectedStatus, setSelectedStatus] = useState( null );
     const [selectedShippingWay, setSelectedShippingWay] = useState( null );
-    const [selectedEndDate, setSelectedEndDate] = useState( null );
+    const [selectedEndDate, setSelectedEndDate] = useState( new Date() );
     const [isFormValid, setIsFormValid] = useState( false );
 
     const onClickPublish = async() => {
