@@ -35,7 +35,7 @@ export const IverApp = () => {
                     }
                 />
             </Routes>
-            {/* <Footer/> */}
+            <Footer/>
         </UserProvider>
     )
 }

@@ -49,7 +49,6 @@ class ItemsService {
                 status: true,
                 images: true,
                 offers: true,
-                orders: true,
             },
             orderBy: orderConfig,
             skip: ( page - 1 ) * pageSize,

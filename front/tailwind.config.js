@@ -10,6 +10,7 @@ export default {
         'text-primary': '#222831',
         'text-secondary': '#acacac',
         'background': '#ebebeb',
+        'footer': '#04364a',
       }
     },
   },

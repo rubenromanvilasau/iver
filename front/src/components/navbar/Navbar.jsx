@@ -15,12 +15,12 @@ export const Navbar = () => {
                     <img className='w-12 h-12 hover:rotate-180 transition duration-1000 ' src="/img/astronaut.png" alt="" />
                 </Link>
             </div>
-            <SearchBox/>
-            {
-                user.token
+            <div className='w-1/3'>
+                <SearchBox/>
+            </div>
+            { user.token
                 ?<div className='flex flex-row'> 
                     <Notifications/>
-                    <div className="relative top-2 -left-4 rounded-full bg-red-800 w-5 h-5 flex items-center justify-center text-xs font-semibold">1</div>
                     <div className='items-center p-2 rounded-md cursor-pointer transition duration-500'>
                         <Dropdown
                             label={<Avatar alt="User settings" placeholderInitials='RR' rounded />}
@@ -53,7 +53,7 @@ export const Navbar = () => {
                         <img className='w-8' src="/icons/account.svg" alt="" />
                         Sign in
                     </div>
-                  </Link>
+                </Link>
             }
 
         </nav>

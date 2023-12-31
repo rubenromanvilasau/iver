@@ -3,6 +3,7 @@ import StatusService from './statuses.service';
 import UserService from './users.service';
 import CategoryService from './categories.service';
 import ShippingWayService from './shipping-ways.service';
+import OrdersService from './orders.service';
 
 export {
     ItemService,
@@ -10,4 +11,5 @@ export {
     UserService,
     CategoryService,
     ShippingWayService,
+    OrdersService,
 }

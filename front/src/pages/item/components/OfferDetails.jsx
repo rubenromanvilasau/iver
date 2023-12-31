@@ -6,7 +6,7 @@ import { SiLeaderprice } from "react-icons/si";
 import { IoIosTime } from "react-icons/io";
 import PropTypes from 'prop-types';	
 
-export const OfferDetails = ({ item, onClickOffer, lastOffer }) => {
+export const OfferDetails = ({ item, onClickNewOffer, lastOffer }) => {
     return (
         <section>
         <div className='flex flex-row items-center gap-1'>
@@ -30,12 +30,14 @@ export const OfferDetails = ({ item, onClickOffer, lastOffer }) => {
                 : ( <span className='font-light'> FINISHED</span> )
             }
         </div>
-        <Button
-            className='mt-4 text-white'
-            onClick={ onClickOffer }
-        >
-            Offer
-        </Button>
+        { new Date( item.ends_at ) > new Date() && 
+            <Button
+                className='mt-4 text-white'
+                onClick={ onClickNewOffer }
+            >
+                Offer
+            </Button>
+        }
         </section>
     )
 };
@@ -43,5 +45,5 @@ export const OfferDetails = ({ item, onClickOffer, lastOffer }) => {
 OfferDetails.propTypes = {
     item: PropTypes.object.isRequired,
     lastOffer: PropTypes.object.isRequired,
-    onClickOffer: PropTypes.func.isRequired,
+    onClickNewOffer: PropTypes.func.isRequired,
 };

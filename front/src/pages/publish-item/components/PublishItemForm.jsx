@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { StatusService, CategoryService, ShippingWayService} from '../../../services/';
 import { DropZone, Timepicker } from '../../../components';
-import { Button, Checkbox, Datepicker, Dropdown, Label, TextInput, Textarea, Tooltip } from 'flowbite-react';
+import { Button, Checkbox, Datepicker, Dropdown, Label, Modal, TextInput, Textarea, Tooltip } from 'flowbite-react';
 import { showErrorToast } from '../../../utils/toasts';
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const priceRef = useRef( null );
     const descriptionRef = useRef( null );
     const timeRef = useRef( null );
+    const termConditionsRef = useRef( null );
     const [categories, setCategories] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [shippingWays, setShippingWays] = useState([]);
@@ -24,12 +25,19 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const [selectedShippingWay, setSelectedShippingWay] = useState( null );
     const [selectedEndDate, setSelectedEndDate] = useState( new Date() );
     const [isFormValid, setIsFormValid] = useState( false );
+    const [showTermsConditions, setShowTermsConditions] = useState( false );
 
     const onClickPublish = async() => {
+        event.preventDefault();
         const name = nameRef.current.value;
         const price = priceRef.current.value;
         const description = descriptionRef.current.value;
         const time = timeRef.current.value;
+
+        if( !termConditionsRef.current.checked ) {
+            showErrorToast( 'You must accept terms and conditions' );
+            return;
+        }
 
         if( !name || !price || !description || !selectedCategory || !selectedStatus || !selectedShippingWay ) {
             showErrorToast( 'All fields are required' );
@@ -54,6 +62,20 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
         handlePublishItem( item );
 
+    }
+
+    const onCloseTermConditions = () => {
+        setShowTermsConditions( false );
+    }
+
+    const onAcceptTermConditions = () => {
+        termConditionsRef.current.checked = true;
+        setShowTermsConditions( false );
+    }
+    
+    const onDeclineTermConditions = () => {
+        termConditionsRef.current.checked = false;
+        setShowTermsConditions( false );
     }
 
     useEffect(() => {
@@ -100,7 +122,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             <hr/>
             
             <div className='flex flex-row gap-4'>
-                <div className="flex flex-col gap-4 w-3/4">
+                <form className="flex flex-col gap-4 w-3/4">
                     <div className="max-w-md min-w-42">
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="Item name" />
@@ -131,6 +153,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                             ref={ priceRef } 
                             name='price' 
                             type="number" 
+                            min={ 0 }
                             placeholder='Price'
                         />
                     </div>
@@ -209,21 +232,44 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         </Dropdown>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Checkbox id="accept" defaultChecked />
+                      <Checkbox id="accept" ref={ termConditionsRef } defaultChecked/>
                         <Label htmlFor="accept" className="flex">
                             I agree with the&nbsp;
-                            <a href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
+                            <a onClick={() => setShowTermsConditions( true )} className="text-cyan-600 hover:underline cursor-pointer dark:text-cyan-500">
                                 terms and conditions
                             </a>
                         </Label>
                     </div>
+                    <Modal show={showTermsConditions} onClose={onCloseTermConditions}>
+                        <Modal.Header>Terms of Service</Modal.Header>
+                        <Modal.Body>
+                            <div className="space-y-6">
+                                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
+                                companies around the world are updating their terms of service agreements to comply.
+                                </p>
+                                {/* <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
+                                to ensure a common set of data rights in the European Union. It requires organizations to notify users as
+                                soon as possible of high-risk data breaches that could personally affect them.
+                                </p> */}
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={onAcceptTermConditions}>I accept</Button>
+                            <Button color="gray" onClick={onDeclineTermConditions}>
+                                Decline
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                     <Button
                         onClick={ onClickPublish }
+                        type='submit'
                         disabled={ !isFormValid }
                     >
                         Publish
                     </Button>
-                </div>
+                </form>
                 <DropZone/>
 
             </div>

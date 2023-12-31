@@ -32,7 +32,6 @@ model Item {
   status          ItemStatuses   @relation(fields: [status_id], references: [status_id], onDelete: NoAction, onUpdate: NoAction)
   images          ItemImages[]
   offers          ItemOffers[]
-  orders          Order?
   @@map("items")
 }
 
@@ -54,6 +53,7 @@ model ItemOffers {
   deleted_at DateTime? @db.Timestamp(6)
   item       Item     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
   user       User     @relation(fields: [user_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
+  order      Order[]
   @@map("items_offers")
 }
 
@@ -71,12 +71,12 @@ model OrderStatuses {
 }
 
 model Order {
-  item_id      Int      @id
-  buyer_id     String   @db.VarChar
-  amount_payed Int
-  order_date   DateTime @default(now()) @db.Timestamp(6)
-  users        User    @relation(fields: [buyer_id], references: [rut], onDelete: NoAction, onUpdate: NoAction)
-  items        Item    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  order_id     String        @id @default(uuid())
+  offer_id     Int           @unique
+  is_payed     Boolean       @default(false) 
+  created_at   DateTime      @default(now()) @db.Timestamp(6)
+  expires_at   DateTime      @db.Timestamp(6)
+  offer        ItemOffers    @relation(fields: [offer_id], references: [offer_id], onDelete: NoAction, onUpdate: NoAction)
   @@map("orders")
 }
 
@@ -101,7 +101,6 @@ model User {
   deleted_at   DateTime?      @db.Timestamp(6)
   last_login   DateTime?      @db.Timestamp(6)
   items        Item[]
-  items_offers ItemOffers[]
-  orders       Order[]
+  offers       ItemOffers[]
   @@map("users")
 }

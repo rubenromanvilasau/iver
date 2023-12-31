@@ -1,7 +1,18 @@
+import { useEffect } from 'react';
+import { OrdersService } from '../../services';
 import { convertToCurrency } from '../../utils';
 import { Button, Table } from 'flowbite-react';
+const ordersService = new OrdersService();
+
 
 export const MyOrdersPage = () => {
+
+    useEffect( () => {
+        ordersService.getAll()
+            .then( response => console.log( response ) )
+            .catch( err => console.log( err.data ) );
+    },[]);
+
     return (
         <div className="flex flex-col p-8 box-border">
             <h1 className='text-4xl font-bold text-text-primary'>My Orders</h1>

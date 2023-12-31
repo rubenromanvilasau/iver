@@ -62,16 +62,7 @@ export const ItemPage = () => {
         }
     }, [item,]);
 
-
-    const openPutOfferModal = () => {
-        if( !user.token ) {
-            showErrorToast('You must be logged in to make an offer');
-            return;
-        }
-        setOpenModal( true );
-    }
-
-    const onClickOffer = () => {
+    const onClickNewOffer = () => {
         if( !user.token ) {
             showErrorToast('You must be logged in to make an offer');
             return;
@@ -100,8 +91,10 @@ export const ItemPage = () => {
                         <section className="w-3/6 flex flex-col justify-between gap-12">
                             <ItemHeader item={item} viewersAmount={viewersAmount}/>
                             <ItemDetails item={item}/>
-                            <OfferDetails item={item} lastOffer={lastOffer} onClickOffer={onClickOffer}/>
+                            <OfferDetails item={item} lastOffer={lastOffer} onClickNewOffer={onClickNewOffer}/>
                         </section>
+
+                        {/* Modal */}
                         <NewOfferForm 
                             openModal={openModal} 
                             onClose={onClosemodal}

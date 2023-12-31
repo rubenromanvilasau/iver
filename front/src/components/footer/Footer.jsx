@@ -1,22 +1,25 @@
 import { Link } from 'react-router-dom';
-import './footer.scss';
+const instagramIcon = '/icons/instagram.svg';
+const facebookIcon = '/icons/facebook.svg';
+const twitterIcon = '/icons/twitter.svg';
+const linkedinIcon = '/icons/linkedin.svg';
 
 export const Footer = () => {
      return (
         <footer>
-            <div className="center">
-                <div className="rrss">
+            <div className="flex justify-center h-28 bottom-0 w-full bg-footer mt-4 p-4 box-border">
+                <div className="flex items-center gap-4">
                     <Link to={'/instagram'}>
-                        <img src="/icons/instagram.svg" alt="instagram icon" />
+                        <img className='w-6 h-6 cursor-pointer' src={ instagramIcon } alt="instagram icon" />
                     </Link>
                     <Link to={'/facebook'}>
-                        <img src="/icons/facebook.svg" alt="facebook icon" />
+                        <img className='w-6 h-6 cursor-pointer' src={ facebookIcon } alt="facebook icon" />
                     </Link>
                     <Link to={'/twitter'}>
-                        <img src="/icons/twitter.svg" alt="twitter icon" />
+                        <img className='w-6 h-6 cursor-pointer' src={ twitterIcon} alt="twitter icon" />
                     </Link>
                     <Link to={'/linkedin'}>
-                        <img src="/icons/linkedin.svg" alt="linkedin icon" />
+                        <img className='w-6 h-6 cursor-pointer' src={ linkedinIcon } alt="linkedin icon" />
                     </Link>
                 </div>
             </div>

@@ -8,7 +8,7 @@ export const ItemCard = ({ item_id, name, images, price, offers, ends_at }) => {
 
     return (
         <Link to={ `/item/${item_id}` }>
-            <div className='rounded-md cursor-pointer text-center transition duration-500 bg-white shadow-md p-6 hover:scale-105'>
+            <div className='rounded-md box-sizing w-18 cursor-pointer text-center transition duration-500 bg-white shadow-md p-6 hover:scale-105'>
                 <span className='text-black text-xl'>{ name }</span>
                 <section className='mt-1'>
                         <img className='h-36 rounded-md w-full' src={ images.length > 0 ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
