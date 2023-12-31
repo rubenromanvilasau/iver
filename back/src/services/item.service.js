@@ -115,22 +115,24 @@ class ItemsService {
     }
 
     getItemOffers( id ) {
-        return prisma.ItemOffers.findFirst({
+        return prisma.ItemOffers.findMany({
             where: {
                 item_id: id,
             },
+            include:{
+                user: true,
+            },
             orderBy: {
-                offer_date: 'desc'
+                created_at: 'desc'
             }
         });
     }
 
-    //TODO HANDLE SOCKET
-    createOffer( id, offer ) {
-        return prisma.ItemOffers.create({
+    async createOffer( id, offer ) {
+        const newOffer = await prisma.ItemOffers.create({
             data: {
                 amount: offer.amount,
-                seller: {
+                user: {
                     connect: {
                         rut: offer.userId
                     }
@@ -139,9 +141,14 @@ class ItemsService {
                     connect: {
                         item_id: id,
                     }
-                }
+                },
+            },
+            include: {
+                user: true,
             }
         });
+
+        emitToAll('newOffer', newOffer);
     }
 }
 

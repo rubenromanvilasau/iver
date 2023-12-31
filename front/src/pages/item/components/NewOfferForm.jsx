@@ -8,7 +8,7 @@ const itemService = new ItemService();
 export const NewOfferForm = ({ openModal, onClose, itemId }) => {
     
     const { user } = useContext( UserContext );
-    const [amount, setAmount] = useState( '' );
+    const [amount, setAmount] = useState('');
     const [currentStep, setCurrentStep] = useState( 0 );
 
     const createOffer = () => {
@@ -25,7 +25,7 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
                     onClose();
                 })
                 .catch( err => {
-                    console.log('error creating offer', err);
+                    console.error('Error creating offer:', err.data.message);
                 });
         }
     };
@@ -33,7 +33,7 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
     useEffect(() => {
     
         return () => {
-            setAmount( '' );
+            setAmount('');
             setCurrentStep( 0 );
         }
     },[])

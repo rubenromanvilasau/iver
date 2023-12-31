@@ -7,27 +7,34 @@ export default class ItemService {
         this.url = `http://localhost:4000/api/items/`;
     }
 
-    getAllItems = ( filter ) => {
+    getAllItems( filter ) {
         console.log('url', this.url + ( filter ? filter : '' ))
         return axios.get( this.url + ( filter ? filter : '' ) )
             .then( response => response.data )
-            .catch( err => { throw err } );
+            .catch( err => { throw err.response } );
     }
     
-    getItem = ( id ) => {
+    getItem( id ) {
         return axios.get( this.url + id  )
             .then( response => response.data )
-            .catch( err => { throw err } );
+            .catch( err => { throw err.response } );
     }
     
-    createItem = ( item ) => {
+    createItem( item ) {
         return axios.post( this.url + 'create', item )
-            .catch( err => { throw err } );
+            .catch( err => { throw err.response } );
     }
 
-    createOffer = ( id, itemOffer ) => {
+    createOffer( id, itemOffer ) {
         return axios.post( this.url + `offer/${ id }`, itemOffer )
-            .catch( err => { throw err } );
+            .then( response => response.data )
+            .catch( err => { throw err.response } );
+    }
+    
+    getOffers( id ) {
+        return axios.get( this.url + `${ id }/offers` )
+            .then( response => response.data )
+            .catch( err => { throw err.response } );
     }
 
 }

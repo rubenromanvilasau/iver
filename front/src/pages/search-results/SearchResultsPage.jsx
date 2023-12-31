@@ -26,10 +26,10 @@ export const SearchResultsPage = () => {
             <h1 className="text-2xl text-text-primary">Results for: <span className="text-text-secondary text-xl">{ query }</span></h1>
             <div className="flex flex-row gap-4 w-full mt-4">
                 <CategoriesCard/>
-                <ul>
+                <ul className="w-full">
                     { items.map( item => 
                         ( <Link to={`/item/${item.item_id}`} key={item.item_id}>
-                            <li className="bg-white rounded-md mt-4 cursor-pointer" >
+                            <li className="bg-white rounded-md cursor-pointer " >
                                 <div className="flex flex-row justify-between gap-4 p-4 box-border">
                                     <div className="flex flex-col items-center">
                                         <h2 className="text-text-primary">{ item.name }</h2>

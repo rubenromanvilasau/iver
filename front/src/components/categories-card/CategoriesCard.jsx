@@ -1,8 +1,5 @@
-import { useFetchCategories } from "../../hooks/index";
 
 export const CategoriesCard = () => {
-
-    
 
     return (
         <div className="bg-white rounded-md p-4 h-fit">

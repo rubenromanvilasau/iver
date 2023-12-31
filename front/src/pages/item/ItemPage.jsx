@@ -18,7 +18,7 @@ export const ItemPage = () => {
     const [currentImage, setCurrentImage] = useState({});
     const [viewersAmount, setViewersAmount] = useState( 0 );
     const [openModal, setOpenModal] = useState( false );
-    const [lastOffer, setLastOffer] = useState( { amount: 0} );
+    const [lastOffer, setLastOffer] = useState( { amount: 0 } );
     const { item, isLoading } = useFetchItem( id );
     
     const handleImageClick = ( image ) => {
@@ -43,8 +43,6 @@ export const ItemPage = () => {
 
         socket.on('newOffer', ( offer ) => {
             setLastOffer( offer );
-            // const itemUpdated = { ...item };
-            // itemUpdated.offers.unshift( offer );
             showInfoToast(`New offer: ${convertToCurrency( offer.amount )}`);
         });
         
@@ -57,7 +55,6 @@ export const ItemPage = () => {
     }, []);
 
     useEffect( () => {
-
         if( !isLoading && item ) {
             console.log('item', item);
             setLastOffer( item.offers?.length > 0 ? item.offers[0] : { amount: 0} );

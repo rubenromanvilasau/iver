@@ -44,7 +44,7 @@ class ItemController {
     async getOffers( req, res ) {
         const { id } = req.params;
         try {
-            const itemOffers = await itemsService.createOffer( parseInt( id ) );
+            const itemOffers = await itemsService.getItemOffers( parseInt( id ) );
             res.status(200).send( itemOffers );
         } catch ( err ) {
             console.log('[CONTROLLERS-ITEMS] getItemOffers ERROR', err);
@@ -56,6 +56,16 @@ class ItemController {
         const { id } = req.params;
         const offer = req.body;
         try {
+
+            const item = await itemsService.getById( parseInt( id ) );
+            if( item.seller_id === offer.userId ) {
+                return res.status(400).send({ message: 'You cannot offer your own item' });
+            }
+
+            if( item.ends_at < new Date() ) {
+                return res.status(400).send({ message: 'This item has expired' });
+            }
+
             const newItemOffer = await itemsService.createOffer( parseInt( id ), offer );
             res.status(201).send( newItemOffer );
         } catch ( err ) {
