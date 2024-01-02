@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:4000/api';
+const apiUrl = 'http://34.125.138.36:4000/api';
 
 export default class StatusService {
 

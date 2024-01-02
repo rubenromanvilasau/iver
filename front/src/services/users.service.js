@@ -2,7 +2,7 @@ import axios from 'axios';
 export default class UserService {
 
     constructor() {
-        this.url = `http://localhost:4000/api/users`;
+        this.url = `http://34.125.138.36:4000/api/users`;
     }
     
     login( email, password ) {

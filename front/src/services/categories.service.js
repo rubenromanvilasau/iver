@@ -4,7 +4,7 @@ import axios from "axios";
 export default class CategoryService {
 
     constructor() {
-        this.url = `http://localhost:4000/api/categories/`;
+        this.url = `http://34.125.138.36:4000/api/categories/`;
     }
 
     async getAll() {
