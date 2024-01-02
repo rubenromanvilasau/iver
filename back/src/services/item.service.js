@@ -68,7 +68,6 @@ class ItemsService {
                 status: true,
                 images: true,
                 offers: true,
-                orders: true,
             }
         });
     }
