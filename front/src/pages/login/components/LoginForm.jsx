@@ -16,6 +16,7 @@ export const LoginForm = () => {
 
 
     const handleLoginClick = async() => {
+        event.preventDefault();
         const password = passwordRef.current.value;
         const email = emailRef.current.value;
         
@@ -53,7 +54,7 @@ export const LoginForm = () => {
     }
 
     return (
-        <>
+        <form>
             <section className='flex flex-col gap-4'>
                 <div className="max-w-md">
                     <TextInput 
@@ -83,9 +84,10 @@ export const LoginForm = () => {
             <Button 
                 className='w-full bg-primary'
                 onClick={ handleLoginClick }
+                type='submit'
             >
                 Login
             </Button>
-        </>
+        </form>
     )
 };
