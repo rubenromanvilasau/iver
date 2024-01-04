@@ -4,11 +4,11 @@ import axios from "axios";
 export default class CategoryService {
 
     constructor() {
-        this.url = `http://34.125.138.36:4000/api/categories/`;
+        this.apiUrl = `${import.meta.env.VITE_API_URL}/categories/`;
     }
 
     async getAll() {
-        return axios.get( this.url )
+        return axios.get( this.apiUrl )
             .then( response => response.data )
             .catch( err => { throw err } );
     }

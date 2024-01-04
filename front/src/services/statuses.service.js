@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-const apiUrl = 'http://34.125.138.36:4000/api';
-
 export default class StatusService {
 
+    constructor() {
+        this.apiUrl = `${import.meta.env.VITE_API_URL}/statuses/`;
+    }
+
     getAll = () => {
-        return axios.get( apiUrl + '/statuses' )
+        return axios.get( this.apiUrl )
             .then( response => response.data )
             .catch( err => { throw err } );
     }

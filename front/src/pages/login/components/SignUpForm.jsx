@@ -26,6 +26,8 @@ export const SignUpForm = () => {
     // const navigate = useNavigate();
 
     const handleRegisterClick = async () => {
+        event.preventDefault();
+        
         const password = passwordRef.current.value;
         const email = emailRef.current.value;
         const rut = rutRef.current.value;
@@ -50,7 +52,7 @@ export const SignUpForm = () => {
     }
 
     return (
-        <>
+        <form>
             <section className='flex flex-col gap-4'>
                 <div className='flex flex-row gap-4'>
                     <TextInput 
@@ -106,9 +108,10 @@ export const SignUpForm = () => {
             <Button 
                 className='w-full bg-primary mt-4'
                 onClick={ handleRegisterClick }
+                type='submit'
             >
                 Register
             </Button>
-        </>
+        </form>
     )
 };
