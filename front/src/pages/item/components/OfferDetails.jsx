@@ -5,8 +5,14 @@ import { IoIosPricetag } from "react-icons/io";
 import { SiLeaderprice } from "react-icons/si";
 import { IoIosTime } from "react-icons/io";
 import PropTypes from 'prop-types';	
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
 
 export const OfferDetails = ({ item, onClickNewOffer, lastOffer }) => {
+
+    const { user } = useContext( UserContext );
+    console.log('item', item)
+    
     return (
         <section>
         <div className='flex flex-row items-center gap-1'>
@@ -30,7 +36,7 @@ export const OfferDetails = ({ item, onClickNewOffer, lastOffer }) => {
                 : ( <span className='font-light'> FINISHED</span> )
             }
         </div>
-        { new Date( item.ends_at ) > new Date() && 
+        { user.rut !== item.seller_id && new Date( item.ends_at ) > new Date() && 
             <Button
                 className='mt-4 text-white'
                 onClick={ onClickNewOffer }

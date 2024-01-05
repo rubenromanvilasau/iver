@@ -58,9 +58,9 @@ class ItemController {
         try {
 
             const item = await itemsService.getById( parseInt( id ) );
-            if( item.seller_id === offer.userId ) {
-                return res.status(400).send({ message: 'You cannot offer your own item' });
-            }
+            // if( item.seller_id === offer.userId ) {
+            //     return res.status(400).send({ message: 'You cannot offer your own item' });
+            // }
 
             if( item.ends_at < new Date() ) {
                 return res.status(400).send({ message: 'This item has expired' });

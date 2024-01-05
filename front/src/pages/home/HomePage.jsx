@@ -48,7 +48,7 @@ export const HomePage = () => {
 
     return (
         <div className='container mx-auto gap-4 p-4'>
-            <div className='flex content-center w-full'>
+            <div className='flex content-center w-full overflow-hidden'>
                 <Banner/>
             </div>
             <div className='w-full flex justify-end mt-4'>
@@ -60,7 +60,7 @@ export const HomePage = () => {
                     onChangeDirection={ onChangeDirection }
                 />
             </div>
-            <section className='mt-2 flex flex-row content-center flex-wrap gap-4 w-11/12'>
+            <section className='mt-2 flex flex-row justify-center md:justify-start items-center flex-wrap gap-4 w-full'>
                 { isLoading 
                     ? <Loading/> 
                     : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
