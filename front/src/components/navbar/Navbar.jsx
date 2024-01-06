@@ -15,7 +15,7 @@ export const Navbar = () => {
                     <img className='w-12 h-12 hover:rotate-180 transition duration-1000 ' src="/img/astronaut.png" alt="" />
                 </Link>
             </div>
-            <div className='w-1/3'>
+            <div className='w-1/2 md:w-1/3'>
                 <SearchBox/>
             </div>
             { user.token

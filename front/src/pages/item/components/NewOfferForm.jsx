@@ -10,8 +10,10 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
     const { user } = useContext( UserContext );
     const [amount, setAmount] = useState('');
     const [currentStep, setCurrentStep] = useState( 0 );
+    const [isLoading, setIsLoading] = useState( false );
 
     const createOffer = () => {
+        setIsLoading( true );
         if( !user.token ) {
             showErrorToast('You must be logged in to make an offer');
             return;
@@ -20,12 +22,14 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
         if( amount > 0 ) {
             itemService.createOffer( itemId, { amount: amount, userId: user.rut  } )
                 .then( response => {
+                    setIsLoading( false );
                     console.log('offer created', response);
                     showSuccessToast(`You offered ${ amount } successfully`);
                     onClose();
                 })
                 .catch( err => {
                     console.error('Error creating offer:', err.data.message);
+                    setIsLoading( false );
                 });
         }
     };
@@ -83,9 +87,13 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
                                 placeholder="$1.500"
                                 value={amount}
                                 onChange={(event) => setAmount( Number( event.target.value ) )}
+                                disabled={isLoading}
                                 required
                             />
-                            <Button onClick={createOffer}>
+                            <Button 
+                                onClick={createOffer}
+                                isProcessing={isLoading}
+                            >
                                 Offer
                             </Button>
                         </div>
