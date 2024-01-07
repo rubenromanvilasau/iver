@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export const IverApp = () => {
     return(
         <UserProvider>
+        <div className='flex flex-col justify-between'>
             <Navbar/>
             <Routes>
                 <Route path='/' element={ <HomePage/> }/>
@@ -36,6 +37,7 @@ export const IverApp = () => {
                 />
             </Routes>
             <Footer/>
+        </div>
         </UserProvider>
     )
 }

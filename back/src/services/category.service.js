@@ -2,7 +2,11 @@ const { prisma } = require("../db");
 
 class CategoryService {
   getAll() {
-    return prisma.Category.findMany();
+    return prisma.Category.findMany({
+      orderBy:{
+        name: 'asc'
+      }
+    });
   }
 };
 

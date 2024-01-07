@@ -8,8 +8,7 @@ export const SearchResultsPage = () => {
     let { query } = useParams();
     const [filter, setFilter] = useState( `?keyword=${query}` );
     const [currentPage, setCurrentPage] = useState( 1 );
-    const { items, isLoading, error } = useFetchItems({ pageNumber: currentPage, filter, });
-
+    const { items, isLoading } = useFetchItems({ pageNumber: currentPage, filter, });
 
     useEffect(() => {
         setFilter( `?keyword=${query}` );
@@ -17,19 +16,25 @@ export const SearchResultsPage = () => {
 
     const onPageChange = ( pageNumber ) => setCurrentPage( pageNumber );
 
+    const onChangeCategory = ( category ) => {
+        setFilter( `?keyword=${query}&category=${category.category_id}` );
+    }
+
     if( isLoading ) {
-        return <Loading/>
+        return <div className='flex justify-center'><Loading/></div>
     }
     
     return (
         <div className="container mx-auto mt-4">
             <h1 className="text-2xl text-text-primary">Results for: <span className="text-text-secondary text-xl">{ query }</span></h1>
             <div className="flex flex-row gap-4 w-full mt-4">
-                <CategoriesCard/>
+                <CategoriesCard
+                    onChangeCategory={onChangeCategory}
+                />
                 <ul className="w-full">
-                    { items.map( item => 
+                    { items.data.map( item => 
                         ( <Link to={`/item/${item.item_id}`} key={item.item_id}>
-                            <li className="bg-white rounded-md cursor-pointer " >
+                            <li className="bg-white rounded-md cursor-pointer mt-4" >
                                 <div className="flex flex-row justify-between gap-4 p-4 box-border">
                                     <div className="flex flex-col items-center">
                                         <h2 className="text-text-primary">{ item.name }</h2>

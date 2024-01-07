@@ -1,4 +1,5 @@
 import { Pagination } from 'flowbite-react';
+import PropTypes from 'prop-types';
 
 export const Paginator = ({ currentPage, totalPages, onPageChange }) => {
 
@@ -12,4 +13,11 @@ export const Paginator = ({ currentPage, totalPages, onPageChange }) => {
             />
         </div>
     )
-}
+};
+
+Paginator.propTypes = {
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+};
+

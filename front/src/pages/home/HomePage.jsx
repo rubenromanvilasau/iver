@@ -1,4 +1,3 @@
-import './home-page.scss';
 import { Banner, ItemCard, Loading, Paginator, SortDropdown } from "../../components";
 import { useFetchItems } from "../../hooks";
 import { useEffect, useState } from 'react';
@@ -39,15 +38,8 @@ export const HomePage = () => {
         setFilter( newFilter );
     }, [isAscendant, currentSortOption])
 
-
-    
-
-    if( isLoading ) {
-        return <Loading/>
-    }
-
     return (
-        <div className='container mx-auto gap-4 p-4'>
+        <div className='container mx-auto gap-4 p-4 w-full'>
             <div className='flex content-center w-full overflow-hidden'>
                 <Banner/>
             </div>
@@ -62,8 +54,8 @@ export const HomePage = () => {
             </div>
             <section className='mt-2 flex flex-row justify-center md:justify-start items-center flex-wrap gap-4 w-full'>
                 { isLoading 
-                    ? <Loading/> 
-                    : items.map( item => <ItemCard key={ item.item_id } {...item}/> )
+                    ? <div className='flex justify-center w-full'><Loading/></div>
+                    : items.data.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
             <div className='mt-4'>

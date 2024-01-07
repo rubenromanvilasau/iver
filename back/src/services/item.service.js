@@ -2,7 +2,7 @@ const { socketIo, io, emitToAll } = require('../../websocket.js');
 const { prisma } = require('../db.js'); 
 class ItemsService {
 
-    getAll( filters, page = 1, pageSize = 10 ) {
+    async getAll( filters, page = 1, pageSize = 10 ) {
 
         const { category, status, keyword, orderBy, direction } = filters;
 
@@ -10,7 +10,7 @@ class ItemsService {
 
         if( category ) {
             where.category = {
-                category_id: category
+                category_id: parseInt( category )
             };
         }
 
@@ -40,20 +40,35 @@ class ItemsService {
 
         const orderConfig = orderBy && direction ? { [orderBy]: direction } : {};
 
-        return prisma.Item.findMany({
-            where,
-            include: {
-                seller: true,
-                shippingWay: true,
-                category: true,
-                status: true,
-                images: true,
-                offers: true,
-            },
-            orderBy: orderConfig,
-            skip: ( page - 1 ) * pageSize,
-            take: pageSize,
-        });
+        // const [data, count] = await this.prisma.$transaction([
+            // this.prisma.model.findMany(),
+            // this.prisma.model.count(),
+        // ]);
+
+        const [ data, count ] = await prisma.$transaction([
+            prisma.Item.findMany({
+                where,
+                include: {
+                    seller: true,
+                    shippingWay: true,
+                    category: true,
+                    status: true,
+                    images: true,
+                    offers: true,
+                },
+                orderBy: orderConfig,
+                skip: ( page - 1 ) * pageSize,
+                take: pageSize,
+            }),
+            prisma.Item.count({
+                where,
+            })
+        ]);
+
+        return {
+            data,
+            count,
+        }
     }
 
     getById( id ) {

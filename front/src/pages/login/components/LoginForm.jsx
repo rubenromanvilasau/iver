@@ -2,7 +2,7 @@ import { useContext, useRef, useState } from 'react';
 import '../login-page.scss';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
-import { Button, Label, TextInput } from 'flowbite-react';
+import { Button, Modal, TextInput } from 'flowbite-react';
 import { HiMail, HiLockClosed } from 'react-icons/hi';
 
 export const LoginForm = () => {
@@ -13,6 +13,7 @@ export const LoginForm = () => {
     const emailRef = useRef( null );
     const [emailError, setEmailError] = useState({ status: false, message: ''});
     const [passwordError, setPasswordError] = useState({ status: false, message: ''});
+    const [showRecoverPasswordModal, setShowRecoverPasswordModal] = useState( false );
 
 
     const handleLoginClick = async() => {
@@ -54,40 +55,55 @@ export const LoginForm = () => {
     }
 
     return (
-        <form>
-            <section className='flex flex-col gap-4'>
-                <div className="max-w-md">
-                    <TextInput 
-                        ref={emailRef}
-                        type="email" 
-                        icon={HiMail} 
-                        placeholder="name@iver.com" 
-                        onChange={ onChangeEmail }
-                        required 
-                    />
-                    { emailError.status && <span className='text-red-600 text-xs'>{ emailError.message }</span> }
-                </div>
-                <div className="max-w-md">
-                    <TextInput 
-                        ref={passwordRef} 
-                        type={ isPasswordVisible ? 'text' : 'password'} 
-                        icon={HiLockClosed} 
-                        placeholder="Your secret secret password" 
-                        onChange={ onChangePassword }
-                        required
-                    />
-                    { passwordError.status && <span className='text-red-600 text-xs'>{ passwordError.message }</span> }
-                </div>
-               
-                <Link className={`text-text-secondary underline underline-offset-2 ${ passwordError.status && 'animate-bounce' }`}>Forgot password?</Link>
-            </section>
-            <Button 
-                className='w-full bg-primary'
-                onClick={ handleLoginClick }
-                type='submit'
-            >
-                Login
-            </Button>
-        </form>
+        <>
+            <form className='w-80'>
+                <section className='flex flex-col gap-4'>
+                    <div className="w-full">
+                        <TextInput 
+                            ref={emailRef}
+                            type="email" 
+                            icon={HiMail} 
+                            placeholder="name@iver.com" 
+                            onChange={ onChangeEmail }
+                            required 
+                        />
+                        { emailError.status && <span className='text-red-600 text-xs'>{ emailError.message }</span> }
+                    </div>
+                    <div className="w-full">
+                        <TextInput 
+                            ref={passwordRef} 
+                            type={ isPasswordVisible ? 'text' : 'password'} 
+                            icon={HiLockClosed} 
+                            placeholder="Your secret secret password" 
+                            onChange={ onChangePassword }
+                            required
+                        />
+                        { passwordError.status && <span className='text-red-600 text-xs'>{ passwordError.message }</span> }
+                    </div>
+                
+                    <Link 
+                        className={`text-text-secondary underline underline-offset-2 mb-2 ${ passwordError.status && 'animate-bounce' }`}
+                        onClick={ () => { setShowRecoverPasswordModal( true ) }}
+                    >
+                        Forgot password?
+                    </Link>
+                </section>
+                <Button 
+                    className='w-full bg-primary'
+                    onClick={ handleLoginClick }
+                    type='submit'
+                >
+                    Login
+                </Button>
+            </form>
+            <Modal show={showRecoverPasswordModal} onClose={() => { setShowRecoverPasswordModal( false )}}>
+                <Modal.Header>
+                    <h1>Recover your password</h1>
+                </Modal.Header>
+                <Modal.Body>
+
+                </Modal.Body>
+            </Modal>
+        </>
     )
 };

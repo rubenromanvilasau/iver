@@ -21,6 +21,10 @@ hr{
   width: 100%;
 }
 
+html, body, #app, #root>div {
+  height: 100vh
+}
+
 html, body {
   height: 100%;
   margin: 0;
