@@ -4,6 +4,8 @@ import { CategoriesCard, CountdownTimer, Loading, Paginator } from "../../compon
 import { useFetchItems } from "../../hooks";
 import { convertToCurrency } from "../../utils/convert-to-price";
 
+const pageSize = 10; //Number of pages to show in paginator
+
 export const SearchResultsPage = () => {
     let { query } = useParams();
     const [filter, setFilter] = useState( `?keyword=${query}` );
@@ -25,7 +27,7 @@ export const SearchResultsPage = () => {
     }
     
     return (
-        <div className="container mx-auto mt-4">
+        <div className="container p-4 mx-auto mt-4">
             <h1 className="text-2xl text-text-primary">Results for: <span className="text-text-secondary text-xl">{ query }</span></h1>
             <div className="flex flex-row gap-4 w-full mt-4">
                 <CategoriesCard
@@ -59,7 +61,7 @@ export const SearchResultsPage = () => {
             <div className="mt-4">
                 <Paginator
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={Math.floor( items.count / pageSize )}
                     onPageChange={onPageChange}
                 />
             </div>

@@ -17,6 +17,8 @@ const sortOptions = [
     },
 ];
 
+const pageSize  = 10; //Number of pages to show in paginator
+
 export const HomePage = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -61,7 +63,7 @@ export const HomePage = () => {
             <div className='mt-4'>
                 <Paginator
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={0}
                     onPageChange={onPageChange}
                 />
             </div>

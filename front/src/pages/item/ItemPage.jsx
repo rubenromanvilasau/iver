@@ -79,16 +79,16 @@ export const ItemPage = () => {
     }
 
     return (
-        <div className='container flex justify-center mx-auto gap-2 text-black mt-4 flex-wrap'>
+        <div className='container flex flex-col md:flex-row justify-center mx-auto gap-2 text-black mt-4 flex-wrap'>
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-row gap-4 bg-white w-3/5 box-border p-4 rounded-md shadow-md">
-                        <div className="flex flex-col w-1/2 overflow-y-hidden">
+                    <div className="flex flex-col md:flex-row  gap-4 bg-white w-11/12 md:w-3/5 box-border p-4 rounded-md shadow-md">
+                        <div className="flex flex-col w-full md:w-1/2 overflow-y-hidden">
                             <img className='max-h-sm min-h-sm rounded-md' src={ currentImage.image_url || '/img/no-image.png' } alt={`${item.name}-image`} />
                             {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }
                         </div>
-                        <section className="w-3/6 flex flex-col justify-between gap-12">
+                        <section className="w-full md:w-3/6 flex flex-col justify-between gap-12">
                             <ItemHeader item={item} viewersAmount={viewersAmount}/>
                             <ItemDetails item={item}/>
                             <OfferDetails item={item} lastOffer={lastOffer} onClickNewOffer={onClickNewOffer}/>

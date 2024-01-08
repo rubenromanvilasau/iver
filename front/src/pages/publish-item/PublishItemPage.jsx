@@ -1,5 +1,3 @@
-import './publish-item-page.scss';
-// import { mockCategories } from '../../mock-data/categories';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Loading, SuccessCard } from '../../components';
@@ -30,7 +28,7 @@ export const PublishItemPage = () => {
             endsAt,
         };
         
-        console.log('item',item)
+        console.log('item', item);
 
         setIsLoading( true );
         const response = await itemService.createItem( item )

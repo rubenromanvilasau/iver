@@ -121,9 +121,12 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             <h1 className='text-text-primary text-3xl'>Publish your item</h1>
             <hr/>
             
-            <div className='flex flex-row gap-4'>
-                <form className="flex flex-col gap-4 w-3/4">
-                    <div className="max-w-md min-w-42">
+            <div className='flex flex-col md:flex-row gap-4'>
+                <div className='w-full md:w-1/2'>
+                    <DropZone/>
+                </div>
+                <form className="flex flex-col gap-4 w-full md:w-3/4">
+                    <div className="w-full max-w-md min-w-42">
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="Item name" />
                         </div>
@@ -140,6 +143,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         </div>
                         <Textarea 
                             ref={ descriptionRef }
+                            className='h-32'
                             name='description' 
                             type="text" 
                             placeholder='Description'
@@ -166,7 +170,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         </div>   
                         <div className='flex row items-center gap-2'>
                             <Datepicker
-                                className='min-w-16'
+                                className='min-w-16 w-full'
                                 minDate={ new Date() }
                                 name='date'
                                 autoHide={ false }
@@ -270,7 +274,6 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         Publish
                     </Button>
                 </form>
-                <DropZone/>
 
             </div>
         </div>
