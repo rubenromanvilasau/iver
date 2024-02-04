@@ -35,6 +35,7 @@ export const ItemPage = () => {
     useEffect( () => {
         socket.on('connect', () => {
             showInfoToast('Connected to server');
+            socket.emit('join-auction', item.item_id );
         });
 
         socket.on('viewersAmount', ( viewers ) => {

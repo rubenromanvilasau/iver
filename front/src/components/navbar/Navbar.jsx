@@ -1,13 +1,24 @@
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Notifications, SearchBox } from '../index';
 import { Avatar, Dropdown } from 'flowbite-react';
 
 export const Navbar = () => {
 
-    const{ user, handleLogout } = useContext( UserContext );
+    const { user, handleLogout } = useContext( UserContext );
+    const [initials, setInitials] = useState('');
 
+    useEffect( () => {
+        if( user.token ) {
+            //* For some reason method .charAt() is not working here, so I had to do it with split.
+            const nameInitial = user.name.split('')[0].toUpperCase();
+            const lastNameInitial = user.last_name.split('')[0].toUpperCase();
+            const initialsConcat = nameInitial + lastNameInitial;
+            setInitials( initialsConcat );
+        }
+    },[user]);
+    
     return (
         <nav className='bg-primary w-full flex items-center justify-between p-3 box-border'>
             <div className='flex flex-row items-center'>
@@ -23,7 +34,7 @@ export const Navbar = () => {
                     <Notifications/>
                     <div className='items-center p-2 rounded-md cursor-pointer transition duration-500'>
                         <Dropdown
-                            label={<Avatar alt="User settings" placeholderInitials='RR' rounded />}
+                            label={<Avatar alt="User settings" placeholderInitials={ initials } rounded />}
                             arrowIcon={false}
                             inline
                         >

@@ -161,7 +161,7 @@ class ItemsService {
             }
         });
 
-        emitToAll('newOffer', newOffer);
+        emitToAll('newOffer', id, newOffer);
     }
 }
 

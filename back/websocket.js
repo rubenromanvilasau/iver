@@ -15,12 +15,26 @@ const initSocket = ( server ) => {
       connectedSockets.push(socket); 
       socketIo = socket;
       console.log('socket', socketIo.id);
-      socket.emit('viewersAmount', io.engine.clientsCount);
+
+      let auctionId = null;
+      socket.on('join-auction', (id) => {
+        console.log('socket-auction', id);
+        auctionId = id;
+        socket.join( id );
+        
+        
+        const numPeopleInAuction = io.sockets.adapter.rooms.get(auctionId).size; 
+        console.log(`room`, numPeopleInAuction);
+        socket.to(auctionId).emit('viewersAmount', numPeopleInAuction);
+      });
+
+
   
       socket.on('newOffer', ({ id, price }) => {
         console.log('newOffer', id, price);
-        socket.emit('newOffer', { id, price });
+        socket.to(auctionId).emit('newOffer', { id, price });
       });
+
     });
     
     io.on('disconnect', (socket) => {
@@ -30,9 +44,9 @@ const initSocket = ( server ) => {
     return io;
 };
 
-const emitToAll = (event, data) => {
+const emitToAll = (event, itemId, data) => {
   connectedSockets.forEach(socket => {
-      socket.emit(event, data);
+      socket.to(itemId).emit(event, data);
   });
 };
 
