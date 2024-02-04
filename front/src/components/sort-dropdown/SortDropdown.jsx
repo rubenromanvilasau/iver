@@ -6,7 +6,7 @@ export const SortDropdown = ({ sortOptions, currentSort, isAscendant, onChangeSo
 
     return (
         <>
-            <Dropdown inline className='text-text-secondary' label={ !currentSort ? 'Sort by' : currentSort.label }>
+            <Dropdown inline className='text-text-primary' label={ !currentSort ? 'Sort by' : currentSort.label }>
                 { sortOptions.map( option => (
                     <Dropdown.Item 
                         key={option.value}

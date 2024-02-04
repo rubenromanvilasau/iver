@@ -5,3 +5,4 @@ export * from './publish-item/PublishItemPage';
 export * from './my-orders/MyOrdersPage';
 export * from './search-results/SearchResultsPage';
 export * from './my-profile/MyProfilePage';
+export * from './checkout/CheckoutPage';
