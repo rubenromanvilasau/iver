@@ -33,6 +33,22 @@ export const UserProvider = ({ children }) => {
         });
     }
 
+    const isLogged = () => {
+        const token = localStorage.getItem('token');
+        // if( token ) {
+        //     userService.getMe( token )
+        //         .then( response => {
+        //             if( response.status === 200 ) {
+        //                 setUser( response.data );
+        //             }
+        //         })
+        //         .catch( err => {
+        //             console.log('ERROR', err);
+        //         });
+        // }
+        return token ? true : false; 
+    }
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUser({});
@@ -40,7 +56,7 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={ { handleLogin, handleLogout, user } }>
+        <UserContext.Provider value={ { handleLogin, handleLogout, user, isLogged } }>
             { children }
         </UserContext.Provider>
     )

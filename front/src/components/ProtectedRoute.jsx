@@ -6,9 +6,9 @@ import PropTypes from 'prop-types'
 export const ProtectedRoute = ({ children }) => {
 
     const location = useLocation();
-    const { user } = useContext( UserContext );
+    const { isLogged } = useContext( UserContext );
 
-    if( !user.token ) {
+    if( !isLogged ) {
         return <Navigate to='/login' replace state={{ from: location }}/>
     }
 

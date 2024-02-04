@@ -7,7 +7,8 @@ const linkedinIcon = '/icons/linkedin.svg';
 export const Footer = () => {
      return (
         <footer>
-            <div className="flex justify-center h-28 bottom-0 w-full bg-footer mt-4 p-4 box-border">
+            <div className="flex flex-col items-center gap-4 justify-center h-28 w-full bg-footer mt-4 p-4 box-border">
+                <span>An idea of <b>Heisen</b></span>
                 <div className="flex items-center gap-4">
                     <Link to={'/instagram'}>
                         <img className='w-6 h-6 cursor-pointer' src={ instagramIcon } alt="instagram icon" />

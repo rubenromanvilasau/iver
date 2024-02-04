@@ -61,7 +61,7 @@ export const ItemPage = () => {
             setLastOffer( item.offers?.length > 0 ? item.offers[0] : { amount: 0} );
             setCurrentImage( item.images?.length > 0 ? item.images[0] : {} );
         }
-    }, [item,]);
+    }, [item]);
 
     const onClickNewOffer = () => {
         if( !user.token ) {

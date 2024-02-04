@@ -100,7 +100,9 @@ model User {
   created_on   DateTime       @default(now()) @db.Timestamp(6)
   deleted_at   DateTime?      @db.Timestamp(6)
   last_login   DateTime?      @db.Timestamp(6)
+  is_banned    Boolean        @default(false) 
   items        Item[]
   offers       ItemOffers[]
   @@map("users")
 }
+ 

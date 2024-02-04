@@ -24,7 +24,7 @@ const initSocket = ( server ) => {
         
         
         const numPeopleInAuction = io.sockets.adapter.rooms.get(auctionId).size; 
-        console.log(`room`, numPeopleInAuction);
+        console.log(`THERE ARE ${numPeopleInAuction} persons in this ROOM`);
         socket.to(auctionId).emit('viewersAmount', numPeopleInAuction);
       });
 
