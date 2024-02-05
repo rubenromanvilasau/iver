@@ -80,11 +80,11 @@ export const ItemPage = () => {
     }
 
     return (
-        <div className='container flex flex-col md:flex-row justify-center mx-auto gap-2 text-black mt-4 flex-wrap'>
+        <div className='container flex flex-col md:flex-row justify-center pt-4 pb-4 mx-auto gap-2 text-black mt-4 flex-wrap'>
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-col md:flex-row  gap-4 bg-white w-11/12 md:w-3/5 box-border p-4 rounded-md shadow-md">
+                    <div className="flex flex-col md:flex-row gap-4 bg-white w-1/2 md:w-3/5 box-border h-fit p-8 rounded-md shadow-md">
                         <div className="flex flex-col w-full md:w-1/2 overflow-y-hidden">
                             <img className='max-h-sm min-h-sm rounded-md' src={ currentImage.image_url || '/img/no-image.png' } alt={`${item.name}-image`} />
                             {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }

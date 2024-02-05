@@ -7,36 +7,38 @@ import 'react-toastify/dist/ReactToastify.css';
 export const IverApp = () => {
     return(
         <UserProvider>
-            <div className='flex flex-col justify-between'>
+            <div className='flex flex-col min-h-screen grow break-all'>
                 <Navbar/>
-                <Routes>
-                    <Route path='/' element={ <HomePage/> }/>
-                    <Route path='/search/:query' element={ <SearchResultsPage/> }/>
-                    <Route path='/login' element={ <LoginPage/> }/>
-                    <Route path='/item/:id' element={ <ItemPage/> }/>
-                    <Route path='/my-profile'
-                        element={
-                            // <ProtectedRoute>
-                                <MyProfilePage/>
-                            // </ProtectedRoute>
-                        }
-                    />
-                    <Route path='/my-orders' 
-                        element={ 
-                            <ProtectedRoute>
-                                <MyOrdersPage/>
-                            </ProtectedRoute> 
-                    }/>
-                    <Route 
-                        path='/publish' 
-                        element={ 
-                            // <ProtectedRoute>
-                                <PublishItemPage/>
-                            // </ProtectedRoute> 
-                        }
-                    />
-                    <Route path='/checkout/:id' element={<CheckoutPage/>}/>
-                </Routes>
+                <div className="flex grow">
+                    <Routes>
+                        <Route path='/' element={ <HomePage/> }/>
+                        <Route path='/search/:query' element={ <SearchResultsPage/> }/>
+                        <Route path='/login' element={ <LoginPage/> }/>
+                        <Route path='/item/:id' element={ <ItemPage/> }/>
+                        <Route path='/my-profile'
+                            element={
+                                // <ProtectedRoute>
+                                    <MyProfilePage/>
+                                // </ProtectedRoute>
+                            }
+                        />
+                        <Route path='/my-orders' 
+                            element={ 
+                                <ProtectedRoute>
+                                    <MyOrdersPage/>
+                                </ProtectedRoute> 
+                        }/>
+                        <Route 
+                            path='/publish' 
+                            element={ 
+                                // <ProtectedRoute>
+                                    <PublishItemPage/>
+                                // </ProtectedRoute> 
+                            }
+                        />
+                        <Route path='/checkout/:id' element={<CheckoutPage/>}/>
+                    </Routes>
+                </div>
                 <Footer/>
             </div>
         </UserProvider>

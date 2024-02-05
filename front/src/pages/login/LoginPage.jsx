@@ -1,4 +1,3 @@
-import './login-page.scss';
 import { useState } from 'react';
 import { LoginForm } from './components/LoginForm';
 import { SignUpForm } from './components/SignUpForm';
@@ -17,13 +16,13 @@ export const LoginPage = () => {
                 <section className="flex flex-row justify-center w-full">
                     <button
                         onClick={ () => { onChangeSignIn( true ) } }
-                        className={ `w-1/2 px-8 py-4 box-border transition rounded-md text-base ${ isLoginSelected ? 'bg-primary' : 'border-primary border text-primary'}`}
+                        className={ `w-1/2 px-8 py-4 box-border transition rounded-md text-base ${ isLoginSelected ? 'bg-primary text-white' : 'border-primary border text-primary'}`}
                     >
                         Login
                     </button>
                     <button 
                         onClick={ () => { onChangeSignIn( false ) } }
-                        className={ `w-1/2 px-8 box-border transition rounded-md text-base ${ !isLoginSelected ? 'bg-primary' : 'border-primary border text-primary'}`}
+                        className={ `w-1/2 px-8 box-border transition rounded-md text-base ${ !isLoginSelected ? 'bg-primary text-white' : 'border-primary border text-primary'}`}
                         style={{ marginLeft: '-6px'}}
                     >
                         Sign up

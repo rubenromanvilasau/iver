@@ -1,5 +1,4 @@
 import { useContext, useRef, useState } from 'react';
-import '../login-page.scss';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import { Button, Modal, TextInput } from 'flowbite-react';

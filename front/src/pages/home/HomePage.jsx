@@ -41,7 +41,7 @@ export const HomePage = () => {
     }, [isAscendant, currentSortOption])
 
     return (
-        <div className='container mx-auto gap-4 p-4 w-full'>
+        <div className='container mx-auto gap-4 pt-4 pb-4 w-full'>
             <div className='flex content-center w-full overflow-hidden'>
                 <Banner/>
             </div>
