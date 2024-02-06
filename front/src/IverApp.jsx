@@ -3,6 +3,7 @@ import { HomePage, ItemPage, LoginPage, MyOrdersPage, MyProfilePage, CheckoutPag
 import { Footer, Navbar, ProtectedRoute } from './components/index';
 import { UserProvider } from './context/UserProvider';
 import 'react-toastify/dist/ReactToastify.css'; 
+import { ToastContainer } from 'react-toastify';
 
 export const IverApp = () => {
     return(
@@ -40,6 +41,7 @@ export const IverApp = () => {
                     </Routes>
                 </div>
                 <Footer/>
+                <ToastContainer/>
             </div>
         </UserProvider>
     )

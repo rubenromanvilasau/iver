@@ -8,8 +8,9 @@ class UsersService {
             bcrypt.hash( password, 10, ( err, hash ) => {
                 if( err ) reject( err );
 
-                console.log(rut, name, last_name, username, hash, email, phone)
-                prisma.User.create({
+                console.log(rut, name, last_name, username, hash, email, phone);
+
+                prisma.user.create({
                     data: {
                         rut,
                         name,
@@ -29,11 +30,11 @@ class UsersService {
     }
     
     getAllUsers(){
-        return prisma.User.findMany();
+        return prisma.user.findMany();
     }
     
     getById( rut ){
-        return prisma.User.findFirst({
+        return prisma.user.findFirst({
             where: {
                 rut: rut,
             }
@@ -41,10 +42,17 @@ class UsersService {
     }
 
     getByEmail( email ){
-        return prisma.User.findFirst({
+        return prisma.user.findFirst({
             where: {
                 email: email,
             }
+        });
+    }
+
+    update( id, data ) {
+        return prisma.user.update({
+            where: { rut: id },
+            data: data
         });
     }
 }

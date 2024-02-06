@@ -5,7 +5,6 @@ import { useFetchItem } from '../../hooks';
 import { Carousel, Loading } from '../../components';
 import { socket } from '../../socket';
 import { showErrorToast, showInfoToast } from '../../utils/toasts';
-import { ToastContainer } from 'react-toastify';
 import { UserContext } from '../../context/UserContext';
 import { NewOfferForm, CurrentOffers, OfferDetails, ItemDetails, ItemHeader } from './components/';
 import { convertToCurrency } from '../../utils';
@@ -105,7 +104,6 @@ export const ItemPage = () => {
                     { user.rut === item.seller.rut && <CurrentOffers item={item}/> }
                 </>
             }
-            <ToastContainer/>
         </div>
     )
 }

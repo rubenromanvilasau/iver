@@ -109,6 +109,19 @@ class UserController {
             res.status(500).send( err );
         }
     }
+
+    async update( req, res ) {
+        const { id } = req.params;
+        const data = req.body;
+    
+        try {
+            const user = await userService.update( id, data );
+            res.status(200).send( user );
+        }catch( err ) {
+            console.log('[CONTROLLERS_USERS] updateUser ERROR', err);
+            res.status(500).send( err );
+        }
+    }
 }
 
 module.exports = UserController;

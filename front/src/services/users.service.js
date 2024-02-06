@@ -13,4 +13,8 @@ export default class UserService {
         console.log('data', data)
         return axios.post( this.apiUrl + '/register', data );
     }
+
+    update( id, data ) {
+        return axios.put( this.apiUrl + `/update/${id}`, data);
+    }
 }

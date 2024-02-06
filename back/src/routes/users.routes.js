@@ -13,8 +13,8 @@ router.get('/:id', userController.getById);
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.delete('/', test);
-router.put('/', test);
-router.patch('/', test);
+router.put('/update/:id', userController.update);
+router.patch('/update/:id', userController.update);
 
 module.exports = router;
 
