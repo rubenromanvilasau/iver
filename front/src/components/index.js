@@ -15,3 +15,4 @@ export * from './categories-card/CategoriesCard';
 export * from './paginator/Paginator';
 export * from './timepicker/Timepicker';
 export * from './countdown-timer/CountdownTimer';
+export * from './new-item-card/NewItemCard';
