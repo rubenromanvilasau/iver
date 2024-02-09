@@ -1,42 +1,46 @@
-import { Link } from 'react-router-dom';
-import './item-cards.scss';
+import { Link } from "react-router-dom"
+import { FaBitcoin, FaEthereum } from "react-icons/fa";
+import { convertToCurrency } from "../../utils";
+import { CountdownTimer } from "../countdown-timer/CountdownTimer";
 import PropTypes from 'prop-types';
-import { convertToCurrency } from '../../utils/convert-to-price';
-import { CountdownTimer } from '../countdown-timer/CountdownTimer';
 
 export const ItemCard = ({ item_id, name, images, price, offers, ends_at }) => {
-
     return (
-        <Link to={ `/item/${item_id}` }>
-            <div className='rounded-md box-sizing w-18 cursor-pointer text-center transition duration-500 bg-white shadow-md p-6 hover:scale-105'>
-                <span className='text-black text-xl'>{ name }</span>
-                <section className='mt-1'>
-                        <img className='h-36 rounded-md w-full' src={ images.length > 0 ? images[0].image_url : '/img/funko.jpg' } alt="item image"/>
-                    <div className="text-left my-2">
-                        <div >
-                            <span className='text-black'>Min price: </span>
-                            <span className='font-light text-black'> { convertToCurrency( price ) }</span>
-                        </div>
-                        <div>
-                            <span className='text-black'>Current offer: </span>
-                            <span className='font-light text-black'> { offers.length > 0 ? convertToCurrency( offers[0].amount ) : 0 }</span>
-                        </div>                                     
-                        <div>
-                            <span className='text-black'>Time left:</span>
-                            <CountdownTimer endDate={ ends_at }/>
-                        </div>
+        <div className="bg-white w-72 rounded-md cursor-pointer transition-all ease-in duration-200 p-6 hover:transition-none">
+            <img src="/img/gtr.jpeg" className="w-full rounded-md h-36" alt="Funko image"/>
+            <h5 className="font-bold text-text-primary text-xl mt-2">{name}</h5>
+            
+            <div className="mt-2">
+                <div className="flex flex-row items-center gap-1">
+                    <p className="text-slate-600 text-sm font-bold">Floor price:</p>
+                    <p className="text-slate-500 text-sm font-semibold">{convertToCurrency(price)}</p>
+                </div>
+                <div className="flex flex-row gap-1 items-center mt-4">
+                    <FaBitcoin title="BTC" className="text-orange-400 text-xl"/>
+                    <FaEthereum title="ETH" className="text-slate-500 text-xl"/>
+                </div>
+                
+                <div className="border-b-2 mt-2 border-slate-100"></div>
+                <p className="text-primary text-base font-semibold mt-4">HIGHEST BID: <span className="text-slate-500 text-base underline">{convertToCurrency(offers[0]?.amount ?? 0)}</span></p>
+                <div className="flex flex-row justify-between items-center mt-4">
+                    <div className="bg-slate-400 rounded-xl p-2 text-slate-100 text-sm font-semibold">
+                        <CountdownTimer
+                            date={ends_at}
+                        />
                     </div>
-                </section>
+                    <Link to={`item/${item_id}`}><div className=""><span className="text-slate-500 text- font-semibold p-2 rounded-xl transition-all ease-in duration-200 hover:bg-primary hover:text-slate-100 border-2">BID NOW</span></div></Link>
+                </div>
+
             </div>
-        </Link>        
+        </div>
     )
 };
 
 ItemCard.propTypes = {
-    name: PropTypes.string.isRequired,
-    images: PropTypes.array.isRequired,
-    price: PropTypes.number.isRequired,
     item_id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    images: PropTypes.array,
+    price: PropTypes.number.isRequired,
     offers: PropTypes.array.isRequired,
     ends_at: PropTypes.string.isRequired,
-};
+}

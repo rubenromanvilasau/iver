@@ -1,3 +1,4 @@
+import { FaDiscord } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 const instagramIcon = '/icons/instagram.svg';
 const facebookIcon = '/icons/facebook.svg';
@@ -21,6 +22,9 @@ export const Footer = () => {
                     </Link>
                     <Link to={'/linkedin'}>
                         <img className='w-6 h-6 cursor-pointer' src={ linkedinIcon } alt="linkedin icon" />
+                    </Link>
+                    <Link to={'/discord'}>
+                        <FaDiscord className='text-3xl text-white'/>
                     </Link>
                 </div>
             </div>

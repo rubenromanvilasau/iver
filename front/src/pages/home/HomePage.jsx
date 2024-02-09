@@ -1,4 +1,4 @@
-import { Banner, ItemCard, Loading, Paginator, SortDropdown, NewItemCard } from "../../components";
+import { Banner, ItemCard, Loading, Paginator, SortDropdown } from "../../components";
 import { useFetchItems } from "../../hooks";
 import { useEffect, useState } from 'react';
 
@@ -59,7 +59,6 @@ export const HomePage = () => {
                     ? <div className='flex justify-center w-full'><Loading/></div>
                     : items.data.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
-                <NewItemCard/>
             </section>
             <div className='mt-4'>
                 <Paginator

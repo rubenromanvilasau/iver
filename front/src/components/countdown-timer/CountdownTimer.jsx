@@ -31,12 +31,11 @@ export const CountdownTimer = ({ endDate }) => {
     }, [endDate]);
 
     return (
-        <span className="font-light text-text-secondary">
+        <span className={`text-slate-100 text-sm font-semibold ${timeLeft.seconds <= 60 && 'animate-bounce'}`}>
             { new Date( endDate ) > new Date() 
                 ? ` ${timeLeft.days}d:${timeLeft.hours}h:${timeLeft.minutes}m:${timeLeft.seconds}s`
                 : ' Ended'
             }
-           
         </span>
     )
 };

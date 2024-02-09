@@ -1,13 +1,14 @@
-import './item-page.scss';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { useFetchItem } from '../../hooks';
-import { Carousel, Loading } from '../../components';
+import { Carousel, Loading, Tabs } from '../../components';
 import { socket } from '../../socket';
 import { showErrorToast, showInfoToast } from '../../utils/toasts';
 import { UserContext } from '../../context/UserContext';
-import { NewOfferForm, CurrentOffers, OfferDetails, ItemDetails, ItemHeader } from './components/';
+import { SellerInfoCard, NewOfferForm, CurrentOffers, ItemDetails, ItemHeader } from './components/';
 import { convertToCurrency } from '../../utils';
+
+const tabs = ['Description', 'Instructions'];
 
 export const ItemPage = () => {
     const { id } = useParams();
@@ -19,6 +20,7 @@ export const ItemPage = () => {
     const [openModal, setOpenModal] = useState( false );
     const [lastOffer, setLastOffer] = useState( { amount: 0 } );
     const { item, isLoading } = useFetchItem( id );
+    const [currentTab, setCurrentTab] = useState(tabs[0]);
     
     const handleImageClick = ( image ) => {
         setCurrentImage( image );
@@ -79,20 +81,31 @@ export const ItemPage = () => {
     }
 
     return (
-        <div className='container flex flex-col md:flex-row justify-center pt-4 pb-4 mx-auto gap-2 text-black mt-4 flex-wrap'>
+        <div className='container flex flex-col md:flex-row justify-center pt-4 pb-4 mx-auto gap-2 mt-4'>
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-col md:flex-row gap-4 bg-white w-1/2 md:w-3/5 box-border h-fit p-8 rounded-md shadow-md">
-                        <div className="flex flex-col w-full md:w-1/2 overflow-y-hidden">
-                            <img className='max-h-sm min-h-sm rounded-md' src={ currentImage.image_url || '/img/no-image.png' } alt={`${item.name}-image`} />
+                    <div className="flex flex-col md:flex-row gap-8 h-fit p-8 rounded-md">
+                        <div className="flex flex-col md:w-1/2 overflow-y-hidden">
+                            <img className='max-h-sm min-h-sm rounded-md mb-2' src={ '/img/gtr.jpeg'|| '/img/no-image.png' } alt={`${item.name}-image`} />
                             {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }
+                            <Tabs
+                                tabs={tabs}
+                                onClickTab={setCurrentTab}
+                                currentTab={currentTab}
+                            />
+                            <p className='mt-4'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim quasi optio placeat quaerat? Eveniet numquam doloremque nostrum unde laborum maiores saepe fugiat, aspernatur provident fugit nihil ullam error quis? Eligendi, veniam. Dolorum repudiandae laboriosam error eum corporis ut, numquam beatae ab veniam ea assumenda, alias possimus dolorem aliquid natus vel, rerum eligendi nam.</p>
                         </div>
-                        <section className="w-full md:w-3/6 flex flex-col justify-between gap-12">
+                        <section className="md:w-1/3 flex flex-col gap-12">
                             <ItemHeader item={item} viewersAmount={viewersAmount}/>
-                            <ItemDetails item={item}/>
-                            <OfferDetails item={item} lastOffer={lastOffer} onClickNewOffer={onClickNewOffer}/>
+                            <ItemDetails 
+                                item={item}
+                                onClickNewOffer={onClickNewOffer}
+                                lastOffer={lastOffer.amount}
+                            />
                         </section>
+
+                        <SellerInfoCard seller={item.seller}/>
 
                         {/* Modal */}
                         <NewOfferForm 
