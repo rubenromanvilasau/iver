@@ -46,7 +46,7 @@ class ItemsService {
         // ]);
 
         const [ data, count ] = await prisma.$transaction([
-            prisma.Item.findMany({
+            prisma.item.findMany({
                 where,
                 include: {
                     seller: true,
@@ -60,7 +60,7 @@ class ItemsService {
                 skip: ( page - 1 ) * pageSize,
                 take: pageSize,
             }),
-            prisma.Item.count({
+            prisma.item.count({
                 where,
             })
         ]);
@@ -72,7 +72,7 @@ class ItemsService {
     }
 
     getById( id ) {
-        return prisma.Item.findFirst({
+        return prisma.item.findFirst({
             where: {
                 item_id: id,
             },
@@ -88,7 +88,7 @@ class ItemsService {
     }
 
     create( item ) {
-        return prisma.Item.create({
+        return prisma.item.create({
             data: {
                 name:        item.name,
                 price:       item.price,

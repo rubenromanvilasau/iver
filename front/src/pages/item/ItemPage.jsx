@@ -85,7 +85,7 @@ export const ItemPage = () => {
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-col md:flex-row gap-8 h-fit p-8 rounded-md">
+                    <div className="flex flex-col md:flex-row gap-8 h-fit lg:p-8  rounded-md">
                         <div className="flex flex-col md:w-1/2 overflow-y-hidden">
                             <img className='max-h-sm min-h-sm rounded-md mb-2' src={ '/img/gtr.jpeg'|| '/img/no-image.png' } alt={`${item.name}-image`} />
                             {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }

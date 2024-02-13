@@ -7,7 +7,7 @@ export const Carousel = ({ images, currentImage, handleImageClick }) => {
             images.length > 0 && images.map( image => (
                 <img 
                     onClick={ () => { handleImageClick( image) } }
-                    className={`w-36 h-auto cursor-pointer rounded-md ${ currentImage.item_image_id === image.item_image_id ? 'opacity-50 border-4 border-blue-800' : '' }`}
+                    className={`w-36 h-auto cursor-pointer rounded-md transition-all ease-linear duration-200 ${ currentImage.item_image_id === image.item_image_id ? 'opacity-50 border-4 border-blue-800' : '' }`}
                     key={ image.item_image_id } 
                     src={ image.image_url } 
                     // alt={ `${item.name}`}

@@ -3,11 +3,11 @@ const { prisma } = require('../db.js');
 class OrderService {
 
     async create( data ) {
-        return prisma.Order.create({ data });
+        return prisma.order.create({ data });
     }
     
     async getAll() {
-        const orders = await prisma.Order.findMany({
+        const orders = await prisma.order.findMany({
             include: {
                 offer: {
                     include: {
@@ -21,20 +21,20 @@ class OrderService {
     }
     
     async getById( id ) {
-        return prisma.Order.findUnique({
+        return prisma.order.findUnique({
             where: { order_id }
         });
     }
     
     async update( id, data ) {
-        return prisma.Order.update({
+        return prisma.order.update({
             where: { order_id },
             data
         });
     }
     
     async delete( id ) {
-        return prisma.Order.delete({
+        return prisma.order.delete({
             where: { order_id }
         });
     }

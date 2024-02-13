@@ -2,7 +2,7 @@ const { prisma } = require("../db");
 
 class StatusService {
   getAll() {
-    return prisma.itemStatuses.findMany();
+    return prisma.itemStatus.findMany();
   }
 };
 

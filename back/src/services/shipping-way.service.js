@@ -3,7 +3,7 @@ const { prisma } = require('../db');
 class ShippingWayService {
     
     getAll(){
-        return prisma.ShippingWay.findMany();
+        return prisma.shippingWay.findMany();
     }
 
 }
