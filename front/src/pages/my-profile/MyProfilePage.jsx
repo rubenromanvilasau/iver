@@ -1,9 +1,10 @@
-import { Button, Label, Select, TextInput, ToggleSwitch } from 'flowbite-react';
+import { Button, Checkbox, Label, TextInput, ToggleSwitch } from 'flowbite-react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { UserContext } from '../../context/UserContext';
 import { UserService } from '../../services/index';
 import { showErrorToast, showSuccessToast } from '../../utils/toasts';
+import { FaBitcoin, FaEthereum } from 'react-icons/fa';
 
 
 const userService = new UserService();
@@ -11,6 +12,20 @@ const userService = new UserService();
 const iconsColor = '#00adb5';
 
 const tabs = ['Basic information', 'Preferences'];
+const cryptocurrencies = [
+    {
+        id: 1,
+        name: 'Bitcoin',
+        symbol: 'BTC',
+        icon: <FaBitcoin title="BTC" className="text-orange-400 text-xl"/>
+    },
+    {
+        id: 2,
+        name: 'Ethereum',
+        symbol: 'ETH',
+        icon: <FaEthereum title="ETH" className="text-slate-500 text-xl"/>
+    }
+];
 
 export const MyProfilePage = () => {
 
@@ -42,8 +57,8 @@ export const MyProfilePage = () => {
         console.log('User edited', updatedUser);
     }
 
-    const save = async (e) => {
-        e.preventDefault();
+    const updateUser = async (e) => {
+        // e.preventDefault();
         await userService.update( user.rut, updatedUser )
             .then( res => {
                 console.log('Updated user', res);
@@ -54,7 +69,22 @@ export const MyProfilePage = () => {
                 showErrorToast('Error updating your information :(');
                 return;
             });
+    }
 
+    //Update user accepts crypto payment preference
+    const updateAcceptsCrypto = async (e) => {
+        const acceptsCrypto = e;
+        await userService.updateUserPreferences( user.rut, { accepts_crypto_payments: acceptsCrypto } )
+            .then( res => {
+                console.log('Updated user', res);
+                showSuccessToast('Your preferences has been updated succesfully!');
+            
+            })
+            .catch( err => {
+                console.log('Error updating user', err);
+                showErrorToast('Error updating your preferences :(');
+                return;
+            })
     }
 
     const handleAvatarClick = () => {
@@ -298,7 +328,7 @@ export const MyProfilePage = () => {
                                 <div className="flex justify-center mt-8 md:mt-4">
                                     <Button 
                                         className="bg-primary pl-8 pr-8"
-                                        onClick={save}
+                                        onClick={updateUser}
                                         type="submit"
                                     >
                                         Save
@@ -316,8 +346,8 @@ export const MyProfilePage = () => {
                                 <div>
                                     <ToggleSwitch
                                         label='I do accept crypto as payments'
-                                        checked={user.accepts_crypto_payment}
-                                        onChange={(val) => console.log('Accepts crypto', val)}
+                                        checked={updatedUser.accepts_crypto_payment}
+                                        onChange={updateAcceptsCrypto}
                                     />
                                     <div className='mb-2 block'>
                                         <Label
@@ -325,9 +355,37 @@ export const MyProfilePage = () => {
                                             value="Currency"
                                         />
                                     </div>
-                                    <Select
+                                    {    updatedUser.acceptsCrypto && (
+                                        <div className='rounded-md bg-slate-200 border-2 border-slate-300 p-4'>
+                                            { cryptocurrencies.map( (currency, i) => (
+                                                    <div 
+                                                        className="flex flex-row items-center gap-2" 
+                                                        key={i}
+                                                    >
+                                                        <Checkbox/>
+                                                        <span>{ currency.symbol }</span>  
+                                                        { currency.icon }
+                                                    </div>
+
+                                                ))
+                                            }
+                                        </div>
+                                    )}
+                                    {/* <Select
                                         id='currencies'
-                                    />
+                                        onChange={(e) => console.log('Currency', e.target.value)}
+                                    >
+                                        {
+                                            cryptocurrencies.map( (crypto, i) => (
+                                                <option 
+                                                    value={crypto}
+                                                    key={i}
+                                                >
+                                                    {crypto}
+                                                </option>
+                                            ))
+                                        }
+                                    </Select> */}
                                 </div>
                             )
                    }

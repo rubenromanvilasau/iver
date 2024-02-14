@@ -52,7 +52,14 @@ class UsersService {
     update( id, data ) {
         return prisma.user.update({
             where: { rut: id },
-            data: data
+            data,
+        });
+    }
+
+    updatePreferences( id, data ) {
+        return prisma.userPreference.update({
+            where: { rut: id },
+            data,
         });
     }
 }

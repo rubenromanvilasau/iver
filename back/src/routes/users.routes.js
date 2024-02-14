@@ -14,6 +14,7 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.delete('/', test);
 router.put('/update/:id', userController.update);
+router.put('/update/preferences/:id', userController.updatePreferences);
 router.patch('/update/:id', userController.update);
 
 module.exports = router;
