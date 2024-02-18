@@ -10,6 +10,7 @@ const test = ( req, res ) => {
 
 router.get('/', userController.getAll);
 router.get('/:id', userController.getById);
+router.get('/:id/items', userController.getItems);
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.delete('/', test);

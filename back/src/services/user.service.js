@@ -3,6 +3,7 @@ const { prisma } = require('../db');
 
 class UsersService {
 
+    //TODO WE NEED TO CREATE USER PREFRENCE REGISTER
     register( rut, name, last_name, username, password, email, phone ){
         return new Promise( ( resolve, reject ) => {
             bcrypt.hash( password, 10, ( err, hash ) => {
@@ -58,7 +59,7 @@ class UsersService {
 
     updatePreferences( id, data ) {
         return prisma.userPreference.update({
-            where: { rut: id },
+            where: { user_id: id },
             data,
         });
     }

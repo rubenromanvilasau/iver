@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { CategoriesCard, CountdownTimer, Loading, Paginator } from "../../components/index";
+import { CategoriesCard, CountdownTimer, ItemCard, Loading, Paginator } from "../../components/index";
 import { useFetchItems } from "../../hooks";
 import { convertToCurrency } from "../../utils/convert-to-price";
 
@@ -28,35 +28,22 @@ export const SearchResultsPage = () => {
     
     return (
         <div className="container p-4 mx-auto mt-4">
-            <h1 className="text-2xl text-text-primary">Results for: <span className="text-text-secondary text-xl">{ query }</span></h1>
+            <h1 className="text-2xl text-text-primary uppercase">Results for: <span className="text-text-secondary text-xl unde">{ query }</span></h1>
             <div className="flex flex-row gap-4 w-full mt-4">
                 <CategoriesCard
                     onChangeCategory={onChangeCategory}
                 />
-                <ul className="w-full">
-                    { items.data.map( item => 
-                        ( <Link to={`/item/${item.item_id}`} key={item.item_id}>
-                            <li className="bg-white rounded-md cursor-pointer mt-4" >
-                                <div className="flex flex-row justify-between gap-4 p-4 box-border">
-                                    <div className="flex flex-col items-center">
-                                        <h2 className="text-text-primary">{ item.name }</h2>
-                                        <img className="w-48" src="/img/funko.jpg" alt="" />
-                                    </div>
-                                    <div className="flex flex-col justify-center">
-                                        <p className="text-text-secondary">{ item.description }</p>
-                                        <p className="text-text-secondary">{ convertToCurrency( item.price ) }</p>
-                                    </div>
-                                    <div className="flex flex-col justify-center">
-                                        <p className="text-text-secondary">Time left:</p>
-                                        <CountdownTimer
-                                            endDate={item.ends_at }
-                                        />
-                                    </div>
-                                </div>
-                            </li>
-                        </Link> )
-                    )}
-                </ul>
+                { items.data.length > 0 ? items.data.map( item => 
+                    <ItemCard
+                        key={item.item_id}
+                        {...item}
+                    />)
+
+                    :
+                    <div className="w-full flex justify-center h-full items-center">
+                        <h2 className="text-slate-500 uppercase">0 results</h2>
+                    </div>
+                }
             </div>
             <div className="mt-4">
                 <Paginator

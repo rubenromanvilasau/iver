@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ItemService from "../services/items.service";
+import ItemService from "../services/item.service";
 const itemService = new ItemService();
 
 export const useFetchItem = ( id ) => {

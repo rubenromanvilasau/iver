@@ -1,16 +1,19 @@
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { useContext, useEffect, useState } from 'react';
-import ItemService from '../../../services/items.service';
+import ItemService from '../../../services/item.service';
 import { UserContext } from '../../../context/UserContext';
 import { showErrorToast, showSuccessToast } from '../../../utils/toasts';
+import PropTypes from 'prop-types';
+import { convertToCurrency } from '../../../utils';
 const itemService = new ItemService();
 
-export const NewOfferForm = ({ openModal, onClose, itemId }) => {
+export const NewOfferForm = ({ openModal, onClose, itemId, minAmount = 0}) => {
     
     const { user } = useContext( UserContext );
     const [amount, setAmount] = useState('');
     const [currentStep, setCurrentStep] = useState( 0 );
     const [isLoading, setIsLoading] = useState( false );
+    const [error, setError] = useState({ status: false, message: ''});
 
     const createOffer = () => {
         setIsLoading( true );
@@ -19,7 +22,7 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
             return;
         }
 
-        if( amount > 0 ) {
+        if( amount > minAmount ) {
             itemService.createOffer( itemId, { amount: amount, userId: user.rut  } )
                 .then( response => {
                     setIsLoading( false );
@@ -31,8 +34,21 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
                     console.error('Error creating offer:', err.data.message);
                     setIsLoading( false );
                 });
+        }else{
+            setError({ status: true, message: `Amount must be greater than last offer ${convertToCurrency(minAmount)}.`})
         }
     };
+    
+    const onChangeAmount = ( event ) => {
+        const newAmount = Number( event.target.value );
+        setError({ status: false, message: ''});
+
+        if( newAmount <= minAmount ) {
+            setError({ status: true, message: `Amount must be greater than last offer ${convertToCurrency(minAmount)}.`})
+        }
+        
+        setAmount( newAmount );
+    }
 
     useEffect(() => {
     
@@ -84,12 +100,14 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
                             <TextInput
                                 id="amount"
                                 type='number'
-                                placeholder="$1.500"
+                                placeholder={convertToCurrency(minAmount)}
+                                min={minAmount}
                                 value={amount}
-                                onChange={(event) => setAmount( Number( event.target.value ) )}
+                                onChange={onChangeAmount}
                                 disabled={isLoading}
                                 required
                             />
+                            { error.status === true && <span className='text-red-500 text-sm'>{ error.message }</span>}
                             <Button 
                                 onClick={createOffer}
                                 isProcessing={isLoading}
@@ -103,3 +121,10 @@ export const NewOfferForm = ({ openModal, onClose, itemId }) => {
         </Modal>
     )
 };
+
+NewOfferForm.propTypes = {
+    openModal: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    itemId: PropTypes.number.isRequired,
+    minAmount: PropTypes.number,
+}

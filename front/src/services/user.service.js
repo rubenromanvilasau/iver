@@ -8,9 +8,12 @@ export default class UserService {
     login( email, password ) {
         return axios.post( this.apiUrl + '/login', { email, password } );
     }
+
+    getItems( id ) {
+        return axios.get( this.apiUrl + `/${id}/items`);
+    }
     
     register( data ) {
-        console.log('data', data)
         return axios.post( this.apiUrl + '/register', data );
     }
 

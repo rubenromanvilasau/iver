@@ -6,3 +6,4 @@ export * from './my-orders/MyOrdersPage';
 export * from './search-results/SearchResultsPage';
 export * from './my-profile/MyProfilePage';
 export * from './checkout/CheckoutPage';
+export * from './my-items/MyItemsPage';

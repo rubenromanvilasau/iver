@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Loading, SuccessCard } from '../../components';
 import { ErrorCard } from '../../components/error-card/ErrorCard';
-import ItemService from "../../services/items.service";
+import ItemService from "../../services/item.service";
 const itemService = new ItemService();
 import { ToastContainer } from 'react-toastify';
 import { PublishItemForm } from './components/PublishItemForm';

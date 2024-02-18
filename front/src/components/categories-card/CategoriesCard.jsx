@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import CategoryService from  '../../services/categories.service';
+import CategoryService from  '../../services/category.service';
 const categoryService = new CategoryService();
 import PropTypes from 'prop-types';
 
@@ -30,7 +30,7 @@ export const CategoriesCard = ({ onChangeCategory }) => {
                         { category.name }
                     </li>
                 ))}
-                <li 
+                {/* <li 
                     className="text-text-primary"
                 >
                     Cars
@@ -39,7 +39,7 @@ export const CategoriesCard = ({ onChangeCategory }) => {
                         <li className="text-text-secondary cursor-pointer">BMW</li>
                         <li className="text-text-secondary cursor-pointer">Peugeot</li>
                     </ul>
-                </li>
+                </li> */}
             </ul>
         </div>
     )

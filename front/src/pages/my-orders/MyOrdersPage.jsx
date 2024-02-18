@@ -14,8 +14,8 @@ export const MyOrdersPage = () => {
     },[]);
 
     return (
-        <div className="flex flex-col p-8 box-border">
-            <h1 className='text-4xl font-bold text-text-primary'>My Orders</h1>
+        <div className="flex flex-col p-8 box-border w-full">
+            <h1 className='text-4xl text-slate-500'>My Orders</h1>
             <div className="overflow-x-auto my-4">
                 <Table striped>
                 <Table.Head>

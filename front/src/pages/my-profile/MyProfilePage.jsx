@@ -37,6 +37,12 @@ export const MyProfilePage = () => {
         username: '',
     });
     const [currentTab, setCurrentTab] = useState(tabs[0]);
+    const [isInfoChanged, setIsInfoChanged] = useState(false);
+    const [userPreferences, setUserPreferences] = useState({
+        user_id: '',
+        accepts_crypto_payment: false,
+        email_notificactions: true,
+    });
     
     const avatarInputRef = useRef(null);
     
@@ -50,6 +56,7 @@ export const MyProfilePage = () => {
     }
 
     const onChangeInput = (e) => {
+        setIsInfoChanged( true );
         setUpdatedUser({
             ...updatedUser,
             [e.target.name]: e.target.value
@@ -71,9 +78,16 @@ export const MyProfilePage = () => {
             });
     }
 
+    // const updateUserPreferences = (e) => {
+        
+    // }
+
     //Update user accepts crypto payment preference
     const updateAcceptsCrypto = async (e) => {
+        setIsInfoChanged( true );
+
         const acceptsCrypto = e;
+        setUserPreferences({ accepts_crypto_payment: acceptsCrypto });
         await userService.updateUserPreferences( user.rut, { accepts_crypto_payments: acceptsCrypto } )
             .then( res => {
                 console.log('Updated user', res);
@@ -95,6 +109,18 @@ export const MyProfilePage = () => {
         console.log('Avatar changed', e.target.files[0]);
     }
 
+    const cancelUpdatedUser = () => {
+        event.preventDefault();
+        setIsInfoChanged( false );
+        setUpdatedUser({...user});
+        setInputsStatus({ 
+            name: false, 
+            lastName: false, 
+            email: false, 
+            username: false, 
+        });
+    }
+
     useEffect(() => {
         if( user ) {
             setUpdatedUser({...user});
@@ -102,16 +128,16 @@ export const MyProfilePage = () => {
     },[user]);
 
     return (
-        <div className='container mx-auto lg:pl-40 pt-8 pb-8'>
-            <h1 className='text-4xl'>{ currentTab }</h1>
+        <div className='container mx-auto lg:pl-40 pt-8 pb-8 pl-4 pr-4'>
+            <h1 className='text-4xl text-slate-600'>{ currentTab }</h1>
 
             <div>
-                <div className='flex flex-col  md:flex-row md:gap-32 mt-8'>
+                <div className='flex flex-col items-center md:items-start md:flex-row md:gap-32'>
 
                     {/* Avatar */}
                     <div className="flex flex-col gap-4">
                         <div
-                            className="relative h-fit"
+                            className="relative h-fit w-fit"
                             onClick={ handleAvatarClick }
                             role="button"
                         >
@@ -120,7 +146,8 @@ export const MyProfilePage = () => {
                                 name='avatar' 
                                 className='hidden'
                                 ref={avatarInputRef}
-                                onChange={handleAvatarChange}  
+                                onChange={handleAvatarChange}
+                                accept='.jpg, .jpeg, .png'
                             />
                             <img className='w-56 rounded-full h-auto border-primary border-2 p-2 shadow-md' src="/img/astronaut.png" alt="" />
                             <button 
@@ -142,7 +169,7 @@ export const MyProfilePage = () => {
                                         key={i}
                                         onClick={ () => setCurrentTab(tab) }
                                         >
-                                        <span className={`text-slate-500 ${currentTab === tab ? 'text-slate-50' : 'text-slate-500'}`}>{ tab }</span>
+                                        <span className={`text-slate-50 ${currentTab === tab ? 'text-slate-50' : 'text-slate-500'}`}>{ tab }</span>
                                     </div>
                                 ))
                             }
@@ -309,7 +336,6 @@ export const MyProfilePage = () => {
                                             id="password" 
                                             type="password" 
                                             placeholder="Ej *********" 
-                                            // value={'aaaaaaaa'}
                                             disabled={!inputsStatus.password}
                                             onChange={onChangeInput}
                                         />
@@ -324,52 +350,64 @@ export const MyProfilePage = () => {
                                             />
                                         </button>
                                     </div>
-                                </div>   
-                                <div className="flex justify-center mt-8 md:mt-4">
-                                    <Button 
-                                        className="bg-primary pl-8 pr-8"
-                                        onClick={updateUser}
-                                        type="submit"
-                                    >
-                                        Save
-                                    </Button> 
-                                </div>
+                                </div>  
+                                { isInfoChanged 
+                                    && (
+                                        <div className="w-full flex justify-start gap-2 mt-8 md:mt-0">
+                                            <Button 
+                                                className="bg-primary pl-8 pr-8"
+                                                onClick={updateUser}
+                                                type="submit"
+                                                disabled={!isInfoChanged}
+                                            >
+                                                Save
+                                            </Button> 
+                                            <Button 
+                                                className="bg-slate-500 pl-8 pr-8"
+                                                onClick={cancelUpdatedUser}
+                                                type="submit"
+                                            >
+                                                Cancel
+                                            </Button> 
+                                        </div>
+                                    )
 
+                                } 
                             </form>
                         )
-
                    }
 
                    {
                         currentTab === 'Preferences' 
                             && (
-                                <div>
+                                <div className='w-fit'>
+                                    <h2 className='text-xl text-slate-400 font-semibold'>Payments</h2>
+                                    <hr className='border-slate-400'/>
+                                    <p className='text-slate-400 w-96'>You can accept crypto as payment method when someone buys an item from you, client will be able to pay you with normal currency or crypto</p>
                                     <ToggleSwitch
-                                        label='I do accept crypto as payments'
-                                        checked={updatedUser.accepts_crypto_payment}
+                                        className='mt-4'
+                                        label='I want to accept crypto as payments'
+                                        checked={userPreferences.accepts_crypto_payment}
                                         onChange={updateAcceptsCrypto}
                                     />
-                                    <div className='mb-2 block'>
-                                        <Label
-                                            htmlFor="currency"
-                                            value="Currency"
-                                        />
-                                    </div>
-                                    {    updatedUser.acceptsCrypto && (
-                                        <div className='rounded-md bg-slate-200 border-2 border-slate-300 p-4'>
-                                            { cryptocurrencies.map( (currency, i) => (
-                                                    <div 
-                                                        className="flex flex-row items-center gap-2" 
-                                                        key={i}
-                                                    >
-                                                        <Checkbox/>
-                                                        <span>{ currency.symbol }</span>  
-                                                        { currency.icon }
-                                                    </div>
+                                    {    userPreferences.accepts_crypto_payment && (
+                                        <>
+                                            <h3 className='text-lg text-slate-400 mt-4'>Accepted currencies</h3>
+                                            <div className='rounded-md  border-2 border-slate-300 p-4'>
+                                                { cryptocurrencies.map( (currency, i) => (
+                                                        <div 
+                                                            className="flex flex-row items-center gap-2" 
+                                                            key={i}
+                                                        >
+                                                            <Checkbox/>
+                                                            <span className='text-slate-400'>{ currency.symbol }</span>  
+                                                            { currency.icon }
+                                                        </div>
 
-                                                ))
-                                            }
-                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        </>
                                     )}
                                     {/* <Select
                                         id='currencies'

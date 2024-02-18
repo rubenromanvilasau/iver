@@ -1,4 +1,6 @@
 const UserService = require('../services/user.service');
+const ItemService = require('../services/item.service');
+const itemService = new ItemService();
 const userService = new UserService();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -21,8 +23,7 @@ class UserController {
         } catch ( err ) {
             console.log('[CONTROLLERS-USERS] register ERROR', err);
             if( err.code === '23505' ) {
-                res.status(409).send({ message: 'User already exists' });
-                return;
+                return res.status(409).send({ message: 'User already exists' });
             }
             res.status(500).send( err );
         }
@@ -34,14 +35,12 @@ class UserController {
     
             const user = await userService.getByEmail( email );
             if( !user ) {
-                res.status(404).send({ message: 'User not found' });
-                return;
+                return res.status(404).send({ message: 'User not found' });
             }
     
             const match = await bcrypt.compare( password, user.password );
             if( !match ) {
-                res.status(401).send({ message: 'Invalid credentials' });
-                return;
+                return res.status(401).send({ message: 'Invalid credentials' });
             }
     
             const token = jwt.sign( { rut: user.rut, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' } );
@@ -62,8 +61,7 @@ class UserController {
             const users = await userService.getAllUsers();
             
             if( users.length === 0 ) {
-                res.status(404).send([]); 
-                return;
+                return res.status(404).send([]); 
             }
     
             res.status(200).send( users );
@@ -81,13 +79,12 @@ class UserController {
             const user = await userService.getById( id );
     
             if( !user ) {
-                res.status(404).send({ message: 'User not found' });
-                return;
+                return res.status(404).send({ message: 'User not found' });
             }
     
             res.status(200).send( user );
         }catch( err ) {
-            console.log('[CONTROLLERS_USERS] getUserById ERROR', err);
+            console.log('[CONTROLLERS-USERS] getUserById ERROR', err);
             res.status(500).send( err );
         }
     }
@@ -99,13 +96,30 @@ class UserController {
             const user = await userService.getByEmail( email );
     
             if( !user ) {
-                res.status(404).send({ message: 'User not found' });
-                return;
+                return res.status(404).send({ message: 'User not found' });
             }
     
             res.status(200).send( user );
         }catch( err ) {
-            console.log('[CONTROLLERS_USERS] getUserByEmail ERROR', err);
+            console.log('[CONTROLLERS-USERS] getUserByEmail ERROR', err);
+            res.status(500).send( err );
+        }
+    }
+
+    async getItems( req, res ) {
+        const{ id } = req.params;
+        try {
+
+            const user = await userService.getById( id );
+            if( !user ) {
+                return res.status(404).send({message: 'User not found'});
+            }
+
+            const items = await itemService.getUserItems( id );
+            console.log( 'items',items );
+            return res.status(200).send( items ); 
+        } catch ( err ) {
+            console.log('[CONTROLLERS-USERS] getItems ERROR ', err);
             res.status(500).send( err );
         }
     }
@@ -118,7 +132,7 @@ class UserController {
             const user = await userService.update( id, data );
             res.status(200).send( user );
         }catch( err ) {
-            console.log('[CONTROLLERS_USERS] updateUser ERROR', err);
+            console.log('[CONTROLLERS-USERS] updateUser ERROR', err);
             res.status(500).send( err );
         }
     }
@@ -131,7 +145,7 @@ class UserController {
             const user = await userService.updatePreferences( id, data );
             res.status(200).send( user );
         } catch ( err ) {
-            console.log('[CONTROLLERS_USERS] updatePreferences ERROR', err);
+            console.log('[CONTROLLERS-USERS] updatePreferences ERROR', err);
             res.status(500).send( err );
         }
     }

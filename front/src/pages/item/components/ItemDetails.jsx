@@ -51,7 +51,7 @@ export const ItemDetails = ({ item , onClickNewOffer, lastOffer }) => {
                 <Button
                     className=' ml-16 bg-yellow-400 transition-all ease-in duration-200 text-white font-extrabold uppercase hover:bg-yellow-500 rounded-lg'
                     onClick={ onClickNewOffer }
-                    disabled={ !user.token || user.rut === item.seller_id  || new Date( item.ends_at ) < new Date() }
+                    // disabled={ !user?.token || user.rut === item.seller_id  || new Date( item.ends_at ) < new Date() }
                 >
                     Offer
                 </Button>

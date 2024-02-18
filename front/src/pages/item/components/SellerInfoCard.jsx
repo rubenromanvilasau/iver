@@ -2,7 +2,7 @@ import { dateToText } from "../../../utils"
 
 export const SellerInfoCard = ( { seller } ) => {
     return (
-        <div className='md:w-1/5 flex flex-col bg-slate-50 rounded-lg pl-4 pr-4 pt-4 pb-8 h-fit'>
+        <div className='flex flex-col bg-slate-50 rounded-lg pl-4 pr-4 pt-4 pb-8 h-fit'>
             <h2 className='text-xl uppercase font-semibold text-slate-600'>Sold by</h2>
             <hr className="border-slate-200"/>
             <div className="flex flex-col lg:flex-row items-center gap-4 mt-4">

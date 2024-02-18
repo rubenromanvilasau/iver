@@ -49,7 +49,11 @@ class ItemsService {
             prisma.item.findMany({
                 where,
                 include: {
-                    seller: true,
+                    seller: {
+                        include: {
+                            preferences: true,
+                        },
+                    },
                     shippingWay: true,
                     category: true,
                     status: true,
@@ -120,7 +124,7 @@ class ItemsService {
     }
 
     getItemImages( itemId ) {
-        return prisma.ItemImages.findFirst({
+        return prisma.itemImage.findFirst({
             where: {
                 item_id: itemId
             }
@@ -128,11 +132,11 @@ class ItemsService {
     }
 
     getItemOffers( id ) {
-        return prisma.ItemOffers.findMany({
+        return prisma.itemOffer.findMany({
             where: {
                 item_id: id,
             },
-            include:{
+            include: {
                 user: true,
             },
             orderBy: {
@@ -141,8 +145,23 @@ class ItemsService {
         });
     }
 
+    getUserItems( userId ) {
+        return prisma.item.findMany({
+            where: {
+                seller_id: userId,
+            },
+            include: {
+                seller: true,
+                offers: true,
+            },
+            orderBy: {
+                created_at: 'desc'
+            }
+        })
+    }
+
     async createOffer( id, offer ) {
-        const newOffer = await prisma.ItemOffers.create({
+        const newOffer = await prisma.itemOffer.create({
             data: {
                 amount: offer.amount,
                 user: {

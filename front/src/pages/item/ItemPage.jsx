@@ -81,11 +81,11 @@ export const ItemPage = () => {
     }
 
     return (
-        <div className='container flex flex-col md:flex-row justify-center pt-4 pb-4 mx-auto gap-2 mt-4'>
+        <div className='container flex flex-col md:flex-row justify-center py-4 mx-auto gap-2 mt-4'>
             {   isLoading
                 ? <Loading/> 
                 : <>
-                    <div className="flex flex-col md:flex-row gap-8 h-fit lg:p-8  rounded-md">
+                    <div className="flex flex-col md:flex-row gap-8 h-fit lg:p-4  rounded-md">
                         <div className="flex flex-col md:w-1/2 overflow-y-hidden">
                             <img className='max-h-sm min-h-sm rounded-md mb-2' src={ '/img/gtr.jpeg'|| '/img/no-image.png' } alt={`${item.name}-image`} />
                             {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }
@@ -94,7 +94,7 @@ export const ItemPage = () => {
                                 onClickTab={setCurrentTab}
                                 currentTab={currentTab}
                             />
-                            <p className='mt-4'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim quasi optio placeat quaerat? Eveniet numquam doloremque nostrum unde laborum maiores saepe fugiat, aspernatur provident fugit nihil ullam error quis? Eligendi, veniam. Dolorum repudiandae laboriosam error eum corporis ut, numquam beatae ab veniam ea assumenda, alias possimus dolorem aliquid natus vel, rerum eligendi nam.</p>
+                            <p className='mt-4 text-slate-400'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim quasi optio placeat quaerat? Eveniet numquam doloremque nostrum unde laborum maiores saepe fugiat, aspernatur provident fugit nihil ullam error quis? Eligendi, veniam. Dolorum repudiandae laboriosam error eum corporis ut, numquam beatae ab veniam ea assumenda, alias possimus dolorem aliquid natus vel, rerum eligendi nam.</p>
                         </div>
                         <section className="md:w-1/3 flex flex-col gap-12">
                             <ItemHeader item={item} viewersAmount={viewersAmount}/>
@@ -105,18 +105,21 @@ export const ItemPage = () => {
                             />
                         </section>
 
-                        <SellerInfoCard seller={item.seller}/>
+                        <div className='flex flex-col items-center gap-2'>
+                            <SellerInfoCard seller={item.seller}/>
+                            { user?.rut === item.seller.rut && <CurrentOffers item={item}/> }
+                        </div>
 
-                        {/* Modal */}
-                        <NewOfferForm 
-                            openModal={openModal} 
-                            onClose={onClosemodal}
-                            itemId={item.item_id}
-                        />
                     </div>
-                    { user.rut === item.seller.rut && <CurrentOffers item={item}/> }
                 </>
             }
+            {/* Modal */}
+            <NewOfferForm 
+                openModal={openModal} 
+                onClose={onClosemodal}
+                itemId={item.item_id}
+                minAmount={ item?.offers[0]?.amount }
+            />
         </div>
     )
 }

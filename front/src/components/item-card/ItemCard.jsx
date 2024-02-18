@@ -4,21 +4,26 @@ import { convertToCurrency } from "../../utils";
 import { CountdownTimer } from "../countdown-timer/CountdownTimer";
 import PropTypes from 'prop-types';
 
-export const ItemCard = ({ item_id, name, images, price, offers, ends_at }) => {
+export const ItemCard = ({ item_id, name, price, offers, ends_at, seller }) => {
+    console.log('seller',)
     return (
         <div className="bg-white w-72 rounded-md cursor-pointer transition-all ease-in duration-200 p-6 hover:transition-none">
             <img src="/img/gtr.jpeg" className="w-full rounded-md h-36" alt="Funko image"/>
-            <h5 className="font-bold text-text-primary text-xl mt-2 capitalize">{name}</h5>
+            <h5 className="font-bold text-text-primary text-xl mt-2 capitalize overflow-hidden whitespace-nowrap">{name}</h5>
             
             <div className="mt-2">
                 <div className="flex flex-row items-center gap-1">
                     <p className="text-slate-600 text-sm font-bold">Floor price:</p>
                     <p className="text-slate-500 text-sm font-semibold">{convertToCurrency(price)}</p>
                 </div>
-                <div className="flex flex-row gap-1 items-center mt-4">
-                    <FaBitcoin title="BTC" className="text-orange-400 text-xl"/>
-                    <FaEthereum title="ETH" className="text-slate-500 text-xl"/>
-                </div>
+
+                { seller.preferences?.accepts_crypto_payments
+                    && (
+                        <div className="flex flex-row gap-1 items-center mt-4">
+                            <FaBitcoin title="BTC" className="text-orange-400 text-xl"/>
+                            <FaEthereum title="ETH" className="text-slate-500 text-xl"/>
+                        </div>
+                )}
                 
                 <div className="border-b-2 mt-2 border-slate-100"></div>
                 <p className="text-primary text-base font-semibold mt-4">HIGHEST BID: <span className="text-slate-500 text-base underline">{convertToCurrency(offers[0]?.amount ?? 0)}</span></p>
@@ -43,4 +48,5 @@ ItemCard.propTypes = {
     price: PropTypes.number.isRequired,
     offers: PropTypes.array.isRequired,
     ends_at: PropTypes.string.isRequired,
+    seller: PropTypes.object,
 }

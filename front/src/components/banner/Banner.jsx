@@ -9,7 +9,7 @@ export const Banner = () => {
                 <h1 className='text-5xl title-text'>Where you offer what you are willing to</h1>
             </div>
             <Link className='mt-4' to={ '/publish' }>
-                <Button className='bg-primary'>Start now</Button>
+                <Button className='bg-primary uppercase font-semibold'>Start now</Button>
             </Link>
         </section>
     )

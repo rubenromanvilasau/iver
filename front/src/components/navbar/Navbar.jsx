@@ -10,7 +10,8 @@ export const Navbar = () => {
     const [initials, setInitials] = useState('');
 
     useEffect( () => {
-        if( user.token ) {
+        console.log('user.token', user?.token)
+        if( user?.token ) {
             //* For some reason method .charAt() is not working here, so I had to do it with split.
             const nameInitial = user.name.split('')[0].toUpperCase();
             const lastNameInitial = user.last_name.split('')[0].toUpperCase();
@@ -29,8 +30,8 @@ export const Navbar = () => {
             <div className='w-1/2 md:w-1/3'>
                 <SearchBox/>
             </div>
-            { user.token
-                ?<div className='flex flex-row'> 
+            { user?.token
+                ? <div className='flex flex-row'> 
                     <Notifications/>
                     <div className='items-center p-2 rounded-md cursor-pointer transition duration-500'>
                         <Dropdown
@@ -40,8 +41,8 @@ export const Navbar = () => {
                         >
                             <Link to={'my-profile'} className='text-black'>
                                 <Dropdown.Header>
-                                    <span className="block text-sm text-gray">{ user.name }</span>
-                                    <span className="block truncate text-sm font-medium">{ user.email }</span>
+                                    <span className="block text-sm text-gray">{ user?.name }</span>
+                                    <span className="block truncate text-sm font-medium">{ user?.email }</span>
                                 </Dropdown.Header>
                             </Link>
                             <Link to={'my-orders'} className='text-black'>
@@ -49,7 +50,7 @@ export const Navbar = () => {
                                     My orders
                                 </Dropdown.Item>
                             </Link>
-                            <Link to={'my-orders'} className='text-black'>
+                            <Link to={'my-items'} className='text-black'>
                                 <Dropdown.Item>
                                     My items
                                 </Dropdown.Item>

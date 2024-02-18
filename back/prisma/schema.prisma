@@ -117,7 +117,7 @@ model User {
   items        Item[]
   offers       ItemOffer[]
   strikes      UserStrike[]
-  preferences  UserPreference[]
+  preferences  UserPreference?
   @@map("users")
 }
 
@@ -125,7 +125,7 @@ model UserPreference {
   user_id                     String
   accepts_crypto_payments     Boolean       @default(false)
   email_notifications         Boolean       @default(true)
-  User                        User          @relation(fields: [user_id], references: [rut])
+  User                        User         @relation(fields: [user_id], references: [rut])
   @@id([user_id])
   @@map("users_preferences")
 }

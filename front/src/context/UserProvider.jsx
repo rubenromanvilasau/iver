@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import { UserService } from "../services/";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ export const UserProvider = ({ children }) => {
                     if( response.status === 200 ) {
                         console.log('LOGIN SUCCESSFUL', response.data);
                         localStorage.setItem('token', response.data.token);
+                        const user = response.data;
+                        localStorage.setItem('user', JSON.stringify(user));
                         setUser( response.data );
                         
                         const origin = location.state?.from?.pathname || '/';
@@ -28,10 +30,21 @@ export const UserProvider = ({ children }) => {
                     }
                 })
                 .catch( err => { 
+                    console.log( err );
                     reject( err.response );
                 } );
         });
     }
+
+    useEffect(() => {
+        if( isLogged ) {
+            const localStorageUser = JSON.parse( localStorage.getItem( user ) );
+            console.log('localstorageuser', localStorageUser );
+            setUser( localStorageUser );
+        }else{
+            navigate('/login');
+        }
+    }, []);
 
     const isLogged = () => {
         const token = localStorage.getItem('token');

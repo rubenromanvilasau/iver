@@ -35,7 +35,7 @@ export const CurrentOffers = ({ item }) => {
     },[])
 
     return (
-        <Card className="max-w-sm overflow-auto">
+        <Card className="overflow-auto">
             <div className="mb-4 flex items-center justify-between">
                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest offers</h5>
             </div>
