@@ -1,10 +1,11 @@
 import { useContext, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import { Button, Modal, TextInput } from 'flowbite-react';
 import { HiMail, HiLockClosed } from 'react-icons/hi';
 
 export const LoginForm = () => {
+    const navigate = useNavigate();
     const [isPasswordVisible, setIsPasswordVisible] = useState( false );
 
     const { handleLogin } = useContext( UserContext );
@@ -31,6 +32,9 @@ export const LoginForm = () => {
         }
         
         handleLogin( email, password )
+            .then( () => {
+                navigate('/');
+            })
             .catch( err => {
                 console.log('error LOGIN', err.message);
                 if( err.status === 404 ) {

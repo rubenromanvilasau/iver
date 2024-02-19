@@ -409,21 +409,6 @@ export const MyProfilePage = () => {
                                             </div>
                                         </>
                                     )}
-                                    {/* <Select
-                                        id='currencies'
-                                        onChange={(e) => console.log('Currency', e.target.value)}
-                                    >
-                                        {
-                                            cryptocurrencies.map( (crypto, i) => (
-                                                <option 
-                                                    value={crypto}
-                                                    key={i}
-                                                >
-                                                    {crypto}
-                                                </option>
-                                            ))
-                                        }
-                                    </Select> */}
                                 </div>
                             )
                    }

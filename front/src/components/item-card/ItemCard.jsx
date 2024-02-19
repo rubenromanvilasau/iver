@@ -5,7 +5,6 @@ import { CountdownTimer } from "../countdown-timer/CountdownTimer";
 import PropTypes from 'prop-types';
 
 export const ItemCard = ({ item_id, name, price, offers, ends_at, seller }) => {
-    console.log('seller',)
     return (
         <div className="bg-white w-72 rounded-md cursor-pointer transition-all ease-in duration-200 p-6 hover:transition-none">
             <img src="/img/gtr.jpeg" className="w-full rounded-md h-36" alt="Funko image"/>
@@ -30,7 +29,7 @@ export const ItemCard = ({ item_id, name, price, offers, ends_at, seller }) => {
                 <div className="flex flex-row justify-between items-center mt-4">
                     <div className="bg-slate-400 rounded-xl p-2 text-slate-100 text-sm font-semibold">
                         <CountdownTimer
-                            date={ends_at}
+                            endDate={ends_at}
                         />
                     </div>
                     <Link to={`item/${item_id}`}><div className=""><span className="text-slate-100 text- font-semibold p-2 rounded-xl transition-all ease-in duration-200 bg-primary hover:bg-slate-200 hover:text-primary border-2">BID NOW</span></div></Link>

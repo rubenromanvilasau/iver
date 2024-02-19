@@ -19,7 +19,7 @@ export const MyItemsPage = () => {
 
     return (
         <div className="flex flex-col p-8 box-border w-full">
-            <h1 className='text-4xl text-slate-500'>My items</h1>
+            <h1 className='text-4xl text-slate-600'>My items</h1>
             <ItemsTable
                 items={items}
             />

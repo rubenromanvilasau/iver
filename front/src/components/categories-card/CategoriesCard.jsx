@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 export const CategoriesCard = ({ onChangeCategory }) => {
 
     const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState( null );
 
     const fetchCategories = () => {
         categoryService.getAll().then( (res) => {
@@ -14,18 +15,23 @@ export const CategoriesCard = ({ onChangeCategory }) => {
         });
     }
 
+    const onClickCategory = ( category ) => {
+        onChangeCategory( category );
+        setSelectedCategory( category );
+    }
+
     useEffect( () => {
         fetchCategories();
     }, []);
 
     return (
-        <div className="bg-white rounded-md p-4 h-fit">
-            <ul>
+        <div className="bg-white rounded-md p-4 h-full">
+            <ul className="h-fit">
                 { categories.map( category => (
                     <li 
                         key={ category.category_id } 
-                        className="text-text-primary cursor-pointer"
-                        onClick={ () => onChangeCategory( category ) }
+                        className={`cursor-pointer hover:text-slate-900 hover:underline transition-all ease-in duration-200 ${selectedCategory?.category_id === category.category_id ? 'text-slate-900 font-bold underline' : 'text-slate-600'}`}
+                        onClick={ () => onClickCategory(category) }
                     >
                         { category.name }
                     </li>

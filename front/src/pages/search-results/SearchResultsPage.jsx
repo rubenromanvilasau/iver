@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { CategoriesCard, CountdownTimer, ItemCard, Loading, Paginator } from "../../components/index";
+import { useParams } from "react-router-dom";
+import { CategoriesCard, ItemCard, Loading, Paginator } from "../../components/index";
 import { useFetchItems } from "../../hooks";
-import { convertToCurrency } from "../../utils/convert-to-price";
 
 const pageSize = 10; //Number of pages to show in paginator
 
@@ -29,7 +28,7 @@ export const SearchResultsPage = () => {
     return (
         <div className="container p-4 mx-auto mt-4">
             <h1 className="text-2xl text-text-primary uppercase">Results for: <span className="text-text-secondary text-xl unde">{ query }</span></h1>
-            <div className="flex flex-row gap-4 w-full mt-4">
+            <div className="flex flex-row flex-wrap gap-4 w-full mt-4">
                 <CategoriesCard
                     onChangeCategory={onChangeCategory}
                 />

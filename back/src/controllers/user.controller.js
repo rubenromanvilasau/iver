@@ -22,7 +22,8 @@ class UserController {
             res.status(201).send( user );
         } catch ( err ) {
             console.log('[CONTROLLERS-USERS] register ERROR', err);
-            if( err.code === '23505' ) {
+            if( err.code === 'P2002' ) {
+                console.log('P2002')
                 return res.status(409).send({ message: 'User already exists' });
             }
             res.status(500).send( err );

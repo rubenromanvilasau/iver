@@ -22,8 +22,8 @@ export const UserProvider = ({ children }) => {
                         localStorage.setItem('user', JSON.stringify(user));
                         setUser( response.data );
                         
-                        const origin = location.state?.from?.pathname || '/';
-                        navigate( origin );
+                        // const origin = location.state?.from?.pathname || '/';
+                        // navigate( origin );
                         resolve( response.data );
                     }else{
                         console.log('LOGIN FAILED', response);

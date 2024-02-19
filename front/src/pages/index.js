@@ -7,3 +7,4 @@ export * from './search-results/SearchResultsPage';
 export * from './my-profile/MyProfilePage';
 export * from './checkout/CheckoutPage';
 export * from './my-items/MyItemsPage';
+export * from './instructions/InstructionsPage';
