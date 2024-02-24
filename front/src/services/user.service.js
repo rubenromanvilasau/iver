@@ -24,4 +24,8 @@ export default class UserService {
     updateUserPreferences( id, data ) {
         return axios.put( this.apiUrl + `/update/preferences/${id}`, data );
     }
+
+    getAddresses( id ) {
+        return axios.get( this.apiUrl + `/${id}/addresses`);
+    }
 }

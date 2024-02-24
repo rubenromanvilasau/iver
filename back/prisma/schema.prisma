@@ -118,6 +118,7 @@ model User {
   offers       ItemOffer[]
   strikes      UserStrike[]
   preferences  UserPreference?
+  addresses    UserAddress[]
   @@map("users")
 }
 
@@ -129,4 +130,18 @@ model UserPreference {
   @@id([user_id])
   @@map("users_preferences")
 }
+
+model UserAddress {
+  id                          Int             @id @default(autoincrement())
+  user_id                     String
+  street                      String
+  number                      String
+  city                        String
+  comuna                      String
+  aditional_instructions      String
+  User                        User            @relation(fields: [user_id], references: [rut])
+
+  @@map("users_addresses")
+}
+
  

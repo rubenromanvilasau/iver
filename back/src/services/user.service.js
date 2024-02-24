@@ -46,6 +46,9 @@ class UsersService {
         return prisma.user.findFirst({
             where: {
                 email: email,
+            },
+            include: {
+                preferences: true,
             }
         });
     }
@@ -61,6 +64,23 @@ class UsersService {
         return prisma.userPreference.update({
             where: { user_id: id },
             data,
+        });
+    }
+
+    createAddress( id, data ) {
+        return prisma.userAddress.create({
+            data: {
+                user_id: id,
+                ...data,
+            }
+        });
+    }
+
+    getAddresses( id ) {
+        return prisma.userAddress.findMany({
+            where: {
+                user_id: id,
+            }
         });
     }
 }

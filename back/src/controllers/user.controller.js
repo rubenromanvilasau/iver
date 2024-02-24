@@ -150,6 +150,34 @@ class UserController {
             res.status(500).send( err );
         }
     }
+
+    async createAddress( req, res ) {
+        const { id } = req.params;
+        const data = req.body;
+
+        try {
+            const user = await userService.createAddress( id, data );
+            res.status(200).send( user );
+        } catch ( err ) {
+            console.log('[CONTROLLERS-USERS] createAddress ERROR', err);
+            res.status(500).send( err );
+        }
+    }
+
+    async getAddresses( req, res ) {
+        const { id } = req.params;
+        try {
+            const user = await userService.getById( id );
+            if( !user ) {
+                return res.status(404).send({ message: 'User not found' });
+            }
+            const addresses = await userService.getAddresses( id );
+            res.status(200).send( addresses );
+        } catch ( err ) {
+            console.log('[CONTROLLERS-USERS] getAddresses ERROR', err);
+            res.status(500).send( err );
+        }
+    }
 }
 
 module.exports = UserController;

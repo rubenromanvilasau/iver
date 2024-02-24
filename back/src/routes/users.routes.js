@@ -11,8 +11,10 @@ const test = ( req, res ) => {
 router.get('/', userController.getAll);
 router.get('/:id', userController.getById);
 router.get('/:id/items', userController.getItems);
+router.get('/:id/addresses', userController.getAddresses);
 router.post('/register', userController.register);
 router.post('/login', userController.login);
+router.post('/:id/addresses', userController.createAddress);
 router.delete('/', test);
 router.put('/update/:id', userController.update);
 router.put('/update/preferences/:id', userController.updatePreferences);

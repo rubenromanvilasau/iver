@@ -17,3 +17,4 @@ export * from './timepicker/Timepicker';
 export * from './countdown-timer/CountdownTimer';
 export * from './item-card/ItemCard';
 export * from './tabs/Tabs';
+export * from './new-address-modal/NewAddressModal';

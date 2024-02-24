@@ -1,8 +1,9 @@
 import { useContext, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
-import { Button, Modal, TextInput } from 'flowbite-react';
-import { HiMail, HiLockClosed } from 'react-icons/hi';
+import { Button, TextInput } from 'flowbite-react';
+import { HiMail, HiLockClosed, HiEye } from 'react-icons/hi';
+import { RecoverPasswordModal } from './RecoverPasswordModal';
 
 export const LoginForm = () => {
     const navigate = useNavigate();
@@ -80,7 +81,7 @@ export const LoginForm = () => {
                             placeholder="Your secret secret password" 
                             onChange={ onChangePassword }
                             required
-                        />
+                        ></TextInput>
                         { passwordError.status && <span className='text-red-600 text-xs'>{ passwordError.message }</span> }
                     </div>
                 
@@ -99,14 +100,10 @@ export const LoginForm = () => {
                     Login
                 </Button>
             </form>
-            <Modal show={showRecoverPasswordModal} onClose={() => { setShowRecoverPasswordModal( false )}}>
-                <Modal.Header>
-                    <h1>Recover your password</h1>
-                </Modal.Header>
-                <Modal.Body>
-
-                </Modal.Body>
-            </Modal>
+            <RecoverPasswordModal
+                isModalOpen={ showRecoverPasswordModal }
+                onClose={ () => setShowRecoverPasswordModal( false ) }
+            />
         </>
     )
 };
