@@ -12,7 +12,7 @@ export const PublishItemPage = () => {
     const { user } = useContext( UserContext );
 
     const [isLoading, setIsLoading] = useState( false );
-    const [publishSuccess, setPublishSuccess] = useState( null )
+    const [publishSuccess, setPublishSuccess] = useState( null );
 
     const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWayId, endsAt } ) => {
 
@@ -47,7 +47,7 @@ export const PublishItemPage = () => {
     }
 
     return (
-       <div className='container mx-auto flex justify-center mt-4'>
+       <div className='container mx-auto flex justify-center my-4'>
             {
             isLoading 
                 ? <Loading/>

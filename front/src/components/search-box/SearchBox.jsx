@@ -24,7 +24,7 @@ export const SearchBox = () => {
             <form action="">
                 <input 
                     onChange={ onChangeSearch }
-                    className='pl-4 w-full rounded-md shadow-md text-black border-none focus:outline-none' 
+                    className='pl-4 w-full rounded-md shadow-md text-black border-none focus:outline-none focus:shadow-xl placeholder:text-slate-500' 
                     type="search" 
                     placeholder="I'm looking for..."
                 />
@@ -33,7 +33,7 @@ export const SearchBox = () => {
                     className='bg-transparent absolute right-3 left-auto top-1/2 transform -translate-y-1/2 cursor-pointer'
                     onClick={ onClickSearch }
                 >
-                    <IoSearchSharp size={ 24 } className='text-black'/>
+                    <IoSearchSharp size={ 24 } className='text-slate-500'/>
                 </button>
             </form>
         </div>

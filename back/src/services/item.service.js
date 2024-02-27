@@ -86,7 +86,11 @@ class ItemsService {
                 category: true,
                 status: true,
                 images: true,
-                offers: true,
+                offers: {
+                    orderBy:{
+                        created_at: 'desc'
+                    }
+                },
             }
         });
     }
@@ -97,7 +101,11 @@ class ItemsService {
                 name:        item.name,
                 price:       item.price,
                 description: item.description,
-
+                // images: {
+                //     createMany: {
+                //         data: 
+                //     }
+                // },
                 seller: {
                     connect: {
                         rut: item.sellerId

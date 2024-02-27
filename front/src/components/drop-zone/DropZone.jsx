@@ -1,6 +1,6 @@
 import { FileInput, Label } from "flowbite-react";
 
-export const DropZone = () => {
+export const DropZone = ({ onChangeInput }) => {
     return (
         <div className="flex w-full items-center justify-center">
             <Label
@@ -27,7 +27,11 @@ export const DropZone = () => {
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                 </div>
-                <FileInput id="dropzone-file" className="hidden" />
+                <FileInput
+                    id="dropzone-file" 
+                    className="hidden" 
+                    onChange={onChangeInput}
+                />
             </Label>
         </div>
     )

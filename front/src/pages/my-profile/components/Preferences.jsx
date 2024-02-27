@@ -53,7 +53,7 @@ export const Preferences = () => {
 
     return (
         <div className='w-fit'>
-            <h2 className='text-xl text-slate-400 font-semibold'>Payments</h2>
+            <h2 className='text-xl text-slate-400 font-semibold mt-8 md:mt-0'>Payments</h2>
             <hr className='border-slate-400'/>
             <p className='text-slate-400 w-96'>You can accept crypto as payment method when someone buys an item from you, client will be able to pay you with normal currency or crypto</p>
             <ToggleSwitch

@@ -8,7 +8,7 @@ export const ProtectedRoute = ({ children }) => {
     const location = useLocation();
     const { isLogged } = useContext( UserContext );
 
-    if( !isLogged ) {
+    if( !isLogged() ) {
         return <Navigate to='/login' replace state={{ from: location }}/>
     }
 

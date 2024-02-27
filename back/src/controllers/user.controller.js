@@ -152,11 +152,10 @@ class UserController {
     }
 
     async createAddress( req, res ) {
-        const { id } = req.params;
         const data = req.body;
 
         try {
-            const user = await userService.createAddress( id, data );
+            const user = await userService.createAddress( data );
             res.status(200).send( user );
         } catch ( err ) {
             console.log('[CONTROLLERS-USERS] createAddress ERROR', err);
@@ -175,6 +174,30 @@ class UserController {
             res.status(200).send( addresses );
         } catch ( err ) {
             console.log('[CONTROLLERS-USERS] getAddresses ERROR', err);
+            res.status(500).send( err );
+        }
+    }
+
+    async deleteAddress( req, res ) {
+        const { id, user_id } = req.params;
+
+        try {
+            await userService.deleteAddress( id, user_id );
+            res.status(204).send({ message: 'user deleted succesfully' });
+        } catch ( err ) {
+            console.log('[CONTROLLERS - USER] deleteAddress ERROR ', err);
+            res.status(500).send( err );
+        }
+    }
+
+    async updateAddress( req, res ) {
+        const { id } = req.params;
+        const { data } = req.body;
+        try {
+            await userService.updateAddress( id, data );
+            res.status(201).send({ message: 'Address updated successfully'});
+        } catch ( err ) {
+            console.log('[CONTROLLERS - USER ] updateAddress ERROR ', err);
             res.status(500).send( err );
         }
     }

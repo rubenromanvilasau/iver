@@ -12,6 +12,7 @@ class OrderService {
                 offer: {
                     include: {
                         user: true,
+                        item: true,
                     }
                 },
             }
@@ -20,9 +21,22 @@ class OrderService {
         return orders;
     }
     
-    async getById( id ) {
+    async getByCheckoutId( id ) {
         return prisma.order.findUnique({
-            where: { order_id }
+            where: { checkout_id: id },
+            include: {
+                offer: {
+                    include: {
+                        user: true, 
+                        item: {
+                            include: {
+                                shippingWay: true,
+                                seller: true,
+                            },
+                        },
+                    }
+                },
+            }
         });
     }
     

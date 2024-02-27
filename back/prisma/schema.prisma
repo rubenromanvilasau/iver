@@ -73,10 +73,11 @@ model OrderStatus {
 
 model Order {
   order_id     String        @id @default(uuid())
-  offer_id     Int           @unique
+  offer_id     Int           
   is_payed     Boolean       @default(false) 
-  created_at   DateTime      @default(now()) @db.Timestamp(6)
+  checkout_id  String?       @db.VarChar @unique
   expires_at   DateTime      @db.Timestamp(6)
+  created_at   DateTime      @default(now()) @db.Timestamp(6)
   offer        ItemOffer     @relation(fields: [offer_id], references: [offer_id], onDelete: NoAction, onUpdate: NoAction)
   @@map("orders")
 }
@@ -138,8 +139,8 @@ model UserAddress {
   number                      String
   city                        String
   comuna                      String
-  aditional_instructions      String
-  User                        User            @relation(fields: [user_id], references: [rut])
+  aditional_instructions      String?
+  user                        User            @relation(fields: [user_id], references: [rut])
 
   @@map("users_addresses")
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export const CryptoPaymentConfirmModal = ({ isModalOpen ,onClose}) => {
     return (
-        <Modal show={isModalOpen} onClose={onClose}>
+        <Modal show={isModalOpen} onClose={() => onClose(false)}>
             <Modal.Header>
                 <div className="flex items-center gap-2">
                     <div className="rounded-full bg-primary p-2">
@@ -23,8 +23,8 @@ export const CryptoPaymentConfirmModal = ({ isModalOpen ,onClose}) => {
             </Modal.Body>
 
             <Modal.Footer className="flex justify-end">
-                <Button >I accept</Button>
-                <Button color="gray" onClick={onClose}>
+                <Button onClick={() => onClose(true)}>I accept</Button>
+                <Button color="gray" onClick={() => onClose(false)}>
                     Decline
                 </Button>
             </Modal.Footer>

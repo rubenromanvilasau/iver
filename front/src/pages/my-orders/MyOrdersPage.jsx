@@ -1,15 +1,21 @@
-import { useEffect } from 'react';
-import { OrdersService } from '../../services';
-import { convertToCurrency } from '../../utils';
+import { useEffect, useState } from 'react';
+import { OrderService } from '../../services';
+import { convertToCurrency, dateToText } from '../../utils';
 import { Button, Table } from 'flowbite-react';
-const ordersService = new OrdersService();
+import { Link } from 'react-router-dom';
+const orderService = new OrderService();
 
-
+import { isAfter } from 'date-fns';
 export const MyOrdersPage = () => {
 
+    const [orders, setOrders] = useState([]);
+
     useEffect( () => {
-        ordersService.getAll()
-            .then( response => console.log( response ) )
+        orderService.getAll()
+            .then( response => {
+                console.log( 'ORDERS ',response );
+                setOrders( response );
+            } )
             .catch( err => console.log( err.data ) );
     },[]);
 
@@ -18,49 +24,61 @@ export const MyOrdersPage = () => {
             <h1 className='text-4xl text-slate-600'>My Orders</h1>
             <div className="overflow-x-auto my-4">
                 <Table striped>
-                <Table.Head>
-                    <Table.HeadCell>
-                        <span className='text-base font-bold text-text-secondary'>Order</span>
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        <span className='text-base font-bold text-text-secondary'>Item</span>
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        <span className='text-base font-bold text-text-secondary'>Date</span>
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        <span className='text-base font-bold text-text-secondary'>Status</span>
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                        <span className='text-base font-bold text-text-secondary'>Total</span>
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                    </Table.HeadCell>
-                </Table.Head>
-                <Table.Body>
-                    <Table.Row>
-                        <Table.Cell >
-                            <span className='font-bold'># {1}</span>
-                        </Table.Cell>
-                        <Table.Cell>
-                            1
-                        </Table.Cell>
-                        <Table.Cell>
-                            1
-                        </Table.Cell>
-                        <Table.Cell>
-                            1
-                        </Table.Cell>
-                        <Table.Cell>
-                            {convertToCurrency( 1 )}
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Button>
-                                View
-                            </Button>
-                        </Table.Cell>
-                    </Table.Row>
-                </Table.Body>
+                    <Table.Head>
+                        <Table.HeadCell>
+                            <span className='text-base font-bold text-text-secondary'>Order</span>
+                        </Table.HeadCell>
+                        <Table.HeadCell>
+                            <span className='text-base font-bold text-text-secondary'>Item</span>
+                        </Table.HeadCell>
+                        <Table.HeadCell>
+                            <span className='text-base font-bold text-text-secondary'>Expiration date</span>
+                        </Table.HeadCell>
+                        <Table.HeadCell>
+                            <span className='text-base font-bold text-text-secondary'>Status</span>
+                        </Table.HeadCell>
+                        <Table.HeadCell>
+                            <span className='text-base font-bold text-text-secondary'>Total</span>
+                        </Table.HeadCell>
+
+                    </Table.Head>
+                    <Table.Body>
+                        { orders.map( ({ order_id, expires_at, is_payed, offer, checkout_id}) => (
+                            <Table.Row key={order_id}>
+                                <Table.Cell >
+                                    <span className='font-bold'>#{order_id}</span>
+                                </Table.Cell>
+                                <Table.Cell className='capitalize'>
+                                    { offer.item.name}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    { dateToText(expires_at) }
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <div className={`${isAfter(expires_at, new Date()) ? is_payed ? 'bg-green-200' : 'bg-orange-400' : 'bg-red-600'} text-xs md:text-md py-2 px-1 uppercase font-semibold rounded-md text-center text-white`}>{ isAfter(expires_at, new Date()) && !is_payed ? 'Pending' : 'NOT PAYED'}</div>
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <span className='font-bold text-lg capitalize'>{convertToCurrency( offer.amount )}</span>
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <Link replace to={`../item/${offer.item.item_id}`}>
+                                        <Button className='uppercase font-semibold'>
+                                            Item
+                                        </Button>
+                                    </Link>
+                                </Table.Cell>
+                                <Table.Cell>
+                                { isAfter(expires_at, new Date()) && 
+                                    <Link replace to={`../checkout/${checkout_id}`}>
+                                        <Button className='uppercase font-semibold bg-primary'>
+                                            Order
+                                        </Button>
+                                    </Link>
+                                }
+                                </Table.Cell>
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
                 </Table>
             </div>
         </div>

@@ -40,7 +40,7 @@ export const ItemDetails = ({ item , onClickNewOffer, lastOffer }) => {
             <div className='flex flex-row items-center gap-1 mt-8'>
                 <FaCrown className="text-3xl text-primary"/>
                 <span className='font-semibold text-primary uppercase text-xl whitespace-nowrap'>Highest bid: </span>
-                <span className="text-slate-500 text-3xl whitespace-nowrap">{ convertToCurrency(lastOffer ?? '$0') }</span>
+                <span className="text-slate-500 text-3xl whitespace-nowrap">{ convertToCurrency(lastOffer.amount ?? '$0') }</span>
             </div>
             <div className="flex flex-row justify-between mt-4">
                 <div className='bg-slate-400 w-fit rounded-xl pl-4 pr-4 pb-2 pt-2 uppercase mt-4'>
@@ -62,4 +62,6 @@ export const ItemDetails = ({ item , onClickNewOffer, lastOffer }) => {
 
 ItemDetails.propTypes = {
     item: PropTypes.object.isRequired,
+    onClickNewOffer: PropTypes.func.isRequired,
+    lastOffer: PropTypes.object.isRequired,
 };

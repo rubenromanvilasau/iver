@@ -67,20 +67,43 @@ class UsersService {
         });
     }
 
-    createAddress( id, data ) {
+    createAddress( data ) {
         return prisma.userAddress.create({
             data: {
-                user_id: id,
-                ...data,
-            }
+                street: data.address,
+                number: data.number,
+                city:   data.city,
+                comuna: data.comuna,
+                street: data.street,
+                aditional_instructions: data.aditional_instructions,
+                user: {
+                    connect: {
+                        rut: data.user_id
+                    }
+                }
+            },
         });
     }
 
     getAddresses( id ) {
         return prisma.userAddress.findMany({
+            where: { user_id: id }
+        });
+    }
+
+    deleteAddress( id, user_id ) {
+        return prisma.userAddress.delete({
             where: {
-                user_id: id,
+                user_id,
+                id: parseInt(id),
             }
+        });
+    }
+    
+    updateAddress( id, data ) {
+        return prisma.userAddress.update({
+            where: { id },
+            data,
         });
     }
 }

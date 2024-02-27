@@ -78,6 +78,10 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
         setShowTermsConditions( false );
     }
 
+    const onAddImage = ( e ) => {
+        console.log( 'files', e.target.files[0]);
+    }
+
     useEffect(() => {
         if( nameRef.current.value && Number( priceRef.current.value ) && descriptionRef.current.value && selectedCategory ) {
             setIsFormValid( true );
@@ -118,12 +122,14 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
     return (
         <div className="bg-white flex flex-col gap-4 p-8 rounded-md shadow-md w-3/4">
-            <h1 className='text-text-primary text-3xl'>Publish your item</h1>
+            <h1 className='text-slate-600 text-3xl'>Publish your item</h1>
             <hr/>
             
             <div className='flex flex-col md:flex-row gap-4'>
-                <div className='w-full md:w-1/2'>
-                    <DropZone/>
+                <div className='w-full lg:w-1/2'>
+                    <DropZone
+                        onChangeInput={onAddImage}
+                    />
                 </div>
                 <form className="flex flex-col gap-4 w-full md:w-3/4">
                     <div className="w-full max-w-md min-w-42">
@@ -185,7 +191,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         <div className="mb-2 block">
                             <Label htmlFor="category" value="Category" />
                         </div>
-                        <Dropdown label='Category' name='category'>
+                        <Dropdown label={selectedCategory?.name || 'Category'} name='category'>
                             { categories.map( category => (
                                 <Dropdown.Item
                                     key={ category.category_id }
@@ -205,7 +211,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                             </Tooltip>
                         </div>
                     </div>
-                    <Dropdown label='Status'>
+                    <Dropdown label={ selectedStatus?.name || 'Status'}>
                         { statuses.map( status => (
                             <Dropdown.Item
                                 key={ status.status_id }
@@ -223,7 +229,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                                 <BsFillQuestionCircleFill className='text-gray-500 cursor-pointer' size={ 20 }/>
                             </Tooltip>
                         </div>                
-                        <Dropdown label='Shipping way'>
+                        <Dropdown label={selectedShippingWay?.name || 'Shipping way'}>
                             { shippingWays.map( shippingWay => (
                                 <Dropdown.Item
                                     key={ shippingWay.shipping_way_id }

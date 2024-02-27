@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { HomePage, ItemPage, LoginPage, MyOrdersPage, MyProfilePage, CheckoutPage, PublishItemPage, SearchResultsPage, MyItemsPage, InstructionsPage } from './pages/index';
+import { HomePage, ItemPage, LoginPage, MyOrdersPage, MyProfilePage, CheckoutPage, PublishItemPage, SearchResultsPage, MyItemsPage, InstructionsPage, NotFoundPage } from './pages/index';
 import { Footer, Navbar, ProtectedRoute } from './components/index';
 import { UserProvider } from './context/UserProvider';
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -44,9 +44,9 @@ export const IverApp = () => {
                                 // </ProtectedRoute> 
                             }
                         />
-                        <Route path='/checkout/:id' element={<CheckoutPage/>}/>
+                        <Route path='/checkout/:id' element={<ProtectedRoute><CheckoutPage/></ProtectedRoute>}/>
                         <Route path='/instructions' element={<InstructionsPage/>}/>
-                        
+                        <Route path='/404' element={<NotFoundPage/>}/>
                     </Routes>
                 </div>
                 <Footer/>

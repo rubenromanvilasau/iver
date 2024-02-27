@@ -23,9 +23,23 @@ export const CurrentOffers = ({ item }) => {
 
     },[item.offers])
 
+
+    useEffect( () => {
+        socket.connect();
+        return () => {
+            socket.disconnect();
+        }
+    }, []);
+    
     useEffect( () => {
         fetchOffers();
+
+        socket.on('connect', () => {
+            socket.emit('join-auction', item.item_id );
+        });
+
         socket.on('newOffer', ( offer ) => {
+            console.log('newoffer CURRENTOFFER', offer)
             setOffers( offers => [offer, ...offers] );
         });
         
@@ -35,14 +49,14 @@ export const CurrentOffers = ({ item }) => {
     },[])
 
     return (
-        <Card className="overflow-auto">
+        <div className=" bg-white flex flex-col shadow-md border border-gray-200 rounded-lg p-4 overflow-auto w-full h-fit max-h-80">
             <div className="mb-4 flex items-center justify-between">
                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest offers</h5>
             </div>
             <div className="flow-root">
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                     { offers.map( offer => (
-                        <li className="py-3 sm:py-4" key={offer.offer_id}>
+                        <li className="py-3 sm:py-2" key={offer.offer_id}>
                             <div className="flex items-center space-x-4">
                                 <div className="shrink-0">
                                     <img
@@ -54,8 +68,8 @@ export const CurrentOffers = ({ item }) => {
                                     />
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                    <p className="truncate text-sm font-medium text-gray-900 dark:text-white">{ offer.user.username }</p>
-                                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">{ dateToText( offer.created_at ) }</p>
+                                    <p className="truncate text-sm font-medium text-gray-900 dark:text-white" title={offer.user.username}>{ offer.user.username }</p>
+                                    <p className="truncate text-xs text-gray-500 dark:text-gray-400" title={dateToText(offer.created_at)}>{ dateToText( offer.created_at ) }</p>
                                 </div>
                                 <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                     { convertToCurrency( offer.amount ) }
@@ -65,7 +79,7 @@ export const CurrentOffers = ({ item }) => {
                     ))}
                 </ul>
             </div>
-        </Card>
+        </div>
 
     )
 };

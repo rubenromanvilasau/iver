@@ -101,8 +101,6 @@ export const NewOfferForm = ({ openModal, onClose, itemId, minAmount = 0}) => {
                                 id="amount"
                                 type='number'
                                 placeholder={convertToCurrency(minAmount)}
-                                min={minAmount}
-                                value={amount}
                                 onChange={onChangeAmount}
                                 disabled={isLoading}
                                 required

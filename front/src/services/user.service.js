@@ -28,4 +28,16 @@ export default class UserService {
     getAddresses( id ) {
         return axios.get( this.apiUrl + `/${id}/addresses`);
     }
+
+    addAddress( data ) {
+        return axios.post( this.apiUrl + `/addresses`, data);
+    }
+
+    deleteAddress( id, userId ) {
+        return axios.delete( this.apiUrl + `/${userId}/addresses/${id}` );
+    }
+
+    updateAddress( id, data ) {
+        return axios.put( this.apiUrl + `/address/${id}`, data );
+    }
 }

@@ -227,7 +227,7 @@ export const BasicInformation = () => {
                         shadow
                         id="password" 
                         type="password" 
-                        placeholder="Ej *********" 
+                        placeholder="*********" 
                         disabled={!inputsStatus.password}
                         onChange={onChangeInput}
                     />

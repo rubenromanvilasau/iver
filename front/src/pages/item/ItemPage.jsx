@@ -8,7 +8,7 @@ import { UserContext } from '../../context/UserContext';
 import { SellerInfoCard, NewOfferForm, CurrentOffers, ItemDetails, ItemHeader } from './components/';
 import { convertToCurrency } from '../../utils';
 
-const tabs = ['Description', 'Instructions'];
+const tabs = ['Description'];
 
 export const ItemPage = () => {
     const { id } = useParams();
@@ -40,10 +40,13 @@ export const ItemPage = () => {
         });
 
         socket.on('viewersAmount', ( viewers ) => {
+            console.log('current viewers', viewers);
             setViewersAmount( viewers );
         });
 
         socket.on('newOffer', ( offer ) => {
+            // console.log('new offer', offer);
+            item.offers = [offer, ...item.offers];
             setLastOffer( offer );
             showInfoToast(`New offer: ${convertToCurrency( offer.amount )}`);
         });
@@ -101,13 +104,13 @@ export const ItemPage = () => {
                             <ItemDetails 
                                 item={item}
                                 onClickNewOffer={onClickNewOffer}
-                                lastOffer={lastOffer.amount}
+                                lastOffer={lastOffer}
                             />
                         </section>
 
                         <div className='flex flex-col items-center gap-2'>
                             <SellerInfoCard seller={item.seller}/>
-                            { user?.rut === item.seller.rut && <CurrentOffers item={item}/> }
+                            <CurrentOffers item={item}/> 
                         </div>
 
                     </div>
@@ -118,7 +121,7 @@ export const ItemPage = () => {
                 openModal={openModal} 
                 onClose={onClosemodal}
                 itemId={item.item_id}
-                minAmount={ item?.offers[0]?.amount }
+                minAmount={ item?.offers[0]?.amount || item.price }
             />
         </div>
     )

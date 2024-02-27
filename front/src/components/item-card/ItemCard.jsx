@@ -8,7 +8,7 @@ export const ItemCard = ({ item_id, name, price, offers, ends_at, seller }) => {
     return (
         <div className="bg-white w-72 rounded-md cursor-pointer transition-all ease-in duration-200 p-6 hover:transition-none">
             <img src="/img/gtr.jpeg" className="w-full rounded-md h-36" alt="Funko image"/>
-            <h5 className="font-bold text-text-primary text-xl mt-2 capitalize overflow-hidden whitespace-nowrap">{name}</h5>
+            <h5 className="font-bold text-text-primary text-xl mt-2 capitalize overflow-hidden whitespace-nowrap truncate" title={name}>{name}</h5>
             
             <div className="mt-2">
                 <div className="flex flex-row items-center gap-1">

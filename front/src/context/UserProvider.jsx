@@ -22,8 +22,8 @@ export const UserProvider = ({ children }) => {
                         localStorage.setItem('user', JSON.stringify(user));
                         setUser( response.data );
                         
-                        // const origin = location.state?.from?.pathname || '/';
-                        // navigate( origin );
+                        const origin = location.state?.from?.pathname || '/';
+                        navigate( origin );
                         resolve( response.data );
                     }else{
                         console.log('LOGIN FAILED', response);
@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if( isLogged ) {
+        if( isLogged() ) {
             const localStorageUser = JSON.parse( localStorage.getItem( user ) );
             console.log('localstorageuser', localStorageUser );
             setUser( localStorageUser );
@@ -48,6 +48,7 @@ export const UserProvider = ({ children }) => {
 
     const isLogged = () => {
         const token = localStorage.getItem('token');
+        console.log('isLogged', token ? true : false);
         // if( token ) {
         //     userService.getMe( token )
         //         .then( response => {

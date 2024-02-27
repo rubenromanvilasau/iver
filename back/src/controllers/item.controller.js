@@ -62,9 +62,9 @@ class ItemController {
             //     return res.status(400).send({ message: 'You cannot offer your own item' });
             // }
 
-            if( item.ends_at < new Date() ) {
-                return res.status(400).send({ message: 'This item has expired' });
-            }
+            // if( item.ends_at < new Date() ) {
+            //     return res.status(400).send({ message: 'This item has expired' });
+            // }
 
             const newItemOffer = await itemsService.createOffer( parseInt( id ), offer );
             res.status(201).send( newItemOffer );

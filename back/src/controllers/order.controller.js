@@ -14,10 +14,10 @@ class OrderController {
         }
     }
     
-    async getById( req, res ) {
+    async getByCheckoutId( req, res ) {
         const { id } = req.params;
         try {
-            const order = await orderService.getById( id );
+            const order = await orderService.getByCheckoutId( id );
             res.status(200).json( order );
         } catch ( err ) {
             console.log('[CONTROLLERS-ORDERS] getOrder ERROR', err);
