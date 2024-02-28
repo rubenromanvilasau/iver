@@ -73,6 +73,18 @@ class ItemController {
             res.status(500).send( err );
         }
     }
+
+    async addPhotos( req, res ) {
+        const { id } = req.params;
+        console.log('req', req.files)
+        try {
+            await itemsService.addPhotos( id, req.files );
+            res.status(201).send({ message: 'photos added successfully' });
+        } catch ( err ) {
+            console.log('[CONTROLLERS-ITEMS] createItemImages ERROR', err);
+            res.status(500).send( err );
+        }
+    }
 }
 
 module.exports = ItemController;

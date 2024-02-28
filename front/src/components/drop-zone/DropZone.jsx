@@ -1,6 +1,6 @@
 import { FileInput, Label } from "flowbite-react";
 
-export const DropZone = ({ onChangeInput }) => {
+export const DropZone = ({ onChangeInput, inputRef }) => {
     return (
         <div className="flex w-full items-center justify-center">
             <Label
@@ -30,6 +30,7 @@ export const DropZone = ({ onChangeInput }) => {
                 <FileInput
                     id="dropzone-file" 
                     className="hidden" 
+                    ref={inputRef}
                     onChange={onChangeInput}
                 />
             </Label>

@@ -36,11 +36,11 @@ model Item {
 }
 
 model ItemImage {
-  item_image_id Int      @id @default(autoincrement())
-  item_id       Int
-  image_url     String   @db.VarChar
-  uploaded_date DateTime @default(now()) @db.Timestamp(6)
-  items         Item    @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  item_image_id      Int       @id @default(autoincrement())
+  item_id            Int
+  image_url          String    @db.VarChar
+  uploaded_date      DateTime  @default(now()) @db.Timestamp(6)
+  item               Item      @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
   @@map("items_images")
 }
 

@@ -17,6 +17,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const descriptionRef = useRef( null );
     const timeRef = useRef( null );
     const termConditionsRef = useRef( null );
+    const inputFileRef = useRef( null );
     const [categories, setCategories] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [shippingWays, setShippingWays] = useState([]);
@@ -24,6 +25,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const [selectedStatus, setSelectedStatus] = useState( null );
     const [selectedShippingWay, setSelectedShippingWay] = useState( null );
     const [selectedEndDate, setSelectedEndDate] = useState( new Date() );
+    const [photos, setPhotos] = useState([]);
     const [isFormValid, setIsFormValid] = useState( false );
     const [showTermsConditions, setShowTermsConditions] = useState( false );
 
@@ -33,7 +35,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
         const price = priceRef.current.value;
         const description = descriptionRef.current.value;
         const time = timeRef.current.value;
-
+        
         if( !termConditionsRef.current.checked ) {
             showErrorToast( 'You must accept terms and conditions' );
             return;
@@ -44,12 +46,15 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             return;
         }
 
-        console.log('timeRef', timeRef.current.value, typeof timeRef.current.value);
-
-
         const [ hour, minutes ] = time.split(':');
         selectedEndDate.setHours( parseInt( hour ), parseInt( minutes ), 0, 0 );
-
+        
+        const formData = new FormData();
+        const inputFiles = inputFileRef.current.files;
+        for(let i = 0; i < inputFiles.length; i++) {
+            formData.append('photos', inputFiles[i] );
+        }
+      
         const item = {
             name,
             price: Number( price ),
@@ -58,6 +63,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             statusId: selectedStatus.status_id,
             shippingWayId: selectedShippingWay.shipping_way_id,
             endsAt: selectedEndDate,
+            formData,
         };
 
         handlePublishItem( item );
@@ -80,6 +86,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
     const onAddImage = ( e ) => {
         console.log( 'files', e.target.files[0]);
+        setPhotos( [...photos, e.target.files[0]] );
     }
 
     useEffect(() => {
@@ -128,6 +135,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
             <div className='flex flex-col md:flex-row gap-4'>
                 <div className='w-full lg:w-1/2'>
                     <DropZone
+                        inputRef={inputFileRef}
                         onChangeInput={onAddImage}
                     />
                 </div>
@@ -275,7 +283,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                     <Button
                         onClick={ onClickPublish }
                         type='submit'
-                        disabled={ !isFormValid }
+                        // disabled={ !isFormValid }
                     >
                         Publish
                     </Button>

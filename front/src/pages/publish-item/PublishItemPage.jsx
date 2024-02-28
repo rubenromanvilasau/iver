@@ -14,7 +14,7 @@ export const PublishItemPage = () => {
     const [isLoading, setIsLoading] = useState( false );
     const [publishSuccess, setPublishSuccess] = useState( null );
 
-    const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWayId, endsAt } ) => {
+    const handlePublishItem = async( { name, price, description, categoryId, statusId, shippingWayId, endsAt, formData } ) => {
 
         const item = {
             name,
@@ -31,19 +31,31 @@ export const PublishItemPage = () => {
         console.log('item', item);
 
         setIsLoading( true );
-        const response = await itemService.createItem( item )
-                            .catch( err => {
-                                console.log( 'ERROR',err );
-                                setPublishSuccess( 'error' );
-                                setIsLoading( false );
-                                return;
-                            });
+        // const response = await itemService.createItem( item )
+        //                     .catch( err => {
+        //                         console.log( 'ERROR',err );
+        //                         setPublishSuccess( 'error' );
+        //                         setIsLoading( false );
+        //                         return;
+        //                     });
+            
+        console.log('formdata', formData.get('photos'), typeof formData.get('photos'));
+        await postPhotos( 1, formData );
+        // if( response.status === 201 ) {
+        //     const itemId = response.data.item_id;
+        //     await postPhotos( itemId, formData );
         
-        if( response.status === 201 ) {
-            setIsLoading( false );
-            setPublishSuccess( 'success' );
-        }
+        //     setIsLoading( false );
+        //     setPublishSuccess( 'success' );
+        // }
+    }
 
+    const postPhotos = async( id, formData ) => {
+        await itemService.addPhotos( id, formData )
+            .catch( err => {
+                console.log('[PUBLISHITEM - PAGE] postPhotos ERROR ', err )
+            });
+                        
     }
 
     return (

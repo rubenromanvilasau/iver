@@ -8,7 +8,7 @@ export const Timepicker = ({ timeRef }) => {
             type="time"
             name="time"
             id="time"
-            className='border bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 text-sm p-2.5 rounded-lg'
+            className='border bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 text-sm p-2.5 rounded-lg w-28'
             required
         />
 

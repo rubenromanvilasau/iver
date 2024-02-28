@@ -190,6 +190,24 @@ class ItemsService {
 
         emitToAll('newOffer', id, newOffer);
     }
+
+
+    //TODO FIX THIS, THERE'S A PROBLEM WITH CREATEMANY
+    async addPhotos( id, images ) {
+        const data = images.map( image => {
+            return {
+                image_url: image.path,
+                item: {
+                    connect: {
+                        item_id: parseInt(id),
+                    }
+                }
+            }
+        });
+        console.log('data', data);
+
+        return prisma.itemImage.createMany({ data: data });
+    }
 }
 
 module.exports = ItemsService;

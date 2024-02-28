@@ -37,5 +37,13 @@ export default class ItemService {
             .catch( err => { throw err.response } );
     }
 
+    addPhotos( id, formData ) {
+        console.log('formData', formData);
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+        return axios.post( this.apiUrl + id + '/photos', formData, config )
+            .then( response => response.data )
+            .catch( err => { throw err.response } );
+    }
+
 }
 
