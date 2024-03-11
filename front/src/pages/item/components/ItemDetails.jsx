@@ -7,7 +7,6 @@ import { CountdownTimer } from "../../../components";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
-import { Button } from "flowbite-react";
 
 export const ItemDetails = ({ item , onClickNewOffer, lastOffer }) => {
     const { user } = useContext( UserContext );
@@ -42,19 +41,19 @@ export const ItemDetails = ({ item , onClickNewOffer, lastOffer }) => {
                 <span className='font-semibold text-primary uppercase text-xl whitespace-nowrap'>Highest bid: </span>
                 <span className="text-slate-500 text-3xl whitespace-nowrap">{ convertToCurrency(lastOffer.amount ?? '$0') }</span>
             </div>
-            <div className="flex flex-row justify-between mt-4">
-                <div className='bg-slate-400 w-fit rounded-xl pl-4 pr-4 pb-2 pt-2 uppercase mt-4'>
+            <div className="flex flex-row justify-between items-end mt-4">
+                <div className='bg-slate-400 h-11 w-fit rounded-xl pl-4 pr-4 pb-2 pt-2 uppercase mt-4'>
                     <CountdownTimer
                         endDate={ item.ends_at }
                     />
                 </div>
-                <Button
-                    className=' ml-16 bg-yellow-400 transition-all ease-in duration-200 text-white font-extrabold uppercase hover:bg-yellow-500 rounded-lg'
+                <button
+                    className=' bg-yellow-400 transition-all ease-in duration-200 text-white text-md h-fit font-extrabold uppercase hover:bg-transparent border-yellow-400 border-2 hover:text-yellow-400 rounded-lg px-4 py-2'
                     onClick={ onClickNewOffer }
                     // disabled={ !user?.token || user.rut === item.seller_id  || new Date( item.ends_at ) < new Date() }
                 >
                     Offer
-                </Button>
+                </button>
             </div>
         </div>
     )

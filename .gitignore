@@ -1,4 +1,5 @@
 back/items-photos
+back/.DS_Store
 # NODE_MODULES FOLDERS
 back/node_modules
 front/node_modules

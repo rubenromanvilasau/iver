@@ -84,7 +84,7 @@ export const ItemPage = () => {
     }
 
     return (
-        <div className='container flex flex-col md:flex-row justify-center py-4 mx-auto gap-2 mt-4'>
+        <div className='container flex flex-col md:flex-row justify-center p-4 py-4 mx-auto gap-2 mt-4'>
             {   isLoading
                 ? <Loading/> 
                 : <>

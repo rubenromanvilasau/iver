@@ -30,18 +30,18 @@ export const HomePage = () => {
 
     const onChangeDirection = ( isAscendant ) => { setIsAscendant( isAscendant ) };
     const onChangeSort = ( sortOption ) => { setCurrentSortOption( sortOption ) };
-    const onPageChange = ( pageNumber ) => setCurrentPage( pageNumber );
+    const onPageChange = ( pageNumber ) => {console.log('pagenumber', pageNumber),setCurrentPage( pageNumber ) };
 
     useEffect(() => {
-        if( !currentSortOption ) return;
+        // if( !currentSortOption ) return;
 
-        const newFilter = `?page=${currentPage}&orderBy=${currentSortOption.value}&direction=${isAscendant ? 'asc' : 'desc'}`;
+        const newFilter = `?page=${currentPage}&orderBy=${currentSortOption?.value || ''}&direction=${isAscendant ? 'asc' : 'desc'}&pageSize=${pageSize}`;
 
         setFilter( newFilter );
-    }, [isAscendant, currentSortOption])
+    }, [isAscendant, currentSortOption, currentPage])
 
     return (
-        <div className='container mx-auto gap-4 pt-4 pb-4 w-full'>
+        <div className='container mx-auto gap-4 px-2 pt-4 pb-4 w-full'>
             <div className='flex content-center w-full overflow-hidden'>
                 <Banner/>
             </div>
@@ -57,16 +57,18 @@ export const HomePage = () => {
             <section className='mt-2 flex flex-row justify-center md:justify-start items-center flex-wrap gap-4 w-full'>
                 { isLoading 
                     ? <div className='flex justify-center w-full'><Loading/></div>
-                    : items.data.map( item => <ItemCard key={ item.item_id } {...item}/> )
+                    : items?.data?.map( item => <ItemCard key={ item.item_id } {...item}/> )
                 }
             </section>
-            <div className='mt-4'>
-                <Paginator
-                    currentPage={currentPage}
-                    totalPages={0}
-                    onPageChange={onPageChange}
-                />
-            </div>
+            { items.count > pageSize && 
+                <div className='mt-4'>
+                    <Paginator
+                        currentPage={currentPage}
+                        totalPages={Math.ceil( items.count / pageSize )}
+                        onPageChange={onPageChange}
+                    />
+                </div>
+            }
         </div>
     )
 }

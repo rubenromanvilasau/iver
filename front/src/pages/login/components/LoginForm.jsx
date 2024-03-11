@@ -15,33 +15,40 @@ export const LoginForm = () => {
     const [emailError, setEmailError] = useState({ status: false, message: ''});
     const [passwordError, setPasswordError] = useState({ status: false, message: ''});
     const [showRecoverPasswordModal, setShowRecoverPasswordModal] = useState( false );
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLoginClick = async() => {
+        setIsLoading( true );
         event.preventDefault();
         const password = passwordRef.current.value;
         const email = emailRef.current.value;
         
         if( !email  ) {
             setEmailError({ status: true, message: 'Please fill your email'});
+            setIsLoading( false );
             return;
         }
 
         if( !password ) {
             setPasswordError({ status: true, message: 'Please fill your password'});
+            setIsLoading( false );
             return;
         }
         
         handleLogin( email, password )
             .then( () => {
                 navigate('/');
+                setIsLoading( false );
             })
             .catch( err => {
                 console.log('error LOGIN', err.message);
+                setIsLoading( false );
                 if( err.status === 404 ) {
                     setEmailError({ status: true, message: 'There is no account with that email' });
+                    setIsLoading( false );
                 }else {
                     setPasswordError({ status: true, message: 'Incorrect password. Please try again' });
+                    setIsLoading( false );
                 }
             });
     }
@@ -96,6 +103,7 @@ export const LoginForm = () => {
                     className='w-full bg-primary'
                     onClick={ handleLoginClick }
                     type='submit'
+                    ispRocessing={ isLoading }
                 >
                     Login
                 </Button>

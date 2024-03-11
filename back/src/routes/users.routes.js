@@ -10,11 +10,14 @@ const test = ( req, res, next ) => {
 }
 
 router.get('/', userController.getAll);
+router.get('/email', userController.getByEmail);
 router.get('/:id', userController.getById);
 router.get('/:id/items', userController.getItems);
 router.get('/:id/addresses', userController.getAddresses);
+router.post('/recover-password', userController.recoverPassword);
 router.post('/register', userController.register);
 router.post('/login', userController.login);
+router.post('/update-password/:id', userController.updatePassword);
 router.post('/addresses', userController.createAddress);
 router.delete('/:user_id/addresses/:id', userController.deleteAddress);
 router.put('/update/:id', userController.update);

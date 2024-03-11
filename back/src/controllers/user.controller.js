@@ -4,6 +4,8 @@ const itemService = new ItemService();
 const userService = new UserService();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { sendEmail } = require('../helpers/email-sender');
+const { v1: uuidv1 } = require('uuid');
 
 class UserController {
 
@@ -91,9 +93,11 @@ class UserController {
     }
 
     async getByEmail( req, res ) {
-        const { email } = req.params;
-    
+        const { email } = req.body;
+        
         try {
+            if( !email ) return res.status(400).send({ message: 'Email is required' });
+        
             const user = await userService.getByEmail( email );
     
             if( !user ) {
@@ -199,6 +203,48 @@ class UserController {
         } catch ( err ) {
             console.log('[CONTROLLERS - USER ] updateAddress ERROR ', err);
             res.status(500).send( err );
+        }
+    }
+
+    async updatePassword( req, res ) {
+        const { id } = req.params;
+        const { password } = req.body;
+        try {
+            await userService.updatePassword( id, password );
+            res.status(201).send({ message: 'Password updated successfully' });
+        } catch ( err ) {
+            console.log('[CONTROLLERS - USER ] updatePassword ERROR ', err);
+            res.status(500).send( err );
+        }
+
+    }
+
+    async recoverPassword( req, res ) {
+        const { email } = req.body;
+        try {
+
+            if( !email ) return res.status(400).send({ message: 'Email is required' });
+
+            const user = await userService.getByEmail( email );
+            if( !user ) {
+                return res.status(404).send({ message: 'User not found' });
+            }
+
+            const token = uuidv1();
+
+            const data = {
+                to: user.email,
+                subject: 'Recover password',
+                html: `<h1>Recover your password</h1>
+                <p>Click <a href="http://localhost:5173/recover-password?token=${ token  }&email=${ user.email }">here</a> to recover your password</p>`
+            };
+
+            await sendEmail( data );
+
+            res.status(200).send({ message: 'Email sent' });
+        } catch ( err ) {
+            console.log('[CONTROLLERS - USER ] recoverPassword ERROR ', err);
+            res.status(500).send( { message: err } );
         }
     }
 }

@@ -61,8 +61,8 @@ class ItemsService {
                     offers: true,
                 },
                 orderBy: orderConfig,
-                skip: ( page - 1 ) * pageSize,
-                take: pageSize,
+                skip: ( page - 1 ) * parseInt( pageSize ),
+                take: parseInt( pageSize ),
             }),
             prisma.item.count({
                 where,
@@ -194,6 +194,7 @@ class ItemsService {
 
     //TODO FIX THIS, THERE'S A PROBLEM WITH CREATEMANY
     async addPhotos( id, images ) {
+        console.log(images)
         const data = images.map( image => {
             return {
                 image_url: image.path,
@@ -206,7 +207,11 @@ class ItemsService {
         });
         console.log('data', data);
 
-        return prisma.itemImage.createMany({ data: data });
+        data.forEach( async image => {
+            await prisma.itemImage.create({
+                data: image
+            });
+        });
     }
 }
 

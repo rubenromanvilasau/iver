@@ -12,4 +12,4 @@ export {
     CategoryService,
     ShippingWayService,
     OrderService,
-}
+};

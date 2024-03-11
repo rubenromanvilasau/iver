@@ -31,23 +31,21 @@ export const PublishItemPage = () => {
         console.log('item', item);
 
         setIsLoading( true );
-        // const response = await itemService.createItem( item )
-        //                     .catch( err => {
-        //                         console.log( 'ERROR',err );
-        //                         setPublishSuccess( 'error' );
-        //                         setIsLoading( false );
-        //                         return;
-        //                     });
+        const response = await itemService.createItem( item )
+                            .catch( err => {
+                                console.log( 'ERROR',err );
+                                setPublishSuccess( 'error' );
+                                setIsLoading( false );
+                                return;
+                            });
             
-        console.log('formdata', formData.get('photos'), typeof formData.get('photos'));
-        await postPhotos( 1, formData );
-        // if( response.status === 201 ) {
-        //     const itemId = response.data.item_id;
-        //     await postPhotos( itemId, formData );
-        
-        //     setIsLoading( false );
-        //     setPublishSuccess( 'success' );
-        // }
+        if( response.status === 201 ) {
+            const itemId = response.data.item_id;
+            await postPhotos( itemId, formData );
+           
+            setIsLoading( false );
+            setPublishSuccess( 'success' );
+        }
     }
 
     const postPhotos = async( id, formData ) => {

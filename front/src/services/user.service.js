@@ -5,8 +5,17 @@ export default class UserService {
         this.apiUrl = `${import.meta.env.VITE_API_URL}/users`;
     }
     
+    get( id ) {
+        return axios.get( this.apiUrl + `/${id}` );
+    }
+
     login( email, password ) {
         return axios.post( this.apiUrl + '/login', { email, password } );
+    }
+    
+    getByEmail( email ) {
+        console.log('email', email);
+        return axios.get( this.apiUrl + `/email`, { email });
     }
 
     getItems( id ) {
@@ -39,5 +48,9 @@ export default class UserService {
 
     updateAddress( id, data ) {
         return axios.put( this.apiUrl + `/address/${id}`, data );
+    }
+
+    recoverPassword( email ) {
+        return axios.post( this.apiUrl + '/recover-password', {email} );
     }
 }

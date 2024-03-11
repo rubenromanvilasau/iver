@@ -47,9 +47,6 @@ class UsersService {
             where: {
                 email: email,
             },
-            include: {
-                preferences: true,
-            }
         });
     }
 
@@ -64,6 +61,23 @@ class UsersService {
         return prisma.userPreference.update({
             where: { user_id: id },
             data,
+        });
+    }
+
+    updatePassword( id, password ) {
+        return new Promise( ( resolve, reject ) => {
+            bcrypt.hash( password, 10, ( err, hash ) => {
+                if( err ) reject( err );
+
+                prisma.user.update({
+                    where: { rut: id },
+                    data: { password: hash }
+                }).then( response => {
+                    resolve( response );
+                }).catch( err => {
+                    reject( err );
+                });
+            });
         });
     }
 

@@ -5,13 +5,16 @@ import { Button, Checkbox, Datepicker, Dropdown, Label, Modal, TextInput, Textar
 import { showErrorToast } from '../../../utils/toasts';
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+
 
 const statusService = new StatusService();
 const categoryService = new CategoryService();
 const shippingWayService = new ShippingWayService();
 
 export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
-
+    const navigate = useNavigate();
     const nameRef = useRef( null );
     const priceRef = useRef( null );
     const descriptionRef = useRef( null );
@@ -28,6 +31,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
     const [photos, setPhotos] = useState([]);
     const [isFormValid, setIsFormValid] = useState( false );
     const [showTermsConditions, setShowTermsConditions] = useState( false );
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const onClickPublish = async() => {
         event.preventDefault();
@@ -51,6 +55,12 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
         
         const formData = new FormData();
         const inputFiles = inputFileRef.current.files;
+
+        if( !inputFiles.length ) {
+            showErrorToast( 'You must upload at least one photo' );
+            return;
+        }
+
         for(let i = 0; i < inputFiles.length; i++) {
             formData.append('photos', inputFiles[i] );
         }
@@ -89,11 +99,19 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
         setPhotos( [...photos, e.target.files[0]] );
     }
 
+    const handlePrevClick = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + photos.length) % photos.length);
+    };
+    
+    const handleNextClick = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % photos.length);
+    };
+
     useEffect(() => {
-        if( nameRef.current.value && Number( priceRef.current.value ) && descriptionRef.current.value && selectedCategory ) {
+        if( nameRef.current.value && Number( priceRef.current.value ) && descriptionRef.current.value && selectedCategory && selectedStatus && selectedShippingWay ) {
             setIsFormValid( true );
         }
-    },[nameRef, priceRef, descriptionRef, selectedCategory, selectedStatus])
+    },[nameRef, priceRef, descriptionRef, selectedCategory, selectedStatus, selectedShippingWay])
 
     useEffect(() => {
 
@@ -111,8 +129,7 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                 setIsLoading( false );
             }catch( err ) {
                 console.log( '[useEffect] fetchParameters ERROR', err );
-
-                //TODO REDIRECCIONAR A PÁGINA DE ERROR
+                navigate('/404');
                 setIsLoading( false );
             }
         }
@@ -128,12 +145,28 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
 
 
     return (
-        <div className="bg-white flex flex-col gap-4 p-8 rounded-md shadow-md w-3/4">
+        <div className="bg-white flex flex-col gap-4 p-8 w-full rounded-md shadow-md ">
             <h1 className='text-slate-600 text-3xl'>Publish your item</h1>
             <hr/>
             
             <div className='flex flex-col md:flex-row gap-4'>
                 <div className='w-full lg:w-1/2'>
+                    <div className='relative flex overflow-hidden h-fi mb-4'>
+                        <FaChevronLeft
+                            className='absolute top-1/2 -translate-y-1/2 left-0 text-4xl cursor-pointer text-primary bg-white bg-opacity-50 rounded-full p-2'
+                            onClick={handlePrevClick}
+                        />
+                        <FaChevronRight
+                            className='absolute top-1/2 -translate-y-1/2 right-0 text-4xl cursor-pointer text-primary bg-white bg-opacity-50 rounded-full p-2'
+                            onClick={handleNextClick}
+                        />
+                        { photos.length > 0 && <img src={URL.createObjectURL(photos[currentImageIndex])} alt={photos[currentImageIndex].name} className='rounded-lg object-contain'/>}
+                    </div>
+                    <div className="flex gap-2 overflow-scroll mb-4">
+                        { photos.length > 0 && photos.map( photo => (
+                            <img key={photo.name} src={URL.createObjectURL(photo)} alt={photo.name} className='rounded-lg object-contain w-44'/>
+                        ))}
+                    </div>
                     <DropZone
                         inputRef={inputFileRef}
                         onChangeInput={onAddImage}
@@ -263,8 +296,8 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         <Modal.Body>
                             <div className="space-y-6">
                                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-                                companies around the world are updating their terms of service agreements to comply.
+                                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
+                                    companies around the world are updating their terms of service agreements to comply.
                                 </p>
                                 {/* <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                 The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
@@ -283,7 +316,8 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                     <Button
                         onClick={ onClickPublish }
                         type='submit'
-                        // disabled={ !isFormValid }
+                        className='bg-primary'
+                        disabled={ !isFormValid }
                     >
                         Publish
                     </Button>

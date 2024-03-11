@@ -9,19 +9,19 @@ const userService = new UserService();
 
 const iconsColor = '#00adb5';
 
-
 export const BasicInformation = () => {
 
-    const { user } = useContext( UserContext );
+    const { user, updateUser } = useContext( UserContext );
 
-    const [inputsStatus, setInputsStatus] = useState({ name: false, lastName: false, email: false, username: false, });
+    const [inputsStatus, setInputsStatus] = useState({ name: false, last_name: false, email: false, username: false, });
     const [updatedUser, setUpdatedUser] = useState({
         name: '',
-        lastName: '',
+        last_name: '',
         email: '',
         username: '',
     });
     const [isInfoChanged, setIsInfoChanged] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleInput = ( inputName ) => {
         setInputsStatus({
@@ -45,21 +45,24 @@ export const BasicInformation = () => {
         setUpdatedUser({...user});
         setInputsStatus({ 
             name: false, 
-            lastName: false, 
+            last_name: false, 
             email: false, 
             username: false, 
         });
     }
 
-    const updateUser = async () => {
-        // e.preventDefault();
+    const updateUser = async ( e ) => {
+        e.preventDefault();
+        setIsLoading( true );
         await userService.update( user.rut, updatedUser )
-            .then( res => {
+            .then( async(res) => {
                 console.log('Updated user', res);
+                setIsLoading( false );
                 showSuccessToast('Your information has been updated succesfully!');
             })
             .catch( err => {
                 console.log('Error updating user', err);
+                setIsLoading( false );
                 showErrorToast('Error updating your information :(');
                 return;
             });
@@ -67,6 +70,7 @@ export const BasicInformation = () => {
 
     useEffect(() => {
         if( user ) {
+            console.log('user', user)
             setUpdatedUser({...user});
         }
     },[user]);
@@ -111,12 +115,12 @@ export const BasicInformation = () => {
                 <div className='flex items-center gap-2'>
                     <TextInput 
                         shadow
-                        id="last-name" 
+                        id="last_name" 
                         type="text" 
                         placeholder="Ej: Doe"
-                        name="last-name"
+                        name="last_name"
                         value={updatedUser.last_name} 
-                        disabled={!inputsStatus.lastName}
+                        disabled={!inputsStatus.last_name}
                         onChange={onChangeInput}
                     />
                     <button 
@@ -126,7 +130,7 @@ export const BasicInformation = () => {
                         <MdEdit 
                             color={iconsColor} 
                             size={24}
-                            onClick={() => toggleInput('lastName')}
+                            onClick={() => toggleInput('last_name')}
                         />
                     </button>
                 </div>
@@ -251,6 +255,7 @@ export const BasicInformation = () => {
                             onClick={updateUser}
                             type="submit"
                             disabled={!isInfoChanged}
+                            isProcessing={isLoading}
                         >
                             Save
                         </Button> 

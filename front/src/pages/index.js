@@ -9,3 +9,4 @@ export * from './checkout/CheckoutPage';
 export * from './my-items/MyItemsPage';
 export * from './instructions/InstructionsPage';
 export * from './not-found/NotFoundPage';
+export * from './recover-password/RecoverPasswordPage';

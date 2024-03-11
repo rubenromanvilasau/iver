@@ -36,6 +36,20 @@ export const UserProvider = ({ children }) => {
         });
     }
 
+    //TODO RENAME THIS TO USE IT IN USER SETTINGS
+    const updateUser = () => {
+        if( !user ) return console.log('no user logged');
+
+        userService.get( user.id )
+            .then( response => {
+                setUser( response.data );
+                console.log('[USERPROVIDER UPDATEUSER] user updated successfully');
+            })
+            .catch( err => {
+                console.log('[USERPROVIDER UPDATEUSER] ERROR ', err);
+            })
+    }
+
     useEffect(() => {
         if( isLogged() ) {
             const localStorageUser = JSON.parse( localStorage.getItem( user ) );
@@ -70,7 +84,7 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={ { handleLogin, handleLogout, user, isLogged } }>
+        <UserContext.Provider value={ { handleLogin, handleLogout, user, isLogged, updateUser } }>
             { children }
         </UserContext.Provider>
     )

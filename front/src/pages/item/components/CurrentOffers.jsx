@@ -1,4 +1,3 @@
-import { Card } from "flowbite-react";
 import PropTypes from 'prop-types';
 import { convertToCurrency } from "../../../utils";
 import { ItemService } from "../../../services";
@@ -54,6 +53,7 @@ export const CurrentOffers = ({ item }) => {
                 <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest offers</h5>
             </div>
             <div className="flow-root">
+                { offers.length === 0 && <span className="text-slate-500 text-sm">No offers</span>}
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                     { offers.map( offer => (
                         <li className="py-3 sm:py-2" key={offer.offer_id}>
