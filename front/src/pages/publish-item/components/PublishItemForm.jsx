@@ -162,11 +162,13 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                         />
                         { photos.length > 0 && <img src={URL.createObjectURL(photos[currentImageIndex])} alt={photos[currentImageIndex].name} className='rounded-lg object-contain'/>}
                     </div>
-                    <div className="flex gap-2 overflow-scroll mb-4">
-                        { photos.length > 0 && photos.map( photo => (
-                            <img key={photo.name} src={URL.createObjectURL(photo)} alt={photo.name} className='rounded-lg object-contain w-44'/>
-                        ))}
-                    </div>
+                    {   photos.length > 0 &&
+                        <div className="flex gap-2 overflow-scroll mb-4">
+                            {  photos.map( photo => (
+                                <img key={photo.name} src={URL.createObjectURL(photo)} alt={photo.name} className='rounded-lg object-contain w-44'/>
+                            ))}
+                        </div>
+                    }
                     <DropZone
                         inputRef={inputFileRef}
                         onChangeInput={onAddImage}

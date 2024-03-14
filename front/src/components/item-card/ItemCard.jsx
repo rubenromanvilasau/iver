@@ -4,10 +4,10 @@ import { convertToCurrency } from "../../utils";
 import { CountdownTimer } from "../countdown-timer/CountdownTimer";
 import PropTypes from 'prop-types';
 
-export const ItemCard = ({ item_id, name, price, offers, ends_at, seller }) => {
+export const ItemCard = ({ item_id, name, price, offers, ends_at, seller, images }) => {
     return (
         <div className="bg-white w-72 rounded-md transition-all ease-in duration-200 p-6 hover:transition-none">
-            <img src="/img/gtr.jpeg" className="w-full rounded-md h-36" alt="Funko image"/>
+            <img src={images[0] ? `http://localhost:4000/${images[0].image_url}`: '/img/gtr.jpeg'} className="w-full rounded-md h-36 object-contain" alt={name + ' image'}/>
             <h5 className="font-bold text-text-primary text-xl mt-2 capitalize overflow-hidden whitespace-nowrap truncate" title={name}>{name}</h5>
             
             <div className="mt-2">

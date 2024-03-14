@@ -103,7 +103,7 @@ export const LoginForm = () => {
                     className='w-full bg-primary'
                     onClick={ handleLoginClick }
                     type='submit'
-                    ispRocessing={ isLoading }
+                    isProcessing={ isLoading }
                 >
                     Login
                 </Button>

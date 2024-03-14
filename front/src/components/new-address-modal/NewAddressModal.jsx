@@ -6,7 +6,7 @@ import { showErrorToast, showSuccessToast } from "../../utils";
 import { UserContext } from "../../context/UserContext";
 const userService = new UserService();
 
-export const NewAddressModal = ({ isModalOpen, onClose, isEditing, address }) => {
+export const NewAddressModal = ({ isModalOpen, onClose, isEditing = false, address }) => {
 
     const { user } = useContext( UserContext );
 
@@ -17,6 +17,9 @@ export const NewAddressModal = ({ isModalOpen, onClose, isEditing, address }) =>
     const [comuna, setComuna] = useState(null);
 
     const [error, setError] = useState({ status: false, message: ''});
+
+    console.log('isEditing', isEditing);
+    console.log('address', address);
 
     const onSubmit = async() => {
         const street = streetRef.current.value;
@@ -36,9 +39,7 @@ export const NewAddressModal = ({ isModalOpen, onClose, isEditing, address }) =>
             aditional_instructions: aditionalInstructions,
         };
 
-        console.log('data', data);
-
-        const res = isEditing 
+        const res = !isEditing
                         ?  await userService.addAddress( data )
                                 .catch( err => {
                                     console.log('[NewAddressModal] addAddress ERROR ', err);
@@ -51,7 +52,9 @@ export const NewAddressModal = ({ isModalOpen, onClose, isEditing, address }) =>
                                 });
 
         if( res ) {
-            showSuccessToast('Your address was added successfully');
+            isEditing 
+                ? showSuccessToast('Your address was updated successfully')
+                : showSuccessToast('Your address was updated successfully');
             onClose( true );
         }
     }

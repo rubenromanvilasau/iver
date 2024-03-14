@@ -55,6 +55,11 @@ export const Addresses = () => {
         }
     }
 
+    const onClickAddAddress = () => {
+        setIsEditingAddress( false );
+        setIsModalOpen( true );
+    }
+
     useEffect(() => {
         getUserAddresses();
     },[])
@@ -85,7 +90,7 @@ export const Addresses = () => {
             <div className="flex justify-end">
                 <button 
                     className="flex mt-4 items-center gap-1 text-slate-500 cursor-pointer right-0 hover:text-slate-700 hover:underline hover:underline-offset-2"
-                    onClick={() => setIsModalOpen( true )}
+                    onClick={onClickAddAddress}
                 >
                     <span>New Address</span>
                     <FaPlus/>

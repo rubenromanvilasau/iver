@@ -68,7 +68,7 @@ export const ItemPage = () => {
     }, [item]);
 
     const onClickNewOffer = () => {
-        if( !user.token ) {
+        if( !user || !user.token ) {
             showErrorToast('You must be logged in to make an offer');
             return;
         }

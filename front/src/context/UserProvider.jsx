@@ -36,11 +36,10 @@ export const UserProvider = ({ children }) => {
         });
     }
 
-    //TODO RENAME THIS TO USE IT IN USER SETTINGS
-    const updateUser = () => {
+    const updateGlobalUser = () => {
         if( !user ) return console.log('no user logged');
 
-        userService.get( user.id )
+        userService.get( user.rut )
             .then( response => {
                 setUser( response.data );
                 console.log('[USERPROVIDER UPDATEUSER] user updated successfully');
@@ -84,7 +83,7 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={ { handleLogin, handleLogout, user, isLogged, updateUser } }>
+        <UserContext.Provider value={ { handleLogin, handleLogout, user, isLogged, updateGlobalUser } }>
             { children }
         </UserContext.Provider>
     )

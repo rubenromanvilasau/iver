@@ -11,7 +11,7 @@ const iconsColor = '#00adb5';
 
 export const BasicInformation = () => {
 
-    const { user, updateUser } = useContext( UserContext );
+    const { user, updateGlobalUser } = useContext( UserContext );
 
     const [inputsStatus, setInputsStatus] = useState({ name: false, last_name: false, email: false, username: false, });
     const [updatedUser, setUpdatedUser] = useState({
@@ -36,7 +36,6 @@ export const BasicInformation = () => {
             ...updatedUser,
             [e.target.name]: e.target.value
         });
-        console.log('User edited', updatedUser);
     }
 
     const cancelUpdatedUser = () => {
@@ -56,9 +55,16 @@ export const BasicInformation = () => {
         setIsLoading( true );
         await userService.update( user.rut, updatedUser )
             .then( async(res) => {
-                console.log('Updated user', res);
                 setIsLoading( false );
                 showSuccessToast('Your information has been updated succesfully!');
+                updateGlobalUser( updatedUser );
+                setInputsStatus({ 
+                    name: false, 
+                    last_name: false, 
+                    email: false, 
+                    username: false, 
+                });
+                setIsInfoChanged( false );
             })
             .catch( err => {
                 console.log('Error updating user', err);
@@ -70,186 +76,187 @@ export const BasicInformation = () => {
 
     useEffect(() => {
         if( user ) {
-            console.log('user', user)
             setUpdatedUser({...user});
         }
     },[user]);
 
     return (
-        <form className='grid grid-cols-1 mt-8 md:grid-cols-2 gap-8 md:gap-16'>
+        <form className='mt-8'>
                                 
-            {/* Name */}
-            <div className='h-fit'>
-                <div className="mb-2 block">
-                    <Label htmlFor="name" value="Your name" />
-                </div>
-                <div className='flex items-center gap-2 '>
-                    <TextInput 
-                        shadow
-                        id="name" 
-                        type="text" 
-                        placeholder="Ej: John"
-                        name="name"
-                        value={updatedUser.name}
-                        disabled={!inputsStatus.name}
-                        onChange={onChangeInput}
-                    />
-                    <button 
-                        className='bg-transparent'
-                        type="button"
-                    >
-                        <MdEdit 
-                            color={iconsColor} 
-                            size={24}
-                            onClick={() => toggleInput('name')}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                {/* Name */}
+                <div className='h-fit'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="name" value="Your name" />
+                    </div>
+                    <div className='flex items-center gap-2 '>
+                        <TextInput 
+                            shadow
+                            id="name" 
+                            type="text" 
+                            placeholder="Ej: John"
+                            name="name"
+                            value={updatedUser.name}
+                            disabled={!inputsStatus.name}
+                            onChange={onChangeInput}
                         />
-                    </button>
+                        <button 
+                            className='bg-transparent'
+                            type="button"
+                        >
+                            <MdEdit 
+                                color={iconsColor} 
+                                size={24}
+                                onClick={() => toggleInput('name')}
+                            />
+                        </button>
+                    </div>
                 </div>
+
+                {/* Last name */}
+                <div  className='h-fit'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="last-name" value="Your last name" />
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <TextInput 
+                            shadow
+                            id="last_name" 
+                            type="text" 
+                            placeholder="Ej: Doe"
+                            name="last_name"
+                            value={updatedUser.last_name} 
+                            disabled={!inputsStatus.last_name}
+                            onChange={onChangeInput}
+                        />
+                        <button 
+                            className='bg-transparent'
+                            type="button"
+                        >
+                            <MdEdit 
+                                color={iconsColor} 
+                                size={24}
+                                onClick={() => toggleInput('last_name')}
+                            />
+                        </button>
+                    </div>
+                </div>   
+
+                {/* Email */}
+                <div className='h-fit'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="email" value="Your email" />
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <TextInput 
+                            shadow
+                            id="email" 
+                            type="email" 
+                            placeholder="Ej: name@iver.cl"
+                            name="email"
+                            value={updatedUser.email}
+                            disabled={!inputsStatus.email}
+                            onChange={onChangeInput}
+                        />
+                        <button 
+                            className='bg-transparent'
+                            type="button"
+                        >
+                            <MdEdit 
+                                color={iconsColor} 
+                                size={24}
+                                onClick={() => toggleInput('email')}
+                            />
+                        </button>
+                    </div>
+                </div>   
+
+                {/* Username */}
+                <div className='h-fit'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="username" value="Your username" />
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <TextInput 
+                            shadow
+                            id="username" 
+                            type="text" 
+                            placeholder="Ej: johndoe" 
+                            value={updatedUser.username}
+                            disabled={!inputsStatus.username}
+                            onChange={onChangeInput}
+                        />
+                        <button 
+                            className='bg-transparent'
+                            type="button"
+                        >
+                            <MdEdit 
+                                color={iconsColor} 
+                                size={24}
+                                onClick={() => toggleInput('username')}
+                            />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Phone */}
+                <div className='h-fit'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="username" value="Your Phone" />
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <TextInput 
+                            shadow
+                            id="phone" 
+                            type="phone" 
+                            placeholder="Ej: 912345678" 
+                            value={updatedUser.phone}
+                            disabled={!inputsStatus.phone}
+                            onChange={onChangeInput}
+                        />
+                        <button 
+                            className='bg-transparent'
+                            type="button"
+                        >
+                            <MdEdit 
+                                color={iconsColor} 
+                                size={24}
+                                onClick={() => toggleInput('phone')}
+                            />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Password */}
+                <div className='h-fit'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="username" value="Your Password" />
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <TextInput 
+                            shadow
+                            id="password" 
+                            type="password" 
+                            placeholder="*********" 
+                            disabled={!inputsStatus.password}
+                            onChange={onChangeInput}
+                        />
+                        <button 
+                            className='bg-transparent'
+                            type="button"
+                        >
+                            <MdEdit 
+                                color={iconsColor} 
+                                size={24}
+                                onClick={() => toggleInput('password')}
+                            />
+                        </button>
+                    </div>
+                </div>  
             </div>
-
-            {/* Last name */}
-            <div  className='h-fit'>
-                <div className="mb-2 block">
-                    <Label htmlFor="last-name" value="Your last name" />
-                </div>
-                <div className='flex items-center gap-2'>
-                    <TextInput 
-                        shadow
-                        id="last_name" 
-                        type="text" 
-                        placeholder="Ej: Doe"
-                        name="last_name"
-                        value={updatedUser.last_name} 
-                        disabled={!inputsStatus.last_name}
-                        onChange={onChangeInput}
-                    />
-                    <button 
-                        className='bg-transparent'
-                        type="button"
-                    >
-                        <MdEdit 
-                            color={iconsColor} 
-                            size={24}
-                            onClick={() => toggleInput('last_name')}
-                        />
-                    </button>
-                </div>
-            </div>   
-
-            {/* Email */}
-            <div className='h-fit'>
-                <div className="mb-2 block">
-                    <Label htmlFor="email" value="Your email" />
-                </div>
-                <div className='flex items-center gap-2'>
-                    <TextInput 
-                        shadow
-                        id="email" 
-                        type="email" 
-                        placeholder="Ej: name@iver.cl"
-                        name="email"
-                        value={updatedUser.email}
-                        disabled={!inputsStatus.email}
-                        onChange={onChangeInput}
-                    />
-                    <button 
-                        className='bg-transparent'
-                        type="button"
-                    >
-                        <MdEdit 
-                            color={iconsColor} 
-                            size={24}
-                            onClick={() => toggleInput('email')}
-                        />
-                    </button>
-                </div>
-            </div>   
-
-            {/* Username */}
-            <div className='h-fit'>
-                <div className="mb-2 block">
-                    <Label htmlFor="username" value="Your username" />
-                </div>
-                <div className='flex items-center gap-2'>
-                    <TextInput 
-                        shadow
-                        id="username" 
-                        type="text" 
-                        placeholder="Ej: johndoe" 
-                        value={updatedUser.username}
-                        disabled={!inputsStatus.username}
-                        onChange={onChangeInput}
-                    />
-                    <button 
-                        className='bg-transparent'
-                        type="button"
-                    >
-                        <MdEdit 
-                            color={iconsColor} 
-                            size={24}
-                            onClick={() => toggleInput('username')}
-                        />
-                    </button>
-                </div>
-            </div>
-
-            {/* Phone */}
-            <div className='h-fit'>
-                <div className="mb-2 block">
-                    <Label htmlFor="username" value="Your Phone" />
-                </div>
-                <div className='flex items-center gap-2'>
-                    <TextInput 
-                        shadow
-                        id="phone" 
-                        type="phone" 
-                        placeholder="Ej: 912345678" 
-                        value={updatedUser.phone}
-                        disabled={!inputsStatus.phone}
-                        onChange={onChangeInput}
-                    />
-                    <button 
-                        className='bg-transparent'
-                        type="button"
-                    >
-                        <MdEdit 
-                            color={iconsColor} 
-                            size={24}
-                            onClick={() => toggleInput('phone')}
-                        />
-                    </button>
-                </div>
-            </div>
-
-            {/* Password */}
-            <div className='h-fit'>
-                <div className="mb-2 block">
-                    <Label htmlFor="username" value="Your Password" />
-                </div>
-                <div className='flex items-center gap-2'>
-                    <TextInput 
-                        shadow
-                        id="password" 
-                        type="password" 
-                        placeholder="*********" 
-                        disabled={!inputsStatus.password}
-                        onChange={onChangeInput}
-                    />
-                    <button 
-                        className='bg-transparent'
-                        type="button"
-                    >
-                        <MdEdit 
-                            color={iconsColor} 
-                            size={24}
-                            onClick={() => toggleInput('password')}
-                        />
-                    </button>
-                </div>
-            </div>  
             { isInfoChanged 
                 && (
-                    <div className="w-full flex justify-start gap-2 mt-8 md:mt-0">
+                    <div className="w-full flex justify-start gap-2 mt-8">
                         <Button 
                             className="bg-primary pl-8 pr-8"
                             onClick={updateUser}
@@ -268,7 +275,6 @@ export const BasicInformation = () => {
                         </Button> 
                     </div>
                 )
-
             } 
         </form>
     )
