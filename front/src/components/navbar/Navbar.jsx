@@ -10,7 +10,6 @@ export const Navbar = () => {
     const [initials, setInitials] = useState('');
 
     useEffect( () => {
-        console.log('user.token', user?.token)
         if( user?.token ) {
             //* For some reason method .charAt() is not working here, so I had to do it with split.
             const nameInitial = user.name.split('')[0].toUpperCase();

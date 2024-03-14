@@ -8,7 +8,6 @@ export default class ItemService {
     }
 
     getAllItems( filter ) {
-        console.log('apiUrl', this.apiUrl + ( filter ? filter : '' ))
         return axios.get( this.apiUrl + ( filter ? filter : '' ) )
             .then( response => response.data )
             .catch( err => { throw err.response } );

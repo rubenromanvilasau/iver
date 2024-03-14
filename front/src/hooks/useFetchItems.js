@@ -13,7 +13,7 @@ export const useFetchItems = ({ pageNumber = 1, filter = '' }) => {
         setIsLoading( true );
         itemService.getAllItems( filter )
             .then( data => {
-                console.log('data', data)
+                // console.log('data', data)
                 setItems( data );
                 setIsLoading( false );
             })
@@ -24,7 +24,7 @@ export const useFetchItems = ({ pageNumber = 1, filter = '' }) => {
     }
 
     useEffect( () => {
-        console.log('filter changed', filter);
+        // console.log('filter changed', filter);
         if( filter ) {
             fetchItems( filter );
         }

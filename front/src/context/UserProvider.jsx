@@ -16,8 +16,7 @@ export const UserProvider = ({ children }) => {
             userService.login( email, password )
                 .then( async(response) => {
                     if( response.status === 200 ) {
-                        console.log('LOGIN SUCCESSFUL', response.data);
-                        localStorage.setItem('token', response.data.token);
+                        // console.log('LOGIN SUCCESSFUL', response.data);
                         const user = response.data;
                         localStorage.setItem('user', JSON.stringify(user));
                         setUser( response.data );
@@ -49,38 +48,24 @@ export const UserProvider = ({ children }) => {
             })
     }
 
-    useEffect(() => {
-        if( isLogged() ) {
-            const localStorageUser = JSON.parse( localStorage.getItem( user ) );
-            console.log('localstorageuser', localStorageUser );
-            setUser( localStorageUser );
-        }else{
-            navigate('/login');
-        }
-    }, []);
-
     const isLogged = () => {
-        const token = localStorage.getItem('token');
-        console.log('isLogged', token ? true : false);
-        // if( token ) {
-        //     userService.getMe( token )
-        //         .then( response => {
-        //             if( response.status === 200 ) {
-        //                 setUser( response.data );
-        //             }
-        //         })
-        //         .catch( err => {
-        //             console.log('ERROR', err);
-        //         });
-        // }
-        return token ? true : false; 
+        // console.log9('USERPROVIDER ISLOGGED', user? true : false);
+        return user ? true : false;
     }
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.clear()
         setUser({});
         navigate('/');
     }
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if( user ) {
+            setUser( JSON.parse(user) );
+            // console.log(JSON.parse(user));
+        }
+    },[]);
 
     return (
         <UserContext.Provider value={ { handleLogin, handleLogout, user, isLogged, updateGlobalUser } }>
