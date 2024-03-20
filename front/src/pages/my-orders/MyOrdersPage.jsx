@@ -55,7 +55,7 @@ export const MyOrdersPage = () => {
                                     { dateToText(expires_at) }
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <div className={`${isAfter(expires_at, new Date()) ? is_payed ? 'bg-green-200' : 'bg-orange-400' : 'bg-red-600'} text-xs md:text-md py-2 px-1 uppercase font-semibold rounded-md text-center text-white`}>{ isAfter(expires_at, new Date()) && !is_payed ? 'Pending' : 'NOT PAYED'}</div>
+                                    <div className={`${is_payed ? 'bg-green-400' : (isAfter(expires_at, new Date()) ? 'bg-orange-400' : 'bg-red-600')} text-xs md:text-md py-2 px-1 uppercase font-semibold rounded-md text-center text-white`}>{ is_payed ? 'Paid' : (isAfter(expires_at, new Date()) ? 'Pending' : 'NOT PAID')}</div>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <span className='font-bold text-lg capitalize'>{convertToCurrency( offer.amount )}</span>
