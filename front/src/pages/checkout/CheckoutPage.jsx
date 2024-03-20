@@ -6,7 +6,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { convertToCurrency, dateToText } from '../../utils';
 import { CryptoPaymentConfirmModal } from './components/CryptoPaymentConfirmModal';
 import { OrderService } from '../../services';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { Loading } from '../../components';
 const orderService = new OrderService();
@@ -33,6 +33,7 @@ const steps = [
 
 // TODO WE HAVE TO VALIDATE USER IS LOGGED, AND IF CHECKOUT ID EXISTS AND BELONGS TO USER ORDER.
 export const CheckoutPage = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
 
     const { user } = useContext( UserContext );
@@ -50,13 +51,34 @@ export const CheckoutPage = () => {
 
     const getCheckout = async() => {
         const res = await orderService.getById( id )
-                            .catch( err => {
-                                console.log('[CHECKOUTPAGE] ERROR ', err);
-                                return;
-                            });
-        console.log('checkout', res);
-        setCheckout( res );
-        setIsLoading( false );
+                        .catch( err => {
+                            console.log('[CHECKOUTPAGE] ERROR ', err);
+                            return;
+                        });
+        if(res) {
+            console.log('checkout', res);
+            if( res.offer.user_id !== user.user_id ) navigate('/404');
+            if( res.is_payed ) navigate('/404');
+
+            setCheckout( res );
+            setIsLoading( false );
+        }else{
+            navigate('/404');
+        }
+    }
+
+    const makePayment = async() => {
+        console.log('making payment');
+        const res = await orderService.update( checkout.order_id, { is_payed: true } )
+                        .catch( err => {
+                            console.log('[CHECKOUTPAGE] ERROR ', err);
+                            return;
+                        });
+
+        if( res ) {
+            console.log('RES', res);
+            changeStep( currentStep + 1 );
+        }
     }
 
     const onCloseCryptoModal = ( isAccepted ) => {
@@ -119,7 +141,8 @@ export const CheckoutPage = () => {
                                     <h2 className='text-xl text-slate-700'>Choose your payment method</h2>
                                     <Button 
                                         className='bg-primary w-64'
-                                        onClick={() => changeStep(currentStep + 1)}
+                                        // onClick={() => changeStep(currentStep + 1)}
+                                        onClick={makePayment}
                                     >
                                         <SiMercadopago 
                                             className='text-2xl mr-2'

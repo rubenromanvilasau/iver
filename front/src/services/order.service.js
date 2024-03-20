@@ -18,5 +18,11 @@ export default class OrderService {
             .catch( err => { throw err.response } );
     }
 
+    update( id, data ) {
+        return axios.put( this.apiUrl + id, data )
+            .then( response => response.data )
+            .catch( err => { throw err.response } );
+    }
+
 }
 

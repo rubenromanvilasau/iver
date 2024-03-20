@@ -42,7 +42,7 @@ class OrderService {
     
     async update( id, data ) {
         return prisma.order.update({
-            where: { order_id },
+            where: { order_id: id },
             data
         });
     }
