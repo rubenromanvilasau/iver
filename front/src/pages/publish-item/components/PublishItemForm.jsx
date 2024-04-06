@@ -200,14 +200,14 @@ export const PublishItemForm = ({ handlePublishItem, setIsLoading }) => {
                     </div>
                     <div className="max-w-md">
                         <div className="mb-2 block">
-                            <Label htmlFor="price" value="Price" />
+                            <Label htmlFor="price" value="Floor price" />
                         </div>
                         <TextInput
                             ref={ priceRef } 
                             name='price' 
                             type="number" 
                             min={ 0 }
-                            placeholder='Price'
+                            placeholder='Floor price'
                         />
                     </div>
                     <div className="max-w-md">

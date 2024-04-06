@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { convertToCurrency } from "../../utils";
 import { CountdownTimer } from "../countdown-timer/CountdownTimer";
 import PropTypes from 'prop-types';
 
 export const ItemCard = ({ item_id, name, price, offers, ends_at, seller, images }) => {
+
+    const navigate = useNavigate();
+
     return (
-        <div className="bg-white w-72 rounded-md transition-all ease-in duration-200 p-6 hover:transition-none">
+        <div className="bg-white w-72 rounded-md duration-300 p-6 hover:transition-none cursor-pointer shadow-md hover:shadow-lg" onClick={() => navigate(`item/${item_id}`)}>
             <img src={images[0] ? `http://localhost:4000/${images[0].image_url}`: '/img/gtr.jpeg'} className="w-full rounded-md h-36 object-contain" alt={name + ' image'}/>
             <h5 className="font-bold text-text-primary text-xl mt-2 capitalize overflow-hidden whitespace-nowrap truncate" title={name}>{name}</h5>
             
@@ -32,7 +35,6 @@ export const ItemCard = ({ item_id, name, price, offers, ends_at, seller, images
                             endDate={ends_at}
                         />
                     </div>
-                    <Link to={`item/${item_id}`}><div className=""><span className="text-slate-100 text- font-semibold p-2 rounded-xl transition-all ease-in duration-200 bg-primary hover:bg-slate-200 hover:text-primary border-2">BID NOW</span></div></Link>
                 </div>
 
             </div>
