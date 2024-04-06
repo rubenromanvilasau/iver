@@ -2,7 +2,6 @@ const { Server } = require("socket.io");
 
 let socketIo = null;
 let io;
-let connectedSockets = [];
 const initSocket = ( server ) => {
     io = new Server( server, {
         cors: {
@@ -12,42 +11,44 @@ const initSocket = ( server ) => {
       } );
 
     io.on('connection', (socket) => {
-      connectedSockets.push(socket); 
       socketIo = socket;
-      console.log('socket', socketIo.id);
 
       let auctionId = null;
-      socket.on('join-auction', (id) => {
-        console.log('socket-auction', id);
+      socket.on('join-auction', async(id) => {
+        console.log('user connected to room:', id);
         auctionId = id;
-        socket.join( id );
+        socket.join( auctionId );
         
         
-        const numPeopleInAuction = io.sockets.adapter.rooms.get(auctionId).size; 
-        console.log(`THERE ARE ${numPeopleInAuction} persons in this ROOM`);
-        socket.to(auctionId).emit('viewersAmount', numPeopleInAuction);
+        const numPeopleInAuction = io.sockets.adapter.rooms.get(auctionId).size;
+        console.log('io.sockets.adapter.rooms',await io.in(auctionId).allSockets()) 
+        // console.log(`THERE ARE ${numPeopleInAuction} persons in this ROOM`);
+        io.to(auctionId).emit('viewersAmount', numPeopleInAuction);
       });
 
-
-  
       socket.on('newOffer', ({ id, price }) => {
         console.log('newOffer', id, price);
-        socket.to(auctionId).emit('newOffer', { id, price });
+        io.to(auctionId).emit('newOffer', { id, price });
+      });
+
+      socket.on('disconnect', async(socket) => {
+        console.log('-----user disconnected-----')
+        const numPeopleInAuction = io.sockets.adapter.rooms.get(auctionId) 
+                                    ? io.sockets.adapter.rooms.get(auctionId).size
+                                    : 0;
+        console.log('io.sockets.adapter.rooms',await io.in(auctionId).allSockets()) 
+        console.log('NEW ROOM SIZE', numPeopleInAuction);
+        console.log('-----user disconnected-----')
+        io.to(auctionId).emit('viewersAmount', numPeopleInAuction);
       });
 
     });
     
-    io.on('disconnect', (socket) => {
-        socket.emit('viewersAmount', io.engine.clientsCount);
-    });
-
     return io;
 };
 
 const emitToAll = (event, itemId, data) => {
-  connectedSockets.forEach(socket => {
-      socket.to(itemId).emit(event, data);
-  });
+  io.to(itemId).emit(event, data);
 };
 
 module.exports = { initSocket, socketIo, io, emitToAll };

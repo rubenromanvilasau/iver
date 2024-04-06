@@ -3,7 +3,6 @@ import { convertToCurrency } from "../../../utils";
 import { ItemService } from "../../../services";
 import { useEffect, useState } from "react";
 import { dateToText } from "../../../utils";
-import { socket } from "../../../socket";
 
 const itemService = new ItemService();
 
@@ -19,32 +18,12 @@ export const CurrentOffers = ({ item }) => {
     }
 
     useEffect( () => {
-
+        console.log('offer', item.offers);
+        setOffers( item.offers );
     },[item.offers])
 
-
-    useEffect( () => {
-        socket.connect();
-        return () => {
-            socket.disconnect();
-        }
-    }, []);
-    
     useEffect( () => {
         fetchOffers();
-
-        socket.on('connect', () => {
-            socket.emit('join-auction', item.item_id );
-        });
-
-        socket.on('newOffer', ( offer ) => {
-            console.log('newoffer CURRENTOFFER', offer)
-            setOffers( offers => [offer, ...offers] );
-        });
-        
-        return () => {
-            socket.off('newOffer');
-        }
     },[])
 
     return (

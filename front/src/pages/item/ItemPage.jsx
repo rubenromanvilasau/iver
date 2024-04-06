@@ -3,10 +3,9 @@ import { useContext, useEffect, useState } from 'react';
 import { useFetchItem } from '../../hooks';
 import { Carousel, Loading, Tabs } from '../../components';
 import { socket } from '../../socket';
-import { showErrorToast, showInfoToast } from '../../utils/toasts';
+import { showErrorToast } from '../../utils/toasts';
 import { UserContext } from '../../context/UserContext';
 import { SellerInfoCard, NewOfferForm, CurrentOffers, ItemDetails, ItemHeader } from './components/';
-import { convertToCurrency } from '../../utils';
 
 const tabs = ['Description'];
 
@@ -25,45 +24,39 @@ export const ItemPage = () => {
     const handleImageClick = ( image ) => {
         setCurrentImage( image );
     }
-    
-    useEffect( () => {
-        socket.connect();
-        return () => {
-            socket.disconnect();
-        }
-    }, []);
-
-    useEffect( () => {
-        socket.on('connect', () => {
-            showInfoToast('Connected to server');
-            socket.emit('join-auction', item.item_id );
-        });
-
-        socket.on('viewersAmount', ( viewers ) => {
-            console.log('current viewers', viewers);
-            setViewersAmount( viewers );
-        });
-
-        socket.on('newOffer', ( offer ) => {
-            // console.log('new offer', offer);
-            item.offers = [offer, ...item.offers];
-            setLastOffer( offer );
-            showInfoToast(`New offer: ${convertToCurrency( offer.amount )}`);
-        });
-        
-        return () => {
-            socket.off('connect');
-            socket.off('viewersAmount');
-            socket.off('newOffer');
-            socket.disconnect();
-        }
-    }, []);
 
     useEffect( () => {
         if( !isLoading && item ) {
             console.log('item', item);
             setLastOffer( item.offers?.length > 0 ? item.offers[0] : { amount: 0} );
             setCurrentImage( item.images?.length > 0 ? item.images[0] : {} );
+            
+            socket.connect();
+
+            socket.on('connect', () => {
+                // showInfoToast('Connected to server');
+                socket.emit('join-auction', item.item_id );
+    
+                socket.on('viewersAmount', ( viewers ) => {
+                    // console.log('current viewers', viewers);
+                    setViewersAmount( viewers );
+                });
+        
+                socket.on('newOffer', ( offer ) => {
+                    // console.log('new offer', offer);
+                    console.log('item.offers', ...item.offers);
+                    item.offers = [offer, ...item.offers];
+                    setLastOffer( offer );
+                    // showInfoToast(`New offer: ${convertToCurrency( offer.amount )}`);
+                });
+            });
+        }
+
+        return () => {
+            socket.off('connect');
+            socket.off('viewersAmount');
+            socket.off('newOffer');
+            socket.disconnect();
         }
     }, [item]);
 
@@ -90,7 +83,7 @@ export const ItemPage = () => {
                 : <>
                     <div className="flex flex-col md:flex-row gap-8 h-fit lg:p-4  rounded-md">
                         <div className="flex flex-col md:w-1/2 overflow-y-hidden">
-                            <img className='max-h-sm min-h-sm rounded-md mb-2' src={ '/img/gtr.jpeg'|| '/img/no-image.png' } alt={`${item.name}-image`} />
+                            <img className='max-h-sm min-h-sm rounded-md mb-2' src={ `http://localhost:4000/${item.images[0].image_url}` || '/img/no-image.png' } alt={`${item.name}-image`} />
                             {item.images.length > 0 && <Carousel images={item.images} currentImage={currentImage} handleImageClick={handleImageClick}/> }
                             <Tabs
                                 tabs={tabs}

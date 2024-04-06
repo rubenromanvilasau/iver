@@ -89,6 +89,9 @@ class ItemsService {
                 offers: {
                     orderBy:{
                         created_at: 'desc'
+                    },
+                    include: {
+                        user: true,
                     }
                 },
             }
